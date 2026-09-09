@@ -4,23 +4,49 @@ Review analysis pipeline: extract → classify → LLM judge.
 
 ## Architecture
 
-```
-data/Booking_reviews.csv          data/places_data.csv
-        │                                │
-        ▼ Step 1                         ▼ Step 2
-  extract_reviews.py            classify_reviews.py
-        │                                │
-        ▼ writes                         ▼ reads reviews.md
-  output/reviews.md      ──────►         │
-                                         ▼ writes
-                                  output/matched_reviews.md
-                                         │
-              ┌──────────────────────────┤
-              ▼                          ▼
-     llm_judge.py (CLI)          web/app.py (Flask, :5000)
-              │                          │
-              ▼ LLM call                 ▼ LLM call
-        output/judge_results.md   output/judgements.csv
+```mermaid
+flowchart TD
+    %% ── Data inputs (parallelogram) ──
+    CSV1[/"data/Booking_reviews.csv<br/>raw guest reviews"/]
+    CSV2[/"data/places_data.csv<br/>place-name keywords"/]
+
+    %% ── Processing steps (rectangle) ──
+    S1["<b>Step 1</b> · extract_reviews.py<br/>pull review text"]
+    S2["<b>Step 2</b> · classify_reviews.py<br/>keyword match by place"]
+
+    %% ── File artifacts (cylinder) ──
+    MD1[("reviews.md")]
+    MD2[("matched_reviews.md")]
+
+    %% ── Step 3 — two entry points (rounded rectangle) ──
+    CLI(["<b>Step 3</b> · llm_judge.py<br/>CLI batch runner"])
+    WEB(["<b>Step 3</b> · web/app.py<br/>Flask · :5000"])
+
+    %% ── External LLM endpoint (hexagon) ──
+    LLEND{{"LLM endpoint<br/>LLM_URL · LLM_MODEL"}}
+
+    %% ── Result artifacts (cylinder) ──
+    RES1[("judge_results.md<br/>negative + actions")]
+    RES2[("judgements.csv<br/>location · judgement · action")]
+
+    %% ── Main pipeline flow ──
+    CSV1 --> S1
+    S1 -->|writes| MD1
+    MD1 -->|reads| S2
+    CSV2 -->|keywords| S2
+    S2 -->|writes| MD2
+
+    %% ── Step 3: both entry points read matched reviews ──
+    MD2 -->|reads| CLI
+    MD2 -->|reads| WEB
+
+    %% ── LLM call (dashed) ──
+    CLI -.->|batch| LLEND
+    WEB -.->|batch| LLEND
+
+    %% ── Result artifacts ──
+    CLI -->|writes| RES1
+    WEB -->|writes| RES2
 ```
 
 ## Project Structure
