@@ -146,6 +146,144 @@ Then open http://localhost:5000 and click **"Run Judgement"**. Results are saved
 | `judgement`     | One-sentence reason (why negative)   |
 | `action`        | Semicolon-joined actionable fixes    |
 
+## RAG — Ask about attraction issues
+
+A retrieval-augmented app over the attraction-review knowledge base
+(`output/attraction_reviews.json`, ~1,582 reviews). You ask a question about any issue;
+the app retrieves the most relevant reviews, then the LLM classifies them into a
+**canonical English taxonomy**, summarises findings, and returns specific actions with
+the raw reviews as evidence.
+
+### Architecture
+
+```mermaid
+flowchart TD
+    %% ── Data input (parallelogram) ──
+    KB[/"output/attraction_reviews.json<br/>1,582 reviews · multilingual"/]
+
+    %% ── User input (parallelogram) ──
+    Q[/"User Query"/]
+
+    %% ── Retrieval (rectangle) ──
+    LOAD["<b>load_reviews()</b><br/>parse JSON at startup"]
+    IDX[("In-memory Index<br/>keyword → review_ids")]
+    FILTER["<b>Retriever.search()</b><br/>tokenize query · keyword overlap<br/>sort: relevance → recency"]
+
+    %% ── Generation (rectangle) ──
+    PROMPT["<b>Prompt Builder</b><br/>taxonomy + reviews + query"]
+    LLM{{"LLM<br/>qwen27b · OpenAI-compatible"}}
+    PARSE["<b>JSON Parser</b><br/>extract structured response"]
+
+    %% ── Output (cylinder) ──
+    RESP[("Structured Response<br/>summary · actions · source_reviews")]
+
+    %% ── Interfaces (rounded rectangle) ──
+    CLI(["<b>CLI</b><br/>RAG/cli.py"])
+    WEB(["<b>Flask Web</b><br/>:5001"])
+
+    %% ── Flow ──
+    KB -->|loads| LOAD
+    LOAD -->|indexes| IDX
+    IDX -->|matches| FILTER
+    Q -->|tokens| FILTER
+    FILTER -->|top-K reviews| PROMPT
+    PROMPT -->|prompt| LLM
+    LLM -.->|JSON| PARSE
+    PARSE -->|result| RESP
+    RESP --> CLI
+    RESP --> WEB
+```
+
+### Project Structure
+
+```
+RAG/
+├── __init__.py
+├── config.py         # .env loading, taxonomy, LLM settings
+├── retriever.py      # keyword-based filter (no ML deps)
+├── llm.py            # OpenAI-compatible LLM client + retry
+├── rag.py            # engine: retrieve → prompt → LLM → structured dict
+├── cli.py            # CLI / interactive REPL
+└── web/
+    ├── app.py        # Flask on :5001
+    └── templates/
+        └── index.html
+```
+
+### How it works
+
+1. **Retrieve** — tokenize the query, find reviews with keyword overlap (no embeddings,
+   no vector DB), sort by relevance then recency, take top 15.
+2. **Classify** — LLM assigns each review to a canonical English taxonomy
+   (e.g. `overpriced`, `poor_customer_service`, `unsafe`). Handles cross-lingual reviews
+   natively (German, French, Spanish → same English labels).
+3. **Respond** — structured JSON: `{summary, actions[], source_reviews[]}`.
+
+### Canonical Taxonomy
+
+| Label | Meaning |
+|-------|---------|
+| `venue_conditions_unpleasant` | Dirty, crowded, uncomfortable facilities |
+| `poor_customer_service` | Rude, unhelpful, or absent staff |
+| `overpriced` | Cost not justified by experience |
+| `unsafe` | Safety hazards, security concerns |
+| `accessibility_issues` | Mobility/access barriers |
+| `poor_maintenance` | Broken, neglected infrastructure |
+| `misleading_marketing` | Reality differs from description |
+| `language_barrier` | Communication difficulties |
+| `weather_related` | Weather impacted the experience |
+| `logistics_problems` | Scheduling, transport, coordination issues |
+| `positive_highlight` | Praise worth reinforcing |
+| `other` | Doesn't fit above |
+
+### Usage
+
+**CLI** (run from project root):
+
+```bash
+python3 RAG/cli.py "What do reviewers say about tour guides?"
+python3 RAG/cli.py "pricing complaints" --json
+python3 RAG/cli.py --interactive
+```
+
+**Web UI** (requires `flask`):
+
+```bash
+python3 RAG/web/app.py        # open http://localhost:5001
+```
+
+### Response Format
+
+```json
+{
+  "summary": "Reviews about Stone Town tours are overwhelmingly positive on guide quality, but 3 mention overcrowding and 2 flag pricing.",
+  "actions": [
+    "Consider tiered pricing",
+    "Add accessibility notes to listing"
+  ],
+  "source_reviews": [
+    {
+      "attraction_id": "PR0iMwj9mmvd",
+      "date": "2026-02-09",
+      "rating": 5.0,
+      "review_text": "Very knowledgeable and professional guide!..."
+    }
+  ]
+}
+```
+
+### Configuration
+
+RAG-specific settings live in `RAG/config.py`:
+
+| Constant | Default | Description |
+|----------|---------|-------------|
+| `KNOWLEDGE_BASE` | `output/attraction_reviews.json` | Review JSON path |
+| `MAX_REVIEWS` | `15` | Max reviews passed to LLM per query |
+| `TAXONOMY` | 12 labels | Canonical issue categories |
+
+LLM settings (`LLM_URL`, `LLM_API_KEY`, `LLM_MODEL`) are shared with the main pipeline via `.env`.
+
 ## Configuration
 
 | Variable (`.env`)  | Description                  |
@@ -155,3 +293,4 @@ Then open http://localhost:5000 and click **"Run Judgement"**. Results are saved
 | `LLM_MODEL`        | Model identifier             |
 
 Runtime settings (batch size, retry count, timeout) are defined as constants in `src/config.py`.
+RAG-specific settings (`MAX_REVIEWS`, `TAXONOMY`) live in `RAG/config.py`.

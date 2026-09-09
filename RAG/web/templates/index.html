@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG Review Analyst</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+  h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .search-bar { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+  .search-bar input { flex: 1; padding: .6rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 6px; }
+  .search-bar button { padding: .6rem 1.2rem; font-size: 1rem; border: none; border-radius: 6px; background: #2563eb; color: #fff; cursor: pointer; }
+  .search-bar button:disabled { opacity: .5; cursor: wait; }
+  .loading { color: #666; font-style: italic; }
+  .card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.2rem; margin-bottom: 1rem; }
+  .card h2 { font-size: 1rem; margin-bottom: .5rem; color: #374151; }
+  .card p { line-height: 1.6; }
+  ul.actions { list-style: none; padding: 0; }
+  ul.actions li { padding: .3rem 0; padding-left: 1.2rem; position: relative; }
+  ul.actions li::before { content: "→"; position: absolute; left: 0; color: #2563eb; }
+  .source { font-size: .85rem; color: #4b5563; margin-top: .4rem; padding: .5rem; background: #fff; border-left: 3px solid #d1d5db; margin-bottom: .4rem; }
+  .source .meta { color: #9ca3af; font-size: .75rem; }
+  .error { color: #dc2626; }
+</style>
+</head>
+<body>
+<h1>🔍 RAG Review Analyst</h1>
+<div class="search-bar">
+  <input id="q" type="text" placeholder="e.g. What do reviews say about guides?" autofocus>
+  <button id="btn" onclick="search()">Search</button>
+</div>
+<div id="results"></div>
+
+<script>
+async function search() {
+  const q = document.getElementById('q').value.trim();
+  if (!q) return;
+  const btn = document.getElementById('btn');
+  const results = document.getElementById('results');
+  btn.disabled = true;
+  results.innerHTML = '<p class="loading">Analyzing reviews…</p>';
+  try {
+    const res = await fetch('/api/query?q=' + encodeURIComponent(q));
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    render(data);
+  } catch (e) {
+    results.innerHTML = `<p class="error">${e.message}</p>`;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function render(d) {
+  const sources = (d.source_reviews || []).map(r =>
+    `<div class="source"><span class="meta">${r.rating}★ · ${r.date?.slice(0,10)}</span><br>${(r.review_text||'').slice(0,300)}</div>`
+  ).join('');
+  const actions = (d.actions || []).map(a => `<li>${a}</li>`).join('');
+  document.getElementById('results').innerHTML = `
+    <div class="card"><h2>Summary</h2><p>${d.summary || 'N/A'}</p></div>
+    ${actions ? `<div class="card"><h2>Actions</h2><ul class="actions">${actions}</ul></div>` : ''}
+    ${sources ? `<div class="card"><h2>Source Reviews</h2>${sources}</div>` : ''}
+  `;
+}
+
+document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
+</script>
+</body>
+</html>
