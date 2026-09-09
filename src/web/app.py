@@ -135,7 +135,10 @@ def _load_judgements() -> list[dict]:
 
 @app.route("/locations")
 def locations():
-    places = sorted({r["location_name"] for r in _load_judgements() if r["location_name"]})
+    with open(config.PLACES_CSV, newline="", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        next(reader, None)
+        places = sorted({row[0].strip() for row in reader if row and row[0].strip()})
     return jsonify({"locations": places})
 
 
