@@ -1,71 +1,45 @@
 #!/usr/bin/env python3
-"""Classify reviews from reviews.md by matching place names from places_data.csv.
-
-Any review containing a place name keyword is saved to matched_reviews.md.
-"""
+"""Step 2: Filter reviews.md by place-name keywords from places_data.csv."""
 
 import csv
-from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
-REVIEWS_PATH = BASE_DIR / "output" / "reviews.md"
-PLACES_PATH = BASE_DIR / "data" / "places_data.csv"
-OUTPUT_PATH = BASE_DIR / "output" / "matched_reviews.md"
+from src import config
+from src.parse_reviews import parse_reviews_md
 
 
-def load_keywords(path: Path) -> list[str]:
-    keywords = []
+def load_keywords(path) -> list[str]:
+    """Read place-name keywords from the first column of the CSV."""
     with open(path, newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
-        header = next(reader, None)  # skip header if present
-        for row in reader:
-            if row and row[0].strip():
-                keywords.append(row[0].strip())
-    return keywords
-
-
-def load_reviews(path: Path) -> list[str]:
-    """Parse reviews.md into a list of review texts."""
-    text = path.read_text(encoding="utf-8")
-    reviews = []
-    current = []
-    for line in text.splitlines():
-        if line.startswith("## Review"):
-            if current:
-                reviews.append("\n".join(current).strip())
-            current = []
-        elif line.startswith("# "):
-            continue
-        elif current is not None:
-            current.append(line)
-    if current:
-        reviews.append("\n".join(current).strip())
-    return [r for r in reviews if r]
+        next(reader, None)  # skip header if present
+        return [row[0].strip() for row in reader if row and row[0].strip()]
 
 
 def main() -> None:
-    keywords = load_keywords(PLACES_PATH)
-    reviews = load_reviews(REVIEWS_PATH)
+    if not config.REVIEWS_MD.exists():
+        raise SystemExit(
+            f"{config.REVIEWS_MD.name} not found. Run step 1 first: python src/extract_reviews.py"
+        )
+
+    keywords = load_keywords(config.PLACES_CSV)
+    reviews = parse_reviews_md(config.REVIEWS_MD)
     print(f"Loaded {len(keywords)} keywords, {len(reviews)} reviews")
 
-    matched = []
-    for i, review in enumerate(reviews, start=1):
-        lower_review = review.lower()
+    matched: list[tuple[str, str]] = []
+    for review in reviews:
+        lower = review.lower()
         for kw in keywords:
-            if kw.lower() in lower_review:
+            if kw.lower() in lower:
                 matched.append((kw, review))
-                break  # one entry per review, first keyword matched
+                break  # one entry per review, first keyword wins
 
     lines = ["# Matched Reviews", ""]
-    for i, (kw, review) in enumerate(matched, start=1):
-        lines.append(f"## {kw}")
-        lines.append("")
-        lines.append(review)
-        lines.append("")
+    for kw, review in matched:
+        lines += [f"## {kw}", "", review, ""]
 
-    OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")
+    config.MATCHED_REVIEWS_MD.write_text("\n".join(lines), encoding="utf-8")
     print(f"Matched {len(matched)} reviews out of {len(reviews)}")
-    print(f"Wrote to {OUTPUT_PATH}")
+    print(f"Wrote to {config.MATCHED_REVIEWS_MD}")
 
 
 if __name__ == "__main__":

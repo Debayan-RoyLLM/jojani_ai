@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Extract all values from the 'Reviews' column of Booking_reviews.csv into a .md file."""
+"""Step 1: Extract the 'Reviews' column from Booking_reviews.csv into output/reviews.md."""
 
 import csv
-from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
-CSV_PATH = BASE_DIR / "data" / "Booking_reviews.csv"
-OUTPUT_PATH = BASE_DIR / "output" / "reviews.md"
+from src import config
 
 
 def main() -> None:
-    with open(CSV_PATH, newline="", encoding="utf-8") as f:
+    if not config.INPUT_REVIEW_CSV.exists():
+        raise SystemExit(f"Input CSV not found: {config.INPUT_REVIEW_CSV}")
+
+    with open(config.INPUT_REVIEW_CSV, newline="", encoding="utf-8") as f:
         reader = csv.reader(f)
         header = next(reader)
         reviews_idx = header.index("Reviews")
@@ -24,13 +24,11 @@ def main() -> None:
             if not review:
                 continue
             count += 1
-            lines.append(f"## Review {count}")
-            lines.append("")
-            lines.append(review)
-            lines.append("")
+            lines += [f"## Review {count}", "", review, ""]
 
-    OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote {count} reviews to {OUTPUT_PATH}")
+    config.OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    config.REVIEWS_MD.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Wrote {count} reviews to {config.REVIEWS_MD}")
 
 
 if __name__ == "__main__":
