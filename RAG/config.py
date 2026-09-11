@@ -8,6 +8,7 @@ OUTPUT_DIR = BASE_DIR / "output"
 ENV_PATH = BASE_DIR / ".env"
 
 KNOWLEDGE_BASE = OUTPUT_DIR / "attraction_reviews.json"
+PLACES_CSV = BASE_DIR / "data" / "places_data.csv"
 
 # Canonical issue taxonomy (LLM classifies reviews into these)
 TAXONOMY = [

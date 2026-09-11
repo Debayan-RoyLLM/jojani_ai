@@ -56,8 +56,11 @@ def _run_query(engine: RAGEngine, query: str, args) -> None:
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return
 
+    location = result.get("location")
     print(f"\n{'='*60}")
     print(f"Query: {query}")
+    if location:
+        print(f"Location: {location}")
     print(f"{'='*60}")
     print(f"\nSummary:\n{result.get('summary', 'N/A')}")
 
