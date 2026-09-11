@@ -5,7 +5,7 @@ import re
 
 from . import config
 from .llm import call_llm
-from .retrieval import Retriever
+from .retriever import Retriever
 
 _SYSTEM_PROMPT = """\
 You are a multilingual review analyst. You receive a set of tourist-attraction reviews \
