@@ -5,7 +5,7 @@ import re
 
 from . import config
 from .llm import call_llm
-from .retriever import Retriever
+from .retrieval import Retriever
 
 _SYSTEM_PROMPT = """\
 You are a multilingual review analyst. You receive a set of tourist-attraction reviews \
@@ -24,7 +24,7 @@ Rules:
 """
 
 
-def _build_prompt(query: str, reviews: list[dict]) -> str:
+def _build_prompt(query: str, reviews: list[dict], location: str | None) -> str:
     taxonomy_str = "\n".join(f"- {t}" for t in config.TAXONOMY)
     system = _SYSTEM_PROMPT.format(taxonomy=taxonomy_str)
 
@@ -34,10 +34,11 @@ def _build_prompt(query: str, reviews: list[dict]) -> str:
         for i, r in enumerate(reviews)
     )
 
+    location_str = f"\nMatched location: {location}" if location else ""
     return (
         f"{system}\n\n"
         f"Reviews:\n{reviews_str}\n\n"
-        f"User query: \"{query}\"\n\n"
+        f"User query: \"{query}\"{location_str}\n\n"
         f"Respond in JSON:\n"
         f'{{"summary": "...", "actions": ["..."], "source_reviews": [{{"attraction_id": "...", '
         f'"date": "...", "rating": 0, "review_text": "..."}}]}}'
@@ -47,23 +48,19 @@ def _build_prompt(query: str, reviews: list[dict]) -> str:
 def _parse_response(text: str) -> dict:
     """Extract JSON from LLM response (handles accidental markdown fences)."""
     text = text.strip()
-    # Strip markdown code fences if present
     m = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.DOTALL)
     if m:
         text = m.group(1)
-    # Try direct parse
     try:
         return json.loads(text)
     except json.JSONDecodeError:
         pass
-    # Try to find first { ... } block
     m = re.search(r"\{.*\}", text, re.DOTALL)
     if m:
         try:
             return json.loads(m.group(0))
         except json.JSONDecodeError:
             pass
-    # Last resort: return raw text as summary
     return {"summary": text, "actions": [], "source_reviews": []}
 
 
@@ -75,10 +72,11 @@ class RAGEngine:
 
     def ask(self, query: str, max_reviews: int | None = None) -> dict:
         k = max_reviews or config.MAX_REVIEWS
-        reviews = self.retriever.search(query, k)
+        reviews, location = self.retriever.search(query, k)
 
         if not reviews:
             return {
+                "location": location,
                 "summary": "No relevant reviews found for this query.",
                 "actions": [],
                 "source_reviews": [],
@@ -94,12 +92,12 @@ class RAGEngine:
             for r in reviews
         ]
 
-        prompt = _build_prompt(query, reviews_list)
+        prompt = _build_prompt(query, reviews_list, location)
         raw = call_llm(prompt)
         result = _parse_response(raw)
 
-        # Ensure all expected keys exist
         result.setdefault("summary", "")
         result.setdefault("actions", [])
         result.setdefault("source_reviews", reviews_list)
+        result["location"] = location
         return result
