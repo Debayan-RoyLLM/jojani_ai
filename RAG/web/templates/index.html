@@ -54,7 +54,7 @@ async function search() {
 
 function render(d) {
   const sources = (d.source_reviews || []).map(r =>
-    `<div class="source"><span class="meta">${r.rating}★ · ${r.date?.slice(0,10)}</span><br>${(r.review_text||'').slice(0,300)}</div>`
+    `<div class="source"><span class="meta">${r.rating}★ · ${r.date?.slice(0,10)}</span><br>${r.review_text||''}</div>`
   ).join('');
   const actions = (d.actions || []).map(a => `<li>${a}</li>`).join('');
   const location = d.location ? `<div class="card"><h2>📍 Matched Location</h2><p>${d.location}</p></div>` : '';

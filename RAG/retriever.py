@@ -175,7 +175,7 @@ class Retriever:
         def sort_key(i: int) -> tuple:
             r = self.reviews[i]
             return (r.rating if r.rating == r.rating else 3.0, r.date)
-        idxs = sorted(cluster.review_indices, key=sort_key, reverse=True)
+        idxs = sorted(cluster.review_indices, key=sort_key)
         return [self.reviews[i] for i in idxs[:k]]
 
     # Keyword search over the whole corpus, ranked by token overlap then rating.
