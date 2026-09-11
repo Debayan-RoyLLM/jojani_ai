@@ -1,5 +1,6 @@
 """LLM API client — single implementation shared by CLI and web app."""
 
+import json
 import time
 
 import requests
@@ -40,3 +41,13 @@ def call_llm(prompt: str) -> str:
             if attempt < config.MAX_RETRIES:
                 time.sleep(2 * attempt)
     raise last_exc  # type: ignore[misc]
+
+
+def parse_llm_json(raw: str) -> list[dict]:
+    """Strip markdown code fences and parse the result as a JSON list."""
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1]
+        if raw.endswith("```"):
+            raw = raw[:-3]
+    return json.loads(raw.strip())
