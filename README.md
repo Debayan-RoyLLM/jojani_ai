@@ -1,296 +1,157 @@
 # jojani_ai
 
-Review analysis pipeline: extract → classify → LLM judge.
+A suite of tools for analyzing Booking.com-style reviews. Two independent, self-contained components share the same data and LLM configuration but are otherwise decoupled:
 
-## Architecture
+| Component | Location | Entry point (CLI) | Entry point (Web) | What it does |
+|-----------|----------|-------------------|-------------------|--------------|
+| Review Analysis Pipeline | `src/` | `python -m src.llm_judge` | `python -m src.web.app` (:5000) | 3-step pipeline: extract → classify → LLM judge. Flags negative reviews for specific places and produces actionable fixes. |
+| RAG Review Analyst | `RAG/` | `python RAG/cli.py "query"` | `python RAG/web/app.py` (:5001) | Keyword-based retrieval + LLM classification/summary for ad-hoc review queries. No embeddings. |
+
+Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LLM_URL`, `LLM_API_KEY`, `LLM_MODEL`).
+
+## Data
+
+| File | Used by | Notes |
+|------|---------|-------|
+| `data/Booking_reviews.csv` | `src/` pipeline (step 1) | Raw guest reviews; column `Reviews`. |
+| `data/places_data.csv` | `src/` pipeline (step 2) + `RAG/` | Place names for keyword filtering / place clustering. Single-column list, has duplicates/aliases/noise. |
+| `output/attraction_reviews.json` | `RAG/` | Knowledge base: ~1582 reviews, ~265 attractions. Fields: `attraction_id`, `date`, `rating`, `review_text`. No location field — only opaque `attraction_id`s. |
+
+---
+
+# src/ — Review Analysis Pipeline
+
+3-step pipeline: extract → classify → LLM judge.
+
+## Pipeline Flow
 
 ```mermaid
-flowchart TD
-    %% ── Data inputs (parallelogram) ──
-    CSV1[/"data/Booking_reviews.csv<br/>raw guest reviews"/]
-    CSV2[/"data/places_data.csv<br/>place-name keywords"/]
-
-    %% ── Processing steps (rectangle) ──
-    S1["<b>Step 1</b> · extract_reviews.py<br/>pull review text"]
-    S2["<b>Step 2</b> · classify_reviews.py<br/>keyword match by place"]
-
-    %% ── File artifacts (cylinder) ──
-    MD1[("reviews.md")]
-    MD2[("matched_reviews.md")]
-
-    %% ── Step 3 — two entry points (rounded rectangle) ──
-    CLI(["<b>Step 3</b> · llm_judge.py<br/>CLI batch runner"])
-    WEB(["<b>Step 3</b> · web/app.py<br/>Flask · :5000"])
-
-    %% ── External LLM endpoint (hexagon) ──
-    LLEND{{"LLM endpoint<br/>LLM_URL · LLM_MODEL"}}
-
-    %% ── Result artifacts (cylinder) ──
-    RES1[("judge_results.md<br/>negative + actions")]
-    RES2[("judgements.csv<br/>location · judgement · action")]
-
-    %% ── Main pipeline flow ──
-    CSV1 --> S1
-    S1 -->|writes| MD1
+flowchart LR
+    CSV[/"data/Booking_reviews.csv"/] --> S1["extract_reviews.py"]
+    S1 -->|writes| MD1[("output/reviews.md")]
+    CSV2[/"data/places_data.csv"/] --> S2["classify_reviews.py"]
     MD1 -->|reads| S2
-    CSV2 -->|keywords| S2
-    S2 -->|writes| MD2
-
-    %% ── Step 3: both entry points read matched reviews ──
-    MD2 -->|reads| CLI
-    MD2 -->|reads| WEB
-
-    %% ── LLM call (dashed) ──
-    CLI -.->|batch| LLEND
-    WEB -.->|batch| LLEND
-
-    %% ── Result artifacts ──
-    CLI -->|writes| RES1
-    WEB -->|writes| RES2
+    S2 -->|writes| MD2[("output/matched_reviews.md")]
+    MD2 --> JUDGE["judge.py"]
+    LLM{{"LLM endpoint"}}
+    JUDGE -.->|batch| LLM
+    JUDGE --> R1[("output/judge_results.md")]
+    JUDGE --> R2[("output/judgements.csv")]
 ```
 
-## Project Structure
+## Steps
 
-```
-jojani_ai/
-├── data/
-│   ├── Booking_reviews.csv           # Raw reviews (source)
-│   ├── booking_attractions_reviews.csv
-│   └── places_data.csv              # Place name keywords
-├── src/
-│   ├── __init__.py
-│   ├── config.py                    # Env loading, LLM settings, file paths
-│   ├── llm.py                       # call_llm() — single LLM client
-│   ├── prompts.py                   # Review-judgement prompt template
-│   ├── parse_reviews.py             # Markdown parsers (shared)
-│   ├── extract_reviews.py           # Step 1: CSV → reviews.md
-│   ├── classify_reviews.py          # Step 2: Filter by place keywords
-│   ├── llm_judge.py                 # Step 3 (CLI): LLM judgement → judge_results.md
-│   └── web/
-│       ├── __init__.py
-│       ├── app.py                   # Step 3 (web): Flask routes
-│       └── templates/
-│           └── index.html           # Frontend (button, progress bar, results)
-├── output/                          # Generated files (gitignored)
-│   ├── reviews.md
-│   ├── matched_reviews.md
-│   ├── judge_results.md
-│   └── judgements.csv
-├── .env                             # LLM config (gitignored)
-├── .gitignore
-└── requirements.txt
-```
+| Step | Command | Reads | Writes |
+|------|---------|-------|--------|
+| 1 | `python -m src.extract_reviews` | `Booking_reviews.csv` | `output/reviews.md` |
+| 2 | `python -m src.classify_reviews` | `reviews.md` + `places_data.csv` | `output/matched_reviews.md` |
+| 3 (CLI) | `python -m src.llm_judge` | `matched_reviews.md` | `output/judge_results.md` |
+| 3 (Web) | `python -m src.web.app` → http://localhost:5000 | `matched_reviews.md` | `output/judgements.csv` |
 
-## Prerequisites
+## Module Map
 
-- Python 3.10+
-- Dependencies:
+| File | Role |
+|------|------|
+| `config.py` | Paths, LLM env vars, batch/retry constants |
+| `llm.py` | `call_llm()` — single LLM client with retry; `parse_llm_json()` — strips code fences |
+| `prompts.py` | `REVIEW_JUDGE_PROMPT` template + `build_judge_prompt()` |
+| `parse_reviews.py` | Markdown section parser (shared), `load_keywords()` |
+| `extract_reviews.py` | Step 1: CSV → markdown |
+| `classify_reviews.py` | Step 2: keyword filter |
+| `judge.py` | Step 3 core: batch-judge loop (shared by CLI + web) |
+| `llm_judge.py` | Step 3 CLI entry point |
+| `web/app.py` | Step 3 Flask entry point |
 
-```bash
-pip install -r requirements.txt
+## Markdown File Format
+
+All intermediate files use the same structure — `## ` sections with a title line and body:
+
+```markdown
+# Title
+
+## Section Name
+body text...
+
+## Next Section
+body text...
 ```
 
-## Setup
+`parse_reviews._parse_md_sections(path, prefix)` splits on any `## ` header; the public wrappers pick the right prefix per file type.
 
-Fill in your LLM credentials in `.env`:
+---
 
-```
-LLM_URL=https://your-endpoint/v1/chat/completions
-LLM_API_KEY=sk-your-key
-LLM_MODEL=your-model-name
-```
+# RAG/ — RAG Review Analyst
 
-All configuration lives in `src/config.py`. Adjust `BATCH_SIZE` or `MAX_RETRIES` there if needed.
+Retrieves the reviews most relevant to a query, then asks an LLM to classify and summarize them. Keyword-based retrieval — no embeddings.
 
-## How to Run
+## Files
 
-All CLI commands are run from the project root.
+| File             | Responsibility                                            |
+|------------------|-----------------------------------------------------------|
+| `config.py`      | Paths, LLM settings, taxonomy, review-count limit.        |
+| `retriever.py`   | All retrieval: tokenization, place clustering, search.    |
+| `rag.py`         | `RAGEngine.ask()` — the glue: retrieve → prompt → LLM.    |
+| `llm.py`         | `call_llm()` — one POST to an OpenAI-compatible endpoint. |
+| `cli.py`         | Command-line entry point.                                 |
+| `web/app.py`     | Flask entry point (port 5001) + `templates/index.html`.   |
 
-### Step 1 — Extract reviews
-
-```bash
-python -m src.extract_reviews
-```
-
-Reads `data/Booking_reviews.csv`, writes `output/reviews.md`.
-
-### Step 2 — Classify by place name
-
-```bash
-python -m src.classify_reviews
-```
-
-Filters `output/reviews.md` for reviews mentioning places in `data/places_data.csv`, writes `output/matched_reviews.md`.
-
-### Step 3 — LLM Judgement
-
-**Option A — CLI:**
-
-```bash
-python -m src.llm_judge
-```
-
-Writes `output/judge_results.md` (markdown with negative reviews + action items).
-
-**Option B — Web UI:**
-
-```bash
-python -m src.web.app
-```
-
-Then open http://localhost:5000 and click **"Run Judgement"**. Results are saved to `output/judgements.csv`:
-
-| Column          | Description                          |
-|-----------------|--------------------------------------|
-| `location_name` | Place name from the review           |
-| `judgement`     | One-sentence reason (why negative)   |
-| `action`        | Semicolon-joined actionable fixes    |
-
-## RAG — Ask about attraction issues
-
-A retrieval-augmented app over the attraction-review knowledge base
-(`output/attraction_reviews.json`, ~1,582 reviews). You ask a question about any issue;
-the app retrieves the most relevant reviews, then the LLM classifies them into a
-**canonical English taxonomy**, summarises findings, and returns specific actions with
-the raw reviews as evidence.
-
-### Architecture
+## Pipeline Flow
 
 ```mermaid
-flowchart TD
-    %% ── Data input (parallelogram) ──
-    KB[/"output/attraction_reviews.json<br/>1,582 reviews · multilingual"/]
-
-    %% ── User input (parallelogram) ──
-    Q[/"User Query"/]
-
-    %% ── Retrieval (rectangle) ──
-    LOAD["<b>load_reviews()</b><br/>parse JSON at startup"]
-    IDX[("In-memory Index<br/>keyword → review_ids")]
-    FILTER["<b>Retriever.search()</b><br/>tokenize query · keyword overlap<br/>sort: relevance → recency"]
-
-    %% ── Generation (rectangle) ──
-    PROMPT["<b>Prompt Builder</b><br/>taxonomy + reviews + query"]
-    LLM{{"LLM<br/>qwen27b · OpenAI-compatible"}}
-    PARSE["<b>JSON Parser</b><br/>extract structured response"]
-
-    %% ── Output (cylinder) ──
-    RESP[("Structured Response<br/>summary · actions · source_reviews")]
-
-    %% ── Interfaces (rounded rectangle) ──
-    CLI(["<b>CLI</b><br/>RAG/cli.py"])
-    WEB(["<b>Flask Web</b><br/>:5001"])
-
-    %% ── Flow ──
-    KB -->|loads| LOAD
-    LOAD -->|indexes| IDX
-    IDX -->|matches| FILTER
-    Q -->|tokens| FILTER
-    FILTER -->|top-K reviews| PROMPT
-    PROMPT -->|prompt| LLM
-    LLM -.->|JSON| PARSE
-    PARSE -->|result| RESP
-    RESP --> CLI
-    RESP --> WEB
+flowchart LR
+    Q[/"user query"/] --> SEARCH["Retriever.search()"]
+    JSON[/"output/attraction_reviews.json"/] --> SEARCH
+    PLACES[/"data/places_data.csv"/] --> SEARCH
+    SEARCH --> ROUTE{"_route_query()"}
+    ROUTE -->|hit ≥25% route_tokens| CLUSTER["_top_from_cluster()"]
+    ROUTE -->|miss| GLOBAL["_global_search()"]
+    CLUSTER --> TOPK[("top-K reviews")]
+    GLOBAL --> TOPK
+    TOPK --> ASK["RAGEngine.ask()"]
+    ASK --> LLM{{"LLM endpoint"}}
+    LLM --> RESULT[("JSON: summary, actions, source_reviews, location")]
 ```
 
-### Project Structure
+## The flow (one query)
 
 ```
-RAG/
-├── __init__.py
-├── config.py         # .env loading, taxonomy, LLM settings
-├── retriever.py      # keyword-based filter (no ML deps)
-├── llm.py            # OpenAI-compatible LLM client + retry
-├── rag.py            # engine: retrieve → prompt → LLM → structured dict
-├── cli.py            # CLI / interactive REPL
-└── web/
-    ├── app.py        # Flask on :5001
-    └── templates/
-        └── index.html
+query
+  └─ Retriever.search()                 retriever.py
+       ├─ _route_query()                try to match a place cluster
+       │     └─ hit  → _top_from_cluster()  worst rating first, then recent
+       │     └─ miss → _global_search()        keyword overlap across all reviews
+       └─ → (top-K reviews, location_or_None)
+  └─ RAGEngine.ask()                    rag.py
+       ├─ build prompt from reviews
+       ├─ call_llm()                    llm.py
+       └─ parse JSON → {summary, actions, source_reviews, location}
 ```
 
-### How it works
+## How retrieval picks reviews
 
-1. **Retrieve** — tokenize the query, find reviews with keyword overlap (no embeddings,
-   no vector DB), sort by relevance then recency, take top 15.
-2. **Classify** — LLM assigns each review to a canonical English taxonomy
-   (e.g. `overpriced`, `poor_customer_service`, `unsafe`). Handles cross-lingual reviews
-   natively (German, French, Spanish → same English labels).
-3. **Respond** — structured JSON: `{summary, actions[], source_reviews[]}`.
+1. **Tokenize** — lowercase, drop punctuation, drop words ≤2 chars and stopwords
+   (`_STOP`).
+2. **Route to a place** — a place "matches" only if it shares ≥25% of the query's
+   tokens with the place's *distinguishing* tokens (`route_tokens`), which exclude
+   generic words like "farm" (`_GENERIC`). No match → global keyword search.
+3. **Rank** — cluster path sorts by rating ascending (most actionable) then date
+   descending; global path ranks by token-overlap count, then rating.
 
-### Canonical Taxonomy
-
-| Label | Meaning |
-|-------|---------|
-| `venue_conditions_unpleasant` | Dirty, crowded, uncomfortable facilities |
-| `poor_customer_service` | Rude, unhelpful, or absent staff |
-| `overpriced` | Cost not justified by experience |
-| `unsafe` | Safety hazards, security concerns |
-| `accessibility_issues` | Mobility/access barriers |
-| `poor_maintenance` | Broken, neglected infrastructure |
-| `misleading_marketing` | Reality differs from description |
-| `language_barrier` | Communication difficulties |
-| `weather_related` | Weather impacted the experience |
-| `logistics_problems` | Scheduling, transport, coordination issues |
-| `positive_highlight` | Praise worth reinforcing |
-| `other` | Doesn't fit above |
-
-### Usage
-
-**CLI** (run from project root):
+## Run it
 
 ```bash
-python3 RAG/cli.py "What do reviewers say about tour guides?"
-python3 RAG/cli.py "pricing complaints" --json
-python3 RAG/cli.py --interactive
+python RAG/cli.py "your query"            # one query
+python RAG/cli.py --interactive           # REPL
+python RAG/cli.py "your query" --json     # raw JSON
+python RAG/web/app.py                     # web UI on :5001
 ```
 
-**Web UI** (requires `flask`):
+Set `LLM_URL`, `LLM_API_KEY`, `LLM_MODEL` in `.env` (or environment).
 
-```bash
-python3 RAG/web/app.py        # open http://localhost:5001
-```
+## Debugging
 
-### Response Format
-
-```json
-{
-  "summary": "Reviews about Stone Town tours are overwhelmingly positive on guide quality, but 3 mention overcrowding and 2 flag pricing.",
-  "actions": [
-    "Consider tiered pricing",
-    "Add accessibility notes to listing"
-  ],
-  "source_reviews": [
-    {
-      "attraction_id": "PR0iMwj9mmvd",
-      "date": "2026-02-09",
-      "rating": 5.0,
-      "review_text": "Very knowledgeable and professional guide!..."
-    }
-  ]
-}
-```
-
-### Configuration
-
-RAG-specific settings live in `RAG/config.py`:
-
-| Constant | Default | Description |
-|----------|---------|-------------|
-| `KNOWLEDGE_BASE` | `output/attraction_reviews.json` | Review JSON path |
-| `MAX_REVIEWS` | `15` | Max reviews passed to LLM per query |
-| `TAXONOMY` | 12 labels | Canonical issue categories |
-
-LLM settings (`LLM_URL`, `LLM_API_KEY`, `LLM_MODEL`) are shared with the main pipeline via `.env`.
-
-## Configuration
-
-| Variable (`.env`)  | Description                  |
-|--------------------|------------------------------|
-| `LLM_URL`          | OpenAI-compatible endpoint   |
-| `LLM_API_KEY`      | API key                      |
-| `LLM_MODEL`        | Model identifier             |
-
-Runtime settings (batch size, retry count, timeout) are defined as constants in `src/config.py`.
-RAG-specific settings (`MAX_REVIEWS`, `TAXONOMY`) live in `RAG/config.py`.
+- To see exactly which place a query routed to (or that it fell back to global
+  search), instantiate with the debug flag:
+  `Retriever(_debug=True)` — it prints one line per `search()` call.
+- The knowledge base is `output/attraction_reviews.json`; place names come from
+  `data/places_data.csv` (optional — without it, retrieval is plain keyword search).
