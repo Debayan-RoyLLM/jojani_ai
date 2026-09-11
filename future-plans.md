@@ -1,38 +1,38 @@
 # Future Plans
 
-## 1. Add embeddings to RAG (cluster-first)
+## 1. Sentiment-clustered embedding retrieval (FAISS)
 
 **Current state:** `RAG/` has no embedding layer. Retrieval is purely keyword-based (token overlap between query and cluster names, plus LLM taxonomy classification). There is no vector similarity, so the retriever can't match semantically equivalent but lexically different queries (e.g. "too spicy" vs "way too hot").
 
-**Plan:**
-1. **Cluster reviews before embedding** — group the ~1582 attraction reviews into clusters by:
-   - **Sentiment** (positive / negative / mixed)
-   - **Place** (the location-aware clusters already built in `RAG/retriever.py` from `data/places_data.csv`)
-2. **Discard low-value reviews** at the cluster level — many reviews are boilerplate, too short, or uninformative. Dropping them before embedding cuts cost and improves retrieval precision (the vector DB holds only the reviews worth retrieving).
-3. **Embed the surviving clusters**, not individual reviews — each cluster gets one representative vector (mean of its member embeddings, or an embedded cluster summary). Queries are matched against cluster vectors; the cluster then surfaces its member reviews.
-   - Fewer vectors → faster ANN search, lower index size.
-   - A cluster hit returns a coherent, thematically-grouped set of reviews instead of scattered top-k.
-
-**Open questions:**
-- Embedding model choice (local `sentence-transformers` vs hosted API).
-- Whether to embed per-review and mean-pool into a cluster vector, or embed a generated cluster summary (LLM-written) — the latter is semantically tighter but costs one LLM call per cluster.
-- Index backend: in-memory `faiss`/`numpy` for this data size, or `chroma`/`qdrant` if we want persistence.
-
-## 2. Clause-level semantic sentiment classification (extend `split.py`)
-
-**Current state:** `split.py` breaks each review/comment into individual clauses (regex-based split). Those clauses are then classified **keyword-only** by `src/classify_reviews.py` (does the clause mention a place from `places_data.csv?`). There is no semantic sentiment model — a clause that mentions a place is matched, but not scored for how strongly positive/negative it is.
+**Design goal:** cluster reviews by **sentiment** (positive / negative) — neutral reviews are dropped, not clustered — then embed the surviving clusters and index them in **FAISS** for semantic retrieval. Sentiment is the first-class grouping axis (not an optional extra): the vector DB holds only opinionated, retrievable content, so a query like "anything bad about the tour?" lands in the negative cluster and "highlights?" in the positive one.
 
 **Plan:**
-1. Feed each clause (already produced by `split.py`) into a **semantic sentiment model** (e.g. a fine-tuned classifier, or a hosted sentiment API) to label it **positive / negative / neutral** with a confidence score.
-2. This replaces/augments the current keyword gate: a clause is flagged as actionable-negative only when (a) it mentions a tracked place **and** (b) the semantic model scores it as negative above a threshold.
-3. Pipeline becomes:
-   ```
-   review → split.py (clause split)
-          → semantic sentiment classifier (new)
-          → keyword place-match (existing)
-          → LLM judge (existing, src/llm_judge / src/web.app)
-   ```
+1. **Break down reviews clause-wise** — reuse `split.py`'s clause splitter so each review becomes a list of clauses. Sentiment is scored at clause granularity, not on the whole review text (a single review often mixes positive and negative statements; whole-text scoring blurs them).
+2. **Score each clause for sentiment** — classify every clause as **positive / negative / neutral** (semantic model or the existing LLM endpoint in `src/llm.py`).
+3. **Discard neutral clauses** — only clauses with a clear positive or negative signal are kept. Neutral content ("the queue was long", "we visited in June") carries no opinion and would only add noise to the vectors.
+4. **Group positive + negative clauses into clusters** — surviving clauses are grouped by (a) **sentiment polarity** (positive vs negative) and (b) **place** (the location clusters already built in `RAG/retriever.py`). Each cluster = one polarity × one place, holding the clauses that share both.
+5. **Embed each cluster** — produce one representative vector per cluster (mean of its clause embeddings, or an embedded LLM-written cluster summary). Embed at the cluster level, not per clause: fewer vectors → faster ANN search, smaller index, and a cluster hit returns a coherent, thematically-grouped set instead of scattered clauses.
+6. **Index in FAISS** — load the cluster vectors into a FAISS index (in-memory is fine at this data size) and retrieve by cosine similarity against the embedded query, filtered by the desired polarity.
+
+**Pipeline:**
+```
+review → split.py (clause split)
+       → per-clause sentiment classifier (positive / negative / neutral)
+       → drop neutral
+       → group by (polarity, place)
+       → embed each cluster → FAISS index
+       → query: embed → polarity-filtered ANN search → return cluster's clauses
+```
 
 **Open questions:**
-- Model: hosted (OpenAI-compatible endpoint already wired in `src/llm.py`) vs local (DeBERTa fine-tune, `transformers` pipeline).
-- Threshold tuning — too low → noise, too high → miss soft negatives ("a bit cold", "service was okay-ish").
+- Embedding model: local `sentence-transformers` vs hosted API.
+- Per-clause embed + mean-pool into a cluster vector, vs embed an LLM-written cluster summary (tighter semantics, one LLM call per cluster).
+- Sentiment scorer: reuse the wired LLM endpoint vs a local DeBERTa-style classifier.
+
+**Alternative — vector-less RAG (no embeddings, no FAISS):** a viable path that skips the embedding layer entirely. The current retrieval already works via keyword/token overlap plus LLM taxonomy classification; a vector-less design keeps and strengthens that route instead:
+- **Lexical + BM25 ranking** over the clause/clusters already split and sentiment-grouped above (e.g. `rank_bm25`) — inverted-index search, no vectors, deterministic, and cheap to run locally.
+- **LLM-assisted routing/reranking** — let the existing `src/llm.py` endpoint do relevance scoring and top-k reranking over the keyword-recall set, trading a little latency for semantic understanding without any embedding model.
+- **Sparse/keyword vectors** — encode each cluster as a hashed or TF-IDF sparse vector (e.g. scikit-learn `TfidfVectorizer`) and do cosine similarity with plain numpy. Keeps the "vector" API without any embedding model; still misses true paraphrase but is stronger than raw token overlap.
+- **Hybrid** — keep the keyword/BM25 recall as the base and add the FAISS index (above) only if semantic-miss cases prove it's needed; run both and compare hit rates before committing to embeddings.
+
+This is useful if we want to stay dependency-light and avoid hosting/embedding-model cost; the trade-off is weaker semantic recall on paraphrased queries ("too spicy" vs "way too hot") that a vector index would catch.
