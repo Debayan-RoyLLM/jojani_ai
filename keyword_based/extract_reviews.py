@@ -3,7 +3,7 @@
 
 import csv
 
-from src import config
+from keyword_based import config
 
 
 def main() -> None:

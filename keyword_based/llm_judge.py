@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """CLI: judge matched reviews with the LLM, save results to judge_results.md."""
 
-from src import config
-from src.judge import judge_all_reviews
-from src.parse_reviews import parse_matched_reviews
+from keyword_based import config
+from keyword_based.judge import judge_all_reviews
+from keyword_based.parse_reviews import parse_matched_reviews
 
 
 def main() -> None:

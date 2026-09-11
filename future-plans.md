@@ -8,7 +8,7 @@
 
 **Plan:**
 1. **Break down reviews clause-wise** — reuse `split.py`'s clause splitter so each review becomes a list of clauses. Sentiment is scored at clause granularity, not on the whole review text (a single review often mixes positive and negative statements; whole-text scoring blurs them).
-2. **Score each clause for sentiment** — classify every clause as **positive / negative / neutral** (semantic model or the existing LLM endpoint in `src/llm.py`).
+2. **Score each clause for sentiment** — classify every clause as **positive / negative / neutral** (semantic model or the existing LLM endpoint in `keyword_based/llm.py`).
 3. **Discard neutral clauses** — only clauses with a clear positive or negative signal are kept. Neutral content ("the queue was long", "we visited in June") carries no opinion and would only add noise to the vectors.
 4. **Group positive + negative clauses into clusters** — surviving clauses are grouped by (a) **sentiment polarity** (positive vs negative) and (b) **place** (the location clusters already built in `RAG/retriever.py`). Each cluster = one polarity × one place, holding the clauses that share both.
 5. **Embed each cluster** — produce one representative vector per cluster (mean of its clause embeddings, or an embedded LLM-written cluster summary). Embed at the cluster level, not per clause: fewer vectors → faster ANN search, smaller index, and a cluster hit returns a coherent, thematically-grouped set instead of scattered clauses.
@@ -31,7 +31,7 @@ review → split.py (clause split)
 
 **Alternative — vector-less RAG (no embeddings, no FAISS):** a viable path that skips the embedding layer entirely. The current retrieval already works via keyword/token overlap plus LLM taxonomy classification; a vector-less design keeps and strengthens that route instead:
 - **Lexical + BM25 ranking** over the clause/clusters already split and sentiment-grouped above (e.g. `rank_bm25`) — inverted-index search, no vectors, deterministic, and cheap to run locally.
-- **LLM-assisted routing/reranking** — let the existing `src/llm.py` endpoint do relevance scoring and top-k reranking over the keyword-recall set, trading a little latency for semantic understanding without any embedding model.
+- **LLM-assisted routing/reranking** — let the existing `keyword_based/llm.py` endpoint do relevance scoring and top-k reranking over the keyword-recall set, trading a little latency for semantic understanding without any embedding model.
 - **Sparse/keyword vectors** — encode each cluster as a hashed or TF-IDF sparse vector (e.g. scikit-learn `TfidfVectorizer`) and do cosine similarity with plain numpy. Keeps the "vector" API without any embedding model; still misses true paraphrase but is stronger than raw token overlap.
 - **Hybrid** — keep the keyword/BM25 recall as the base and add the FAISS index (above) only if semantic-miss cases prove it's needed; run both and compare hit rates before committing to embeddings.
 

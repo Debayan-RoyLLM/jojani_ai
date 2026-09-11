@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Step 2: Filter reviews.md by place-name keywords from places_data.csv."""
 
-from src import config
-from src.parse_reviews import load_keywords, parse_reviews_md
+from keyword_based import config
+from keyword_based.parse_reviews import load_keywords, parse_reviews_md
 
 
 def main() -> None:
     if not config.REVIEWS_MD.exists():
         raise SystemExit(
-            f"{config.REVIEWS_MD.name} not found. Run step 1 first: python -m src.extract_reviews"
+            f"{config.REVIEWS_MD.name} not found. Run step 1 first: python -m keyword_based.extract_reviews"
         )
 
     keywords = load_keywords(config.PLACES_CSV)
