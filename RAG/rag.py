@@ -98,6 +98,8 @@ class RAGEngine:
 
         result.setdefault("summary", "")
         result.setdefault("actions", [])
-        result.setdefault("source_reviews", reviews_list)
+        # Always show the full original reviews, not whatever (possibly truncated)
+        # the LLM echoed back — the prompt only gives it review_text[:800].
+        result["source_reviews"] = reviews_list
         result["location"] = location
         return result
