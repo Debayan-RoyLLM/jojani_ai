@@ -17,6 +17,19 @@ Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LL
 | `data/places_data.csv` | `src/` pipeline (step 2) + `RAG/` | Place names for keyword filtering / place clustering. Single-column list, has duplicates/aliases/noise. |
 | `output/attraction_reviews.json` | `RAG/` | Knowledge base: ~1582 reviews, ~265 attractions. Fields: `attraction_id`, `date`, `rating`, `review_text`. No location field — only opaque `attraction_id`s. |
 
+## Output folder
+
+`output/` holds the generated artifacts of the pipeline and RAG components.
+
+| File | Written by | Description |
+|------|-----------|-------------|
+| `reviews.md` | `src/` step 1 | All reviews extracted from `Booking_reviews.csv`, one `## Review N` section per row. |
+| `matched_reviews.md` | `src/` step 2 | Subset of `reviews.md` mentioning a place from `places_data.csv`; one `## <Place Name>` section per place. |
+| `judge_results.md` | `src/` step 3 (CLI) | LLM judgement of matched reviews: negative reviews flagged with specific, actionable fixes. |
+| `judgements.csv` | `src/` step 3 (Web) | LLM judgement as a CSV; columns `location_name`, `judgement`, `action`. |
+| `judgement_progress.json` | `src/` step 3 (Web) | Live progress tracker for a running web judgement: `running`, `total`, `done`, `start_time`, `message`. |
+| `attraction_reviews.json` | (input to `RAG/`) | RAG knowledge base — see Data table above. |
+
 ---
 
 # src/ — Review Analysis Pipeline
