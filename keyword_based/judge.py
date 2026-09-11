@@ -1,8 +1,8 @@
 """Shared batch-judging logic used by both the CLI and the web app."""
 
-from src import config
-from src.llm import call_llm, parse_llm_json
-from src.prompts import build_judge_prompt
+from keyword_based import config
+from keyword_based.llm import call_llm, parse_llm_json
+from keyword_based.prompts import build_judge_prompt
 
 
 def judge_all_reviews(reviews: list[str], on_batch_done=None) -> list[dict]:

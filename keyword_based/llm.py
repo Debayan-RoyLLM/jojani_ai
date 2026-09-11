@@ -5,7 +5,7 @@ import time
 
 import requests
 
-from src import config
+from keyword_based import config
 
 
 def call_llm(prompt: str) -> str:

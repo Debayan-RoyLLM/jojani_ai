@@ -8,9 +8,9 @@ import time
 
 from flask import Flask, jsonify, render_template, request
 
-from src import config
-from src.judge import judge_all_reviews
-from src.parse_reviews import load_keywords, parse_matched_reviews
+from keyword_based import config
+from keyword_based.judge import judge_all_reviews
+from keyword_based.parse_reviews import load_keywords, parse_matched_reviews
 
 app = Flask(__name__)
 

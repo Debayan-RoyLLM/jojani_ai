@@ -4,7 +4,7 @@ A suite of tools for analyzing Booking.com-style reviews. Two independent, self-
 
 | Component | Location | Entry point (CLI) | Entry point (Web) | What it does |
 |-----------|----------|-------------------|-------------------|--------------|
-| Review Analysis Pipeline | `src/` | `python -m src.llm_judge` | `python -m src.web.app` (:5000) | 3-step pipeline: extract → classify → LLM judge. Flags negative reviews for specific places and produces actionable fixes. |
+| Review Analysis Pipeline | `keyword_based/` | `python -m keyword_based.llm_judge` | `python -m keyword_based.web.app` (:5000) | 3-step pipeline: extract → classify → LLM judge. Flags negative reviews for specific places and produces actionable fixes. |
 | RAG Review Analyst | `RAG/` | `python RAG/cli.py "query"` | `python RAG/web/app.py` (:5001) | Keyword-based retrieval + LLM classification/summary for ad-hoc review queries. No embeddings. |
 
 Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LLM_URL`, `LLM_API_KEY`, `LLM_MODEL`).
@@ -13,8 +13,8 @@ Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LL
 
 | File | Used by | Notes |
 |------|---------|-------|
-| `data/Booking_reviews.csv` | `src/` pipeline (step 1) | Raw guest reviews; column `Reviews`. |
-| `data/places_data.csv` | `src/` pipeline (step 2) + `RAG/` | Place names for keyword filtering / place clustering. Single-column list, has duplicates/aliases/noise. |
+| `data/Booking_reviews.csv` | `keyword_based/` pipeline (step 1) | Raw guest reviews; column `Reviews`. |
+| `data/places_data.csv` | `keyword_based/` pipeline (step 2) + `RAG/` | Place names for keyword filtering / place clustering. Single-column list, has duplicates/aliases/noise. |
 | `output/attraction_reviews.json` | `RAG/` | Knowledge base: ~1582 reviews, ~265 attractions. Fields: `attraction_id`, `date`, `rating`, `review_text`. No location field — only opaque `attraction_id`s. |
 
 ## Output folder
@@ -23,16 +23,16 @@ Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LL
 
 | File | Written by | Description |
 |------|-----------|-------------|
-| `reviews.md` | `src/` step 1 | All reviews extracted from `Booking_reviews.csv`, one `## Review N` section per row. |
-| `matched_reviews.md` | `src/` step 2 | Subset of `reviews.md` mentioning a place from `places_data.csv`; one `## <Place Name>` section per place. |
-| `judge_results.md` | `src/` step 3 (CLI) | LLM judgement of matched reviews: negative reviews flagged with specific, actionable fixes. |
-| `judgements.csv` | `src/` step 3 (Web) | LLM judgement as a CSV; columns `location_name`, `judgement`, `action`. |
-| `judgement_progress.json` | `src/` step 3 (Web) | Live progress tracker for a running web judgement: `running`, `total`, `done`, `start_time`, `message`. |
+| `reviews.md` | `keyword_based/` step 1 | All reviews extracted from `Booking_reviews.csv`, one `## Review N` section per row. |
+| `matched_reviews.md` | `keyword_based/` step 2 | Subset of `reviews.md` mentioning a place from `places_data.csv`; one `## <Place Name>` section per place. |
+| `judge_results.md` | `keyword_based/` step 3 (CLI) | LLM judgement of matched reviews: negative reviews flagged with specific, actionable fixes. |
+| `judgements.csv` | `keyword_based/` step 3 (Web) | LLM judgement as a CSV; columns `location_name`, `judgement`, `action`. |
+| `judgement_progress.json` | `keyword_based/` step 3 (Web) | Live progress tracker for a running web judgement: `running`, `total`, `done`, `start_time`, `message`. |
 | `attraction_reviews.json` | (input to `RAG/`) | RAG knowledge base — see Data table above. |
 
 ---
 
-# src/ — Review Analysis Pipeline
+# keyword_based/ — Review Analysis Pipeline
 
 3-step pipeline: extract → classify → LLM judge.
 
@@ -56,10 +56,10 @@ flowchart LR
 
 | Step | Command | Reads | Writes |
 |------|---------|-------|--------|
-| 1 | `python -m src.extract_reviews` | `Booking_reviews.csv` | `output/reviews.md` |
-| 2 | `python -m src.classify_reviews` | `reviews.md` + `places_data.csv` | `output/matched_reviews.md` |
-| 3 (CLI) | `python -m src.llm_judge` | `matched_reviews.md` | `output/judge_results.md` |
-| 3 (Web) | `python -m src.web.app` → http://localhost:5000 | `matched_reviews.md` | `output/judgements.csv` |
+| 1 | `python -m keyword_based.extract_reviews` | `Booking_reviews.csv` | `output/reviews.md` |
+| 2 | `python -m keyword_based.classify_reviews` | `reviews.md` + `places_data.csv` | `output/matched_reviews.md` |
+| 3 (CLI) | `python -m keyword_based.llm_judge` | `matched_reviews.md` | `output/judge_results.md` |
+| 3 (Web) | `python -m keyword_based.web.app` → http://localhost:5000 | `matched_reviews.md` | `output/judgements.csv` |
 
 ## Module Map
 
