@@ -1,9 +1,11 @@
 # jojani_ai
 
-A suite of tools for analyzing Booking.com-style reviews. Two independent, self-contained components share the same data and LLM configuration but are otherwise decoupled:
+A suite of tools for analyzing Booking.com-style reviews. Independent, self-contained components share the same data and LLM configuration but are otherwise decoupled:
 
 | Component | Location | Entry point (CLI) | Entry point (Web) | What it does |
 |-----------|----------|-------------------|-------------------|--------------|
+| Clause Splitting | `split.py` | `python split.py <csv> -o out.jsonl` | — | Splits raw reviews into language-aware clauses (JSONL). Stdlib only. |
+| Sentiment Classification | `sentiment_analysis/` | `python sentiment_analysis/classify.py <jsonl>` | — | Classifies each clause as negative/neutral/positive via local BERT. |
 | Review Analysis Pipeline | `keyword_based/` | `python -m keyword_based.llm_judge` | `python -m keyword_based.web.app` (:5000) | 3-step pipeline: extract → classify → LLM judge. Flags negative reviews for specific places and produces actionable fixes. |
 | RAG Review Analyst | `RAG/` | `python RAG/cli.py "query"` | `python RAG/web/app.py` (:5001) | Keyword-based retrieval + LLM classification/summary for ad-hoc review queries. No embeddings. |
 
@@ -29,6 +31,80 @@ Both components use an OpenAI-compatible LLM endpoint configured via `.env` (`LL
 | `judgements.csv` | `keyword_based/` step 3 (Web) | LLM judgement as a CSV; columns `location_name`, `judgement`, `action`. |
 | `judgement_progress.json` | `keyword_based/` step 3 (Web) | Live progress tracker for a running web judgement: `running`, `total`, `done`, `start_time`, `message`. |
 | `attraction_reviews.json` | (input to `RAG/`) | RAG knowledge base — see Data table above. |
+
+---
+
+# Clause Splitting + Sentiment Classification
+
+A two-stage pre-processing pipeline that breaks raw reviews into clauses and classifies each clause's sentiment using a local BERT model.
+
+## Pipeline Flow
+
+```mermaid
+flowchart LR
+    CSV[/"data/booking_attractions_reviews.csv"/] --> SPLIT["split.py"]
+    SPLIT -->|writes| JSONL[("review_clauses.jsonl")]
+    JSONL --> CLASSIFY["sentiment_analysis/classify.py"]
+    BERT{{"BERT multilingual-sentiment"}}
+    CLASSIFY -->|reads| BERT
+    CLASSIFY --> NEG[("output/negative_clauses.jsonl")]
+    CLASSIFY --> NEU[("output/neutral_clauses.jsonl")]
+    CLASSIFY --> POS[("output/positive_clauses.jsonl")]
+```
+
+## Stage 1 — split.py
+
+Splits each review into sentences and clauses using language-aware regex. Handles broken CSV quoting, abbreviation protection, and merges fragments shorter than `--min-words` (default 3).
+
+```bash
+python split.py data/booking_attractions_reviews.csv -o review_clauses.jsonl
+# optional: also write a flat one-row-per-clause CSV
+python split.py data/booking_attractions_reviews.csv -o review_clauses.jsonl --flat-csv review_clauses.csv
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `input_csv` | *(required)* | Path to the raw Booking.com reviews CSV |
+| `-o / --output` | `review_clauses.jsonl` | Output JSONL (one review per line, with `clauses` array) |
+| `--flat-csv` | *(none)* | Also write one row per clause to this CSV |
+| `--min-words` | `3` | Fragments shorter than this are merged into a neighbour |
+
+## Stage 2 — sentiment_analysis/classify.py
+
+Classifies every unique clause as **negative** / **neutral** / **positive** using a local BERT model (`bert-multilingual-sentiment/`), then writes one JSONL file per sentiment bucket.
+
+```bash
+# from the project root
+python sentiment_analysis/classify.py review_clauses.jsonl
+python sentiment_analysis/classify.py review_clauses.jsonl -o output/ --batch-size 32 --max-length 256
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `input` | *(required)* | Path to the JSONL produced by `split.py` |
+| `-o / --output-dir` | `<project>/output` | Directory for the three sentiment JSONL files |
+| `--model` | `bert-multilingual-sentiment/` (local) or `nlptown/bert-base-multilingual-uncased-sentiment` (HF) | Model dir or HF model id |
+| `--batch-size` | `32` | Inference batch size |
+| `--max-length` | `256` | Max tokens per clause |
+| `--threads` | CPU count | torch intra-op threads |
+
+## Dependencies
+
+`split.py` uses only the standard library. `sentiment_analysis/` additionally requires:
+
+```
+torch
+transformers
+```
+
+## Output files
+
+| File | Contents |
+|------|----------|
+| `review_clauses.jsonl` | One review per line: `review_id`, `attraction_id`, `rating`, `lang`, `date`, `source_review`, `clauses[{clause_id, sentence_no, text}]` |
+| `output/negative_clauses.jsonl` | One clause per line: `clause_id`, `review_id`, `attraction_id`, `lang`, `date`, `sentence_no`, `clause_text`, `sentiment`, `score` |
+| `output/neutral_clauses.jsonl` | Same schema |
+| `output/positive_clauses.jsonl` | Same schema |
 
 ---
 
@@ -149,6 +225,73 @@ query
    generic words like "farm" (`_GENERIC`). No match → global keyword search.
 3. **Rank** — cluster path sorts by rating ascending (most actionable) then date
    descending; global path ranks by token-overlap count, then rating.
+
+## Worked example: "what are the issues in jozani forest"
+
+A concrete trace of one query through the steps above.
+
+**1. Tokenize** (`_tokenize`)
+
+```
+"what are the issues in jozani forest"
+→ drop stopwords (are, the, in)  →  {what, issues, jozani, forest}
+```
+
+Note `forest` is **not** a stopword, so it stays. The word `issues` carries no
+retrieval weight — it is only present in the query, never matched against data.
+
+**2. Route to a place** (`_route_query`). The places CSV contains several
+distinct Jozani spellings, each its own cluster after dedup:
+
+| Place name (from `places_data.csv`) | route_tokens (non-generic) |
+|--------------------------------------|----------------------------|
+| `Jozani`                             | {jozani}                   |
+| `Jozani Forest`                      | {jozani, forest}           |
+| `Jozani Forest National Park Mangrove Walk` | {jozani, forest, mangrove, walk} |
+| `Jozani Chwaka Bay National Park`    | {jozani, chwaka, bay}      |
+| `Jozani Sea Turtle Sanctuary`        | {jozani, sea, turtle, sanctuary} |
+
+Each is scored as `(overlap, specificity, query_coverage)` with a ≥25%
+coverage floor:
+
+| Cluster | overlap | query_coverage | specificity | score |
+|---------|---------|----------------|-------------|-------|
+| `Jozani Forest` | 2 | 2/4 = 0.50 | 2/2 = 1.0 | **(2, 1.0, 0.50)** ✓ best |
+| `Jozani Forest … Mangrove Walk` | 2 | 0.50 | 2/4 = 0.5 | (2, 0.5, 0.50) |
+| `Jozani` | 1 | 1/4 = 0.25 | 1/1 = 1.0 | (1, 1.0, 0.25) |
+| `Jozani Chwaka Bay …` | 1 | 0.25 | 1/3 ≈ 0.33 | (1, 0.33, 0.25) |
+| `Jozani Sea Turtle Sanctuary` | 1 | 0.25 | 1/5 = 0.2 | (1, 0.2, 0.25) |
+
+Max tuple wins → **routes to the `Jozani Forest` cluster.**
+
+**3. Recall is place-based, not query-based** (`_index`). At startup every
+review that *mentions* a Jozani-Forest token is attached to the cluster —
+including 5★ "the monkeys were adorable" reviews. The query word `issues`
+plays **no role** in which reviews are recalled.
+
+**4. Top-K** (`_top_from_cluster`, `MAX_REVIEWS = 15`). The cluster's reviews
+are sorted **rating ascending, then date descending** (worst, most recent
+first) and the first 15 are kept. Low-rated reviews surface first *because of
+their rating*, not because the system matched the word "issues."
+
+**5. LLM** (`RAGEngine.ask`). The 15 reviews are sent to the LLM (each
+truncated to 800 chars). It classifies each into the taxonomy, writes a
+2–4-sentence `summary`, and derives `actions`. The UI receives the **full,
+untruncated** reviews (`result["source_reviews"] = reviews_list` in
+`rag.py`), not the LLM's echoed copies.
+
+**Limitations this example exposes**
+
+- **No semantic handling of "issues".** If every Jozani review were 5★, the
+  system would still return the 15 most recent 5★ reviews; the LLM would simply
+  report "mostly positive." It cannot dig past what the rating sort yields.
+- **Alias fragmentation.** `Jozani`, `Jozani Forest`, and
+  `Jozani Forest National Park Mangrove Walk` are separate clusters (different
+  token sets), so reviews mentioning bare "Jozani" are **not** pulled in when
+  the query routes to `Jozani Forest`.
+- **Typos silently degrade.** "jojhani forest" tokenizes to `jojhani`, matches
+  no route_token → `_route_query` returns `None` → global keyword search,
+  which also won't match "jozani," yielding a near-empty or off-topic result.
 
 ## Run it
 
