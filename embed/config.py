@@ -1,6 +1,6 @@
 """
-Settings for classify.py — edit values here, then run:
-    python classify.py
+Settings for embed.py — edit values here, then run:
+    python embed.py
 """
 import sys
 from pathlib import Path
@@ -10,14 +10,14 @@ import paths  # noqa: E402
 
 # --- Input / output paths (centralized in paths.py) ---------------------------
 
-INPUT_JSONL = paths.REVIEW_CLAUSES
-OUTPUT_NEGATIVE = "negative_clauses.jsonl"
-OUTPUT_POSITIVE = "positive_clauses.jsonl"
+INPUT_JSONL = paths.FLAT_NEG_CLAUSES
+OUTPUT_JSONL = "negative_clauses_embedded.jsonl"
+FAISS_INDEX  = "negative_clauses.faiss"
 
 # --- Model (centralized in paths.py) ------------------------------------------
-MODEL = paths.SENTIMENT_MODEL
+MODEL_DIR = str(paths.EMBED_MODEL_DIR)
+FALLBACK_MODEL = paths.EMBED_MODEL_FALLBACK
 
 # --- Inference tuning ---------------------------------------------------------
 
-BATCH_SIZE  = 32
-MAX_LENGTH  = 256
+BATCH_SIZE = 64
