@@ -1,27 +1,23 @@
-"""Configuration for the sentiment-analysis pipeline."""
+"""
+Settings for classify.py — edit values here, then run:
+    python classify.py
+"""
+import sys
 from pathlib import Path
 
-# Project root (two levels up from this file: sentiment-analysis/ -> repo root)
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+import paths  # noqa: E402
 
-# Default BERT model. A local download of it lives in PROJECT_ROOT/bert-multilingual-sentiment
-# (loaded offline); the HF id is the fallback.
-MODEL_DIR = PROJECT_ROOT / "bert-multilingual-sentiment"
-DEFAULT_MODEL = str(MODEL_DIR) if MODEL_DIR.is_dir() else "nlptown/bert-base-multilingual-uncased-sentiment"
+# --- Input / output paths (centralized in paths.py) ---------------------------
 
-# The model is a sentiment classifier whose internal labels are named "1 star".."5 stars";
-# map them to the 3-way semantic buckets: 1-2 -> negative, 3 -> neutral, 4-5 -> positive.
-LABEL_TO_SENTIMENT = {
-    "1 star": "negative",
-    "2 stars": "negative",
-    "3 stars": "neutral",
-    "4 stars": "positive",
-    "5 stars": "positive",
-}
+INPUT_JSONL = paths.REVIEW_CLAUSES
+OUTPUT_NEGATIVE = "negative_clauses.jsonl"
+OUTPUT_POSITIVE = "positive_clauses.jsonl"
 
-# Output file per sentiment, in stable order.
-SENTIMENT_FILES = {
-    "negative": "negative_clauses.jsonl",
-    "neutral": "neutral_clauses.jsonl",
-    "positive": "positive_clauses.jsonl",
-}
+# --- Model (centralized in paths.py) ------------------------------------------
+MODEL = paths.SENTIMENT_MODEL
+
+# --- Inference tuning ---------------------------------------------------------
+
+BATCH_SIZE  = 32
+MAX_LENGTH  = 256

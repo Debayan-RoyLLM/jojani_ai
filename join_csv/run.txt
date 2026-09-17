@@ -1,0 +1,43 @@
+How to run the join_csv scripts
+================================
+
+The scripts resolve the output path relative to the project root, so they can
+be run from any directory. All three files (join_csvs.py, join_config.py,
+swap_translated.py) live in this folder: join_csv-01/
+
+Paths are configured in join_config.py:
+  LEFT_CSV   = data/apify_reviews.csv
+  RIGHT_CSV  = data/apify_places.csv
+  OUTPUT_CSV = output/apify_reviews_joined.csv
+  KEY        = google_place_id
+
+
+1. Join reviews + places into a single CSV
+------------------------------------------
+
+  python3 /home/gitaa/Desktop/jojani_ai/join_csv-01/join_csvs.py
+
+- Reads data/apify_reviews.csv and data/apify_places.csv.
+- Joins reviews to places on google_place_id.
+- Writes output/apify_reviews_joined.csv with columns:
+  review_id, content, translated_content, place_name
+
+(Run this first if the joined file is missing.)
+
+
+2. Swap translated content into content, then drop the column
+-------------------------------------------------------------
+
+  python3 /home/gitaa/Desktop/jojani_ai/join_csv-01/swap_translated.py
+
+- Reads output/apify_reviews_joined.csv.
+- For every row where translated_content is non-empty, replaces the whole
+  content value with the translation (in place).
+- Deletes the translated_content column from the output.
+- Edits output/apify_reviews_joined.csv in place.
+
+
+Typical order
+-------------
+  python3 /home/gitaa/Desktop/jojani_ai/join_csv-01/join_csvs.py
+  python3 /home/gitaa/Desktop/jojani_ai/join_csv-01/swap_translated.py
