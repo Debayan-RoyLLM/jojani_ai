@@ -1,6 +1,6 @@
 # jojani_ai — Multilingual Review Analysis Pipeline
 
-A 5-stage pipeline that ingests tourist-attraction reviews scraped from Google (via Apify), splits them into atomic clauses, classifies each clause by sentiment with a local BERT model, embeds the negative clauses with a multilingual MiniLM encoder, and answers natural-language questions about them using FAISS + LLM (RAG).
+A 10-stage pipeline that ingests tourist-attraction reviews scraped from Google (via Apify), splits them into atomic clauses, classifies each clause by sentiment with a local BERT model, embeds the negative clauses with a multilingual MiniLM encoder, clusters them into a scored knowledge base with taxonomy grouping (kb_agent), and answers natural-language questions about them using FAISS + LLM (RAG).
 
 All models run locally (no cloud inference except the LLM for the final answer).
 
@@ -20,32 +20,43 @@ join_csv/                    ① Inner-join reviews + places on google_place_id
 output/apify_reviews_joined.csv
        │
        ▼
-clause_split/                ② Split each review into atomic clauses (regex, multilingual)
+join_csv/                    ② (optional) Swap content ← translated_content (English)
+       │
+       ▼
+clause_split/                ③ Split each review into atomic clauses (regex, multilingual)
        │
        ▼
 clause_split/review_clauses.jsonl   one review per line, clauses nested
        │
        ▼
-sentiment_analysis/          ③ BERT sentiment: split clauses → negative / positive
+sentiment_analysis/          ④ BERT sentiment: split clauses → negative / positive
        │
        ├──► sentiment_analysis/negative_clauses.jsonl
        │         │
        │         ▼
-       │    clause_flatten/        ④ Flatten negative clauses → one clause per line
+       │    clause_flatten/        ⑤ Flatten negative clauses → one clause per line
        │         │
        │         ▼
        │    clause_flatten/negative_clauses_flat.jsonl
        │         │
        │         ▼
-       │    embed/                 ⑤ MiniLM embed + FAISS index build
+       │    embed/                 ⑥ MiniLM embed + FAISS index build
        │         │
        │         ▼
        │    embed/negative_clauses_embedded.jsonl  (clauses + 384-d vectors)
        │    embed/negative_clauses.faiss            (search index)
+       │         │
+       │         ├──► kb_agent/    ⑦ ⑧ ⑨ Cluster → LLM KB → taxonomy grouping
+       │         │      │
+       │         │      ▼
+       │         │    negative_clusters.jsonl  →  output/knowledge_base.jsonl
+       │         │                                output/taxonomy_grouping.jsonl
+       │         │
+       │         ▼
+       │    rag_clusters/      ⑩ RAG: query → FAISS retrieve top-K clauses → LLM
+       │                        Returns {summary, actions[], source_clauses[]}
        │
-       ▼
-rag_clusters/                ⑥ RAG: query → FAISS retrieve top-K clauses → LLM summarize
-                              Returns {summary, actions[], source_clauses[]}
+       └──► (positive_clauses.jsonl — unused downstream in this pipeline)
 ```
 
 ### Block diagram
@@ -69,6 +80,7 @@ flowchart TD
     E2[/"embed/negative_clauses.faiss"/]
     C1[/"negative_clusters.jsonl"/]
     KB[/"output/knowledge_base.jsonl"/]
+    TAX[/"output/taxonomy_grouping.jsonl"/]
     HTML[/"output/negative_clusters.html"/]
 
     A1["① join_csv/join_csvs.py<br/>inner-join on google_place_id"]
@@ -79,7 +91,8 @@ flowchart TD
     A6["⑥ embed/embed.py<br/>MiniLM 384-d + FAISS build"]
     A7["⑦ kb_agent/cluster.py<br/>agglomerative cosine clustering"]
     A8["⑧ kb_agent/run.py<br/>LLM distinct-issue extract + dedup"]
-    A9["⑨ rag_clusters/cli.py | web<br/>query → FAISS top-K → LLM"]
+    A9["⑨ kb_agent/classify_taxonomy.py<br/>LLM: assign 1 canonical category per block"]
+    A10["⑩ rag_clusters/cli.py | web<br/>query → FAISS top-K → LLM"]
 
     LLM{{"OpenAI-compatible LLM"}}
 
@@ -105,17 +118,21 @@ flowchart TD
     A8 --> KB
     LLM -.-> A8
     A7 --> HTML
-
-    E1 --> A9
-    E2 --> A9
+    C1 --> A9
+    A9 --> TAX
     LLM -.-> A9
+
+    E1 --> A10
+    E2 --> A10
+    LLM -.-> A10
 ```
 
-> The RAG branch (⑨) reads the FAISS index + embedded clauses, retrieves the
+> The RAG branch (⑩) reads the FAISS index + embedded clauses, retrieves the
 > top-K matching complaints and returns a live `{summary, actions[],
 > source_clauses[]}` dict — it does not write a file. The kb_agent branch
-> (⑦–⑧) is the one that produces the pipeline's final persistent outputs
-> (`knowledge_base.jsonl`, plus the optional UMAP scatter `negative_clusters.html`).
+> (⑦–⑨) is the one that produces the pipeline's final persistent outputs
+> (`knowledge_base.jsonl`, `taxonomy_grouping.jsonl`, plus the optional
+> UMAP scatter `negative_clusters.html`).
 
 ---
 
@@ -144,7 +161,7 @@ Both models are downloaded from Hugging Face on first run and cached locally:
 | `nlptown/bert-base-multilingual-uncased-sentiment` | sentiment_analysis | Clause sentiment (1–5 stars) |
 | `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` | embed, rag_clusters | 384-d clause embeddings |
 
-If you have a local copy of the MiniLM weights at `clustering/minilm-l12-v2/`, it will be used automatically (see `paths.py`).
+`paths.py` first checks for a local MiniLM copy at `clustering/minilm-l12-v2/` and uses it if present; otherwise it falls back to the Hugging Face id above (pulled from the local HF cache on first run). The `clustering/` directory is **not** checked into this repo, so the HF-cache fallback is the path that actually runs by default — no local weights are vendored.
 
 ---
 
@@ -153,13 +170,13 @@ If you have a local copy of the MiniLM weights at `clustering/minilm-l12-v2/`, i
 ### Run everything at once
 
 ```bash
-# Full pipeline, all 6 stages
+# Full pipeline, all 6 core stages (①–⑥); kb_agent (⑦–⑨) and RAG (⑩) are standalone
 python run_all.py
 
-# Skip the swap_translated step (if your reviews don't need translation)
+# Skip the swap_translated step (stage ②, if your reviews don't need translation)
 python run_all.py --skip-swap
 
-# Resume from a later stage (e.g. start at stage 3, skip join + swap)
+# Resume from a later stage (e.g. start at stage ③ split, skip join + swap)
 python run_all.py --from 3
 ```
 
@@ -183,12 +200,17 @@ python join_csv/join_csvs.py
 
 Reads `data/apify_reviews.csv` and `data/apify_places.csv`, inner-joins on `google_place_id`, writes `output/apify_reviews_joined.csv`.
 
-> **Tip:** If reviews have a `translated_content` column with machine-translated English text, run this afterwards to replace `content` with the translation (so downstream stages see English):
-> ```bash
-> python join_csv/swap_translated.py
-> ```
+### ② Swap translated content (optional)
 
-### ② Split reviews into clauses
+If reviews have a `translated_content` column with machine-translated English text, run this to replace `content` with the translation (so downstream stages see English):
+
+```bash
+python join_csv/swap_translated.py
+```
+
+Rewrites `output/apify_reviews_joined.csv` in place: `content ← translated_content`, and drops the now-redundant `translated_content` column.
+
+### ③ Split reviews into clauses
 
 ```bash
 python clause_split/split.py
@@ -198,7 +220,7 @@ Reads `output/apify_reviews_joined.csv`, splits each review into atomic clauses 
 
 Config: `clause_split/split_config.py` — set `COLUMNS` to map CSV headers to fields, and `MIN_WORDS` to control fragment merging.
 
-### ③ Classify clause sentiment
+### ④ Classify clause sentiment
 
 ```bash
 python sentiment_analysis/classify.py
@@ -210,7 +232,7 @@ Loads the local BERT sentiment model, classifies every unique clause, writes:
 
 Neutral clauses are discarded.
 
-### ④ Flatten negative clauses
+### ⑤ Flatten negative clauses
 
 ```bash
 python clause_flatten/flatten.py
@@ -218,7 +240,7 @@ python clause_flatten/flatten.py
 
 Converts the nested per-review format to one flat clause per line. Writes `clause_flatten/negative_clauses_flat.jsonl`.
 
-### ⑤ Embed + build FAISS index
+### ⑥ Embed + build FAISS index
 
 ```bash
 python embed/embed.py
@@ -228,7 +250,11 @@ Embeds all flat negative clauses with MiniLM (batch size 64), writes:
 - `embed/negative_clauses_embedded.jsonl` — clauses with 384-d `embedding` field
 - `embed/negative_clauses.faiss` — `IndexFlatIP` search index (cosine via inner product on normalized vectors)
 
-### ⑥ Query with RAG
+### ⑦–⑨ Cluster + build knowledge base + taxonomy (kb_agent)
+
+`python -m kb_agent.cluster` (⑦), `python -m kb_agent.run` (⑧), and `python -m kb_agent.classify_taxonomy` (⑨) turn the embedded negative clauses into a deduplicated, scored knowledge base with canonical category grouping. These are standalone steps not part of `run_all.py` — full details in the [kb_agent](#kb_agent--negative-cluster-knowledge-base) section below.
+
+### ⑩ Query with RAG
 
 **CLI:**
 
@@ -276,12 +302,16 @@ Each query returns:
 2. **Build KB** — `python -m kb_agent.run`
    For each block, an LLM extracts the **distinct** issues raised (no repeats), each with an `importance` score 0–10. Near-duplicate issues are merged (Jaccard on token sets, threshold 0.45). Writes `output/knowledge_base.jsonl`.
 
+3. **Taxonomy grouping** — `python -m kb_agent.classify_taxonomy`
+   Assigns each block ONE canonical taxonomy category (reused from `rag_clusters/config.py`) + a 3-6 word block name. Near-duplicate results are cached (`output/.taxonomy_cache.json`) so a re-run is resumable. Writes `output/taxonomy_grouping.jsonl` — one line per category, listing its blocks and count.
+
 **Files:**
 - `config.py` — paths, LLM env, `DEDUP_THRESHOLD`, `MAX_CHUNK_CLAUSES`, `CLAUSE_CHAR_LIMIT`
 - `cluster.py` — embedding → agglomerative clustering → `negative_clusters.jsonl`
 - `llm.py` — minimal OpenAI-compatible client (`summarize_clauses`)
 - `dedup.py` — `merge_near_duplicates()` (Jaccard, order-preserving)
 - `run.py` — CLI: `python -m kb_agent.run [--limit N]`
+- `classify_taxonomy.py` — CLI: `python -m kb_agent.classify_taxonomy` — assign each block ONE canonical taxonomy category (reused from `rag_clusters.config`) + a 3-6 word label; resumable via `output/.taxonomy_cache.json`; writes `output/taxonomy_grouping.jsonl`
 - `visualize.py` — validate the clustering + render an HTML scatter (below)
 
 ### Visualizing the clusters
@@ -304,6 +334,8 @@ python -m kb_agent.visualize --report-only
 jojani_ai/
 ├── paths.py                 # Centralized path definitions (single source of truth)
 ├── requirements.txt
+├── run_all.py               # Batch runner for stages ①–⑥
+├── negative_clusters.jsonl  # After stage ⑦ (one block per line)
 ├── .env                     # LLM credentials (not in git)
 │
 ├── data/
@@ -325,19 +357,19 @@ jojani_ai/
 ├── sentiment_analysis/
 │   ├── config.py
 │   ├── classify.py
-│   ├── negative_clauses.jsonl     # After stage ③
-│   └── positive_clauses.jsonl     # After stage ③
+│   ├── negative_clauses.jsonl     # After stage ④
+│   └── positive_clauses.jsonl     # After stage ④
 │
 ├── clause_flatten/
 │   ├── config.py
 │   ├── flatten.py
-│   └── negative_clauses_flat.jsonl  # After stage ④
+│   └── negative_clauses_flat.jsonl  # After stage ⑤
 │
 ├── embed/
 │   ├── config.py
 │   ├── embed.py
-│   ├── negative_clauses_embedded.jsonl  # After stage ⑤
-│   └── negative_clauses.faiss           # After stage ⑤
+│   ├── negative_clauses_embedded.jsonl  # After stage ⑥
+│   └── negative_clauses.faiss           # After stage ⑥
 │
 ├── rag_clusters/
 │   ├── config.py            # Taxonomy, LLM settings, model path
@@ -350,12 +382,13 @@ jojani_ai/
 │       └── templates/
 │           └── index.html   # Single-page search UI
 │
-├── kb_agent/                # Negative-cluster knowledge base (standalone)
+├── kb_agent/                # Negative-cluster knowledge base (stages ⑦–⑨, standalone)
 │   ├── config.py            # Paths, LLM env, dedup thresholds
-│   ├── cluster.py           # Embedding → agglomerative clustering
+│   ├── cluster.py           # ⑦ Embedding → agglomerative clustering
 │   ├── llm.py               # OpenAI-compatible LLM client
 │   ├── dedup.py             # Jaccard near-duplicate merge
-│   ├── run.py               # Build knowledge_base.jsonl
+│   ├── run.py               # ⑧ Build knowledge_base.jsonl
+│   ├── classify_taxonomy.py # Per-block taxonomy grouping → taxonomy_grouping.jsonl
 │   └── visualize.py         # Validation report + UMAP HTML scatter
 │
 └── OLD/                     # Archived previous pipeline versions
