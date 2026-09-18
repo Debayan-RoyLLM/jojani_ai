@@ -1,0 +1,948 @@
+Loaded 944 cluster block(s) from negative_clusters.jsonl
+  [block 1] 18 distinct issue(s) | top: Sea turtles are kept in captivity within a small, enclosed cave pool with no access to the open ocean.
+  [block 2] 3 distinct issue(s) | top: The admission fee is considered too high relative to the limited attractions and experience provided.
+  [block 3] 4 distinct issue(s) | top: Snorkeling sessions were frequently cut short or limited in duration due to weather conditions or operational decisions.
+  [block 4] 7 distinct issue(s) | top: The overall experience was significantly below the high expectations set by online reviews.
+  [block 5] 4 distinct issue(s) | top: The location is described as dangerous.
+  [block 6] 7 distinct issue(s) | top: The park offers very limited wildlife variety, with visitors primarily seeing only monkeys and few other animals.
+  [block 7] 0 distinct issue(s) | top: (no issues)
+  [block 8] 2 distinct issue(s) | top: The $10 per person entrance fee is considered excessive and not justified by the experience.
+  [block 9] 5 distinct issue(s) | top: The tour is excessively short, lasting less than an hour, which is poor value for the high entrance fees and guide costs.
+  [block 10] 5 distinct issue(s) | top: The area is excessively crowded, making it difficult to move, find seating, or navigate.
+  [block 11] 3 distinct issue(s) | top: The attraction is not worth the travel time or distance required to reach it.
+  [block 12] 3 distinct issue(s) | top: The location is described as a disgrace and a negative representation of Zanzibar.
+  [block 13] 5 distinct issue(s) | top: The attraction is a deceptive tourist trap with excessive pricing and poor value for money.
+  [block 14] 5 distinct issue(s) | top: The site is closed to the public for renovation, maintenance, or repairs.
+  [block 15] 3 distinct issue(s) | top: The attraction is considered a waste of money and time.
+  [block 16] 0 distinct issue(s) | top: (no issues)
+  [block 17] 7 distinct issue(s) | top: The coral reef is largely dead, bleached, or physically damaged.
+  [block 18] 0 distinct issue(s) | top: (no issues)
+  [block 19] 0 distinct issue(s) | top: (no issues)
+  [block 20] 5 distinct issue(s) | top: Monkeys are kept on short leashes or chains, often tied to trees or posts, restricting their movement and causing visible distress.
+  [block 21] 1 distinct issue(s) | top: The location lacks interesting or unique features to see.
+  [block 22] 2 distinct issue(s) | top: General prices for services, food, and souvenirs are excessively high relative to the value offered.
+  [block 23] 6 distinct issue(s) | top: The beach and surrounding areas are heavily polluted with trash, including plastic bottles and glass.
+  [block 24] 1 distinct issue(s) | top: The entrance fee is considered expensive by visitors.
+  [block 25] 3 distinct issue(s) | top: The location offers very little to see or do.
+  [block 26] 2 distinct issue(s) | top: The location is associated with deceptive practices and excessive fees that result in financial loss for visitors.
+  [block 27] 6 distinct issue(s) | top: The site is severely overcrowded with excessive numbers of tourists allowed inside at once.
+  [block 28] 5 distinct issue(s) | top: The area is littered with garbage and in a dirty, run-down state.
+  [block 29] 7 distinct issue(s) | top: The actual entrance fee charged on-site is significantly higher than the price advertised online or on official pages.
+  [block 30] 0 distinct issue(s) | top: (no issues)
+  [block 31] 3 distinct issue(s) | top: Excessive numbers of boats chase and surround dolphins, preventing them from breathing and causing distress.
+  [block 32] 5 distinct issue(s) | top: Tourists and staff remove starfish from the water, causing them to suffocate and die.
+  [block 33] 0 distinct issue(s) | top: (no issues)
+  [block 34] 1 distinct issue(s) | top: The location is extremely dirty and in bad condition.
+  [block 35] 0 distinct issue(s) | top: (no issues)
+  [block 36] 0 distinct issue(s) | top: (no issues)
+  [block 37] 1 distinct issue(s) | top: The location offers no significant sights or activities for visitors.
+  [block 38] 3 distinct issue(s) | top: The attraction is overpriced relative to the value provided.
+  [block 39] 7 distinct issue(s) | top: The entrance fee is disproportionately high for the limited wildlife and scenery provided.
+  [block 40] 0 distinct issue(s) | top: (no issues)
+  [block 41] 4 distinct issue(s) | top: The beach is overrun with aggressive and persistent vendors who constantly approach and follow tourists to sell goods and services.
+  [block 42] 2 distinct issue(s) | top: The entrance fee is considered expensive for the short duration of access.
+  [block 43] 6 distinct issue(s) | top: The area is heavily littered with trash and plastic waste, including monkeys scavenging from garbage piles near the road.
+  [block 44] 2 distinct issue(s) | top: The area emits strong, unpleasant, and nauseating odors.
+  [block 45] 2 distinct issue(s) | top: Animals are kept in captivity and exploited for commercial profit rather than welfare.
+  [block 46] 1 distinct issue(s) | top: The location is overcrowded with too many people.
+  [block 47] 2 distinct issue(s) | top: The service is a scam that does not deliver on its promises.
+  [block 48] 5 distinct issue(s) | top: The beach is extremely narrow and often disappears or becomes inaccessible at high tide.
+  [block 49] 1 distinct issue(s) | top: The activity duration is longer than necessary for most visitors.
+  [block 50] 2 distinct issue(s) | top: Tourists are subjected to constant, aggressive, and persistent solicitation by sellers.
+  [block 51] 0 distinct issue(s) | top: (no issues)
+  [block 52] 4 distinct issue(s) | top: The facility allows visitors to touch and pet wild animals, which is considered unethical and harmful to animal welfare.
+  [block 53] 0 distinct issue(s) | top: (no issues)
+  [block 54] 5 distinct issue(s) | top: Turtles bite visitors in the water, even when not provoked.
+  [block 55] 0 distinct issue(s) | top: (no issues)
+  [block 56] 4 distinct issue(s) | top: Animals are subjected to stress, suffering, and abuse due to overcrowding and excessive tourist interaction.
+  [block 57] 3 distinct issue(s) | top: The attraction is unimpressive, uninteresting, and lacks visual appeal.
+  [block 58] 4 distinct issue(s) | top: The tour duration is significantly shorter than expected or advertised, often lasting only 30 to 40 minutes.
+  [block 59] 5 distinct issue(s) | top: Guests are at risk of injury from sea urchins, which are not warned about by the crew.
+  [block 60] 0 distinct issue(s) | top: (no issues)
+  [block 61] 0 distinct issue(s) | top: (no issues)
+  [block 62] 5 distinct issue(s) | top: The cave is small and overcrowded, causing visitors to be crammed together with limited space to move.
+  [block 63] 0 distinct issue(s) | top: (no issues)
+  [block 64] 2 distinct issue(s) | top: The price is considered excessive and not worth the value.
+  [block 65] 1 distinct issue(s) | top: Customers were pressured into solo skydives despite not being ready.
+  [block 66] 0 distinct issue(s) | top: (no issues)
+  [block 67] 3 distinct issue(s) | top: Swimming is impossible due to the water receding significantly at low tide.
+  [block 68] 3 distinct issue(s) | top: The entrance fee is considered too high relative to the short duration of the visit.
+  [block 69] 0 distinct issue(s) | top: (no issues)
+  [block 70] 1 distinct issue(s) | top: The $8 admission fee is considered too high for the small size and limited content of the attraction.
+  [block 71] 1 distinct issue(s) | top: The entrance fee is considered excessively high relative to the short duration and limited value of the tour.
+  [block 72] 4 distinct issue(s) | top: Attractions and services in Zanzibar are significantly overpriced and considered poor value for money.
+  [block 73] 2 distinct issue(s) | top: The final stretch of the access road is a rough, rocky, or bumpy dirt track that is difficult for vehicles to navigate.
+  [block 74] 4 distinct issue(s) | top: The location is in poor physical condition.
+  [block 75] 3 distinct issue(s) | top: The museum is very small in size and scope.
+  [block 76] 5 distinct issue(s) | top: Tourists frequently violate safety rules by approaching or touching the monkeys.
+  [block 77] 3 distinct issue(s) | top: Visitors were charged an additional $50 per person upon arrival despite having made an advance payment.
+  [block 78] 5 distinct issue(s) | top: The $10 per person entrance fee is considered excessive for the small size and limited features of the cave.
+  [block 79] 3 distinct issue(s) | top: Over-tourism and excessive visitor numbers cause significant environmental degradation and harm to local wildlife.
+  [block 80] 5 distinct issue(s) | top: The mangrove forest was inaccessible or barely visible due to tidal conditions.
+  [block 81] 0 distinct issue(s) | top: (no issues)
+  [block 82] 0 distinct issue(s) | top: (no issues)
+  [block 83] 3 distinct issue(s) | top: Vendors are pushy and insist on selling items to tourists.
+  [block 84] 4 distinct issue(s) | top: The area is heavily littered with plastic waste, including bottles and bags.
+  [block 85] 4 distinct issue(s) | top: The cave is unimpressive and lacks unique features or attractions.
+  [block 86] 4 distinct issue(s) | top: Aggressive and persistent beach vendors constantly harass visitors with sales pitches.
+  [block 87] 2 distinct issue(s) | top: The access roads leading to the site are in extremely poor condition.
+  [block 88] 1 distinct issue(s) | top: The site is in a state of severe disrepair and structural collapse.
+  [block 89] 6 distinct issue(s) | top: Spices and souvenirs are significantly overpriced compared to local markets.
+  [block 90] 3 distinct issue(s) | top: Wild animals are kept in captivity and subjected to abuse and mistreatment for commercial entertainment.
+  [block 91] 3 distinct issue(s) | top: The facility engages in animal abuse and exploitation for entertainment purposes.
+  [block 92] 1 distinct issue(s) | top: The experience is perceived as boring and uninteresting.
+  [block 93] 2 distinct issue(s) | top: Starfish were removed from their natural habitat and transported on boats, posing a risk to their survival.
+  [block 94] 2 distinct issue(s) | top: The service was perceived as a scam.
+  [block 95] 0 distinct issue(s) | top: (no issues)
+  [block 96] 6 distinct issue(s) | top: The beach is unattractive and inferior to nearby alternatives.
+  [block 97] 2 distinct issue(s) | top: The site is open to public swimming, which is considered inappropriate for a former place of worship.
+  [block 98] 2 distinct issue(s) | top: Tourists are charged significantly higher prices than locals for goods and services.
+  [block 99] 0 distinct issue(s) | top: (no issues)
+  [block 100] 7 distinct issue(s) | top: The sandbar and sandbank are severely overcrowded with tourists and boats.
+  [block 101] 2 distinct issue(s) | top: Buildings and surrounding areas are dilapidated and neglected.
+  [block 102] 2 distinct issue(s) | top: The guided tour is not worth the price.
+  [block 103] 0 distinct issue(s) | top: (no issues)
+  [block 104] 6 distinct issue(s) | top: The tour was rushed, preventing visitors from enjoying the scenery or experience in peace.
+  [block 105] 0 distinct issue(s) | top: (no issues)
+  [block 106] 6 distinct issue(s) | top: The museum exhibits are sparse, consisting mainly of photos and minimal items, offering little value for the entrance fee.
+  [block 107] 3 distinct issue(s) | top: The tour involves excessive driving and walking time between the forest and mangrove locations, reducing actual activity time.
+  [block 108] 3 distinct issue(s) | top: Rainy conditions create dangerous situations for tourists and guides.
+  [block 109] 4 distinct issue(s) | top: Animals are kept in cages that are dirty, littered with plastic, and too small for their size.
+  [block 110] 2 distinct issue(s) | top: The experience includes forced or aggressive sales tactics where items like spices, soaps, and handmade crafts are pushed on visitors.
+  [block 111] 6 distinct issue(s) | top: The market emits an overwhelming and nauseating smell of rotting fish and meat.
+  [block 112] 4 distinct issue(s) | top: The site is overcrowded with tourists, detracting from its charm and atmosphere.
+  [block 113] 0 distinct issue(s) | top: (no issues)
+  [block 114] 6 distinct issue(s) | top: Excessive boat density in snorkeling areas creates a safety hazard of collision or being run over.
+  [block 115] 0 distinct issue(s) | top: (no issues)
+  [block 116] 2 distinct issue(s) | top: The admission price is considered excessive and not worth the cost.
+  [block 117] 3 distinct issue(s) | top: The welcome received was poor and uncharacteristic of Zanzibar.
+  [block 118] 0 distinct issue(s) | top: (no issues)
+  [block 119] 3 distinct issue(s) | top: Low tides render the water too shallow for swimming for most of the day.
+  [block 120] 3 distinct issue(s) | top: The island is in a state of disrepair and functions as a dumping ground.
+  [block 121] 6 distinct issue(s) | top: The market is dirty and unhygienic.
+  [block 122] 5 distinct issue(s) | top: The beach is not suitable for swimming due to safety concerns or conditions.
+  [block 123] 6 distinct issue(s) | top: Excessive number of boats in the lagoon degrades the visitor experience.
+  [block 124] 0 distinct issue(s) | top: (no issues)
+  [block 125] 4 distinct issue(s) | top: The building has collapsed or is severely damaged, resulting in casualties.
+  [block 126] 1 distinct issue(s) | top: The attraction is too small and offers insufficient content for the price.
+  [block 127] 1 distinct issue(s) | top: The admission fee is considered excessive for the lack of interesting content or value provided.
+  [block 128] 3 distinct issue(s) | top: The site is characterized by ongoing construction and heavy crowds.
+  [block 129] 2 distinct issue(s) | top: The animals appear neglected and are kept in poor conditions.
+  [block 130] 6 distinct issue(s) | top: The facility is perceived as a commercial exploitation trap that prioritizes profit over animal welfare.
+  [block 131] 0 distinct issue(s) | top: (no issues)
+  [block 132] 2 distinct issue(s) | top: Drivers failed to show up for scheduled pickups, causing significant delays and confusion.
+  [block 133] 0 distinct issue(s) | top: (no issues)
+  [block 134] 4 distinct issue(s) | top: Tour boats were overcrowded with more passengers than their safe capacity.
+  [block 135] 2 distinct issue(s) | top: The location offers limited activities and attractions, resulting in a short visit duration.
+  [block 136] 0 distinct issue(s) | top: (no issues)
+  [block 137] 4 distinct issue(s) | top: Visitors were charged full admission fees despite leaving the site within minutes of entry.
+  [block 138] 5 distinct issue(s) | top: Staff are rude, unprofessional, and disrespectful towards visitors.
+  [block 139] 0 distinct issue(s) | top: (no issues)
+  [block 140] 5 distinct issue(s) | top: The beach is overcrowded with excessive numbers of tourists and visitors.
+  [block 141] 3 distinct issue(s) | top: Vendors are aggressively pushy and intrusive, making it difficult to browse the market comfortably.
+  [block 142] 3 distinct issue(s) | top: Historical sights and significant sites are unavailable or left to decay due to poor maintenance.
+  [block 143] 1 distinct issue(s) | top: The facility is poorly maintained and in a state of disrepair.
+  [block 144] 0 distinct issue(s) | top: (no issues)
+  [block 145] 4 distinct issue(s) | top: Prices are excessively high and inflated compared to the value provided.
+  [block 146] 4 distinct issue(s) | top: The location is too crowded to provide seclusion or a quiet atmosphere.
+  [block 147] 0 distinct issue(s) | top: (no issues)
+  [block 148] 2 distinct issue(s) | top: The entrance fee is inconsistent, with reports ranging from 25,000 to 40,000 Tanzanian shillings.
+  [block 149] 2 distinct issue(s) | top: Animals are not kept in species-appropriate conditions, indicating poor welfare and potential cruelty.
+  [block 150] 3 distinct issue(s) | top: Animals are kept in captivity despite claims that they cannot be released into the wild due to physical impairments or human contact.
+  [block 151] 3 distinct issue(s) | top: The facility is considered harmful to animals.
+  [block 152] 3 distinct issue(s) | top: Boats aggressively chase and harass dolphins, causing animal distress.
+  [block 153] 0 distinct issue(s) | top: (no issues)
+  [block 154] 3 distinct issue(s) | top: The business practices are unethical.
+  [block 155] 0 distinct issue(s) | top: (no issues)
+  [block 156] 0 distinct issue(s) | top: (no issues)
+  [block 157] 0 distinct issue(s) | top: (no issues)
+  [block 158] 2 distinct issue(s) | top: The site is closed to the public due to ongoing renovations and construction.
+  [block 159] 4 distinct issue(s) | top: Prices are inflated and often quoted in US dollars, making costs significantly higher for non-USD currency holders.
+  [block 160] 0 distinct issue(s) | top: (no issues)
+  [block 161] 2 distinct issue(s) | top: Spices and other goods are sold at significantly higher prices than in surrounding local markets.
+  [block 162] 6 distinct issue(s) | top: The guide displayed a disinterested, unenthusiastic, or negative attitude throughout the tour.
+  [block 163] 3 distinct issue(s) | top: The market is excessively crowded and chaotic, making navigation difficult.
+  [block 164] 1 distinct issue(s) | top: The forest tour is extremely short and limited in scope.
+  [block 165] 3 distinct issue(s) | top: The guide aggressively pressured tourists for large tips at the end of the tour.
+  [block 166] 0 distinct issue(s) | top: (no issues)
+  [block 167] 1 distinct issue(s) | top: The area is not clean and requires more frequent cleaning.
+  [block 168] 0 distinct issue(s) | top: (no issues)
+  [block 169] 1 distinct issue(s) | top: The entry fee is $30 per person.
+  [block 170] 2 distinct issue(s) | top: Boats chase dolphins aggressively, causing physical stress to the animals and creating dangerous conditions for tourists.
+  [block 171] 0 distinct issue(s) | top: (no issues)
+  [block 172] 7 distinct issue(s) | top: The guide's poor English proficiency made communication and understanding difficult.
+  [block 173] 3 distinct issue(s) | top: The ruins are small and offer little to see.
+  [block 174] 0 distinct issue(s) | top: (no issues)
+  [block 175] 4 distinct issue(s) | top: Aggressive street vendors and unauthorized charges for access to public beaches are prevalent and annoying.
+  [block 176] 2 distinct issue(s) | top: Pricing information is unclear, leading to unexpected additional charges or confusion about what is included.
+  [block 177] 1 distinct issue(s) | top: The entrance fee is inconsistent and significantly higher than expected, with charges ranging from 20,000 to 40,000 shillings per person or per pair.
+  [block 178] 1 distinct issue(s) | top: Tour start times are delayed and group sizes exceed the promised small-group limit.
+  [block 179] 0 distinct issue(s) | top: (no issues)
+  [block 180] 1 distinct issue(s) | top: The actual visit duration was significantly shorter than the advertised time, lasting only about five minutes.
+  [block 181] 2 distinct issue(s) | top: The museum is extremely small and lacks substantial content or artifacts.
+  [block 182] 1 distinct issue(s) | top: Lockers are not available for use.
+  [block 183] 1 distinct issue(s) | top: The tour guide provided poor service and was unprofessional.
+  [block 184] 0 distinct issue(s) | top: (no issues)
+  [block 185] 0 distinct issue(s) | top: (no issues)
+  [block 186] 0 distinct issue(s) | top: (no issues)
+  [block 187] 5 distinct issue(s) | top: The number of monkeys visible during the visit was significantly lower than expected.
+  [block 188] 3 distinct issue(s) | top: Visitors experienced difficulties retrieving funds from the on-site or nearby ATM.
+  [block 189] 7 distinct issue(s) | top: Some visitors did not see any monkeys at all.
+  [block 190] 1 distinct issue(s) | top: Staff aggressively demanded tips and pressured customers to increase amounts despite poor service.
+  [block 191] 0 distinct issue(s) | top: (no issues)
+  [block 192] 0 distinct issue(s) | top: (no issues)
+  [block 193] 1 distinct issue(s) | top: The entry fee of 20,000 TSH (10 USD) is considered expensive.
+  [block 194] 0 distinct issue(s) | top: (no issues)
+  [block 195] 1 distinct issue(s) | top: The attraction involves the mistreatment and exploitation of animals for human amusement.
+  [block 196] 1 distinct issue(s) | top: The location poses a safety hazard requiring visitors to avoid it entirely.
+  [block 197] 1 distinct issue(s) | top: Visitors are warned to avoid touching or removing marine life such as starfish and coral to prevent damage to the ecosystem.
+  [block 198] 6 distinct issue(s) | top: The water is dirty, polluted, and murky due to stagnant food, sunscreen, and oils.
+  [block 199] 2 distinct issue(s) | top: Boats are significantly over capacity, with passenger counts frequently exceeding the stated maximum limits.
+  [block 200] 0 distinct issue(s) | top: (no issues)
+  [block 201] 4 distinct issue(s) | top: The water contains sharp debris that poses a safety hazard to swimmers.
+  [block 202] 5 distinct issue(s) | top: The boat capsized in open water, leaving passengers stranded for 45 minutes until rescued by local fishermen.
+  [block 203] 0 distinct issue(s) | top: (no issues)
+  [block 204] 2 distinct issue(s) | top: The area features a complex maze of narrow streets and alleys that makes navigation difficult and disorienting.
+  [block 205] 4 distinct issue(s) | top: Long wait times for departure due to high volume of boats and chaotic scheduling.
+  [block 206] 0 distinct issue(s) | top: (no issues)
+  [block 207] 3 distinct issue(s) | top: The experience was disorganized and stressful.
+  [block 208] 0 distinct issue(s) | top: (no issues)
+  [block 209] 1 distinct issue(s) | top: Staff members are rude and make snide remarks to guests.
+  [block 210] 1 distinct issue(s) | top: Low tides significantly reduce the available beach area, requiring visitors to walk long distances over sand to reach the water.
+  [block 211] 0 distinct issue(s) | top: (no issues)
+  [block 212] 1 distinct issue(s) | top: The experience was uncomfortable and distressing for visitors.
+  [block 213] 2 distinct issue(s) | top: Aggressive and persistent salespeople annoy visitors by constantly trying to sell items.
+  [block 214] 1 distinct issue(s) | top: Poor underwater visibility due to murky water and high tide conditions.
+  [block 215] 3 distinct issue(s) | top: Key attractions including the temple, museum, and cathedral were closed during the visit.
+  [block 216] 2 distinct issue(s) | top: Excessive numbers of street vendors create a crowded and cluttered environment that hinders leisure activities.
+  [block 217] 5 distinct issue(s) | top: The site is overcrowded with souvenir shops and vendors.
+  [block 218] 2 distinct issue(s) | top: The landmark suffers from a lack of investment in preservation, resulting in a poor state of maintenance.
+  [block 219] 2 distinct issue(s) | top: The historic site is in a state of severe deterioration and poor maintenance.
+  [block 220] 0 distinct issue(s) | top: (no issues)
+  [block 221] 2 distinct issue(s) | top: The entrance fee is considered excessive.
+  [block 222] 0 distinct issue(s) | top: (no issues)
+  [block 223] 3 distinct issue(s) | top: The museum exhibits are minimal, consisting only of a small room with printouts, pictures, and posters, lacking substantive memorabilia or factual depth.
+  [block 224] 1 distinct issue(s) | top: The experience is not worth the cost or time investment.
+  [block 225] 5 distinct issue(s) | top: Toilets are unsanitary, filthy, and covered in urine.
+  [block 226] 2 distinct issue(s) | top: The structure is considered the ugliest building on the island.
+  [block 227] 0 distinct issue(s) | top: (no issues)
+  [block 228] 2 distinct issue(s) | top: The establishment does not accept credit or debit cards, requiring visitors to pay with cash.
+  [block 229] 4 distinct issue(s) | top: The forest walk is overpriced and considered a poor value for money.
+  [block 230] 3 distinct issue(s) | top: Visitors failed to observe any monkeys or significant wildlife during the tour.
+  [block 231] 1 distinct issue(s) | top: The mangrove area is described as a swamp rather than a pool.
+  [block 232] 1 distinct issue(s) | top: The price of the experience is considered excessively high and not worth the cost.
+  [block 233] 2 distinct issue(s) | top: The location is overpriced for the short duration of service provided.
+  [block 234] 3 distinct issue(s) | top: Google Maps provides incorrect location and routing information, making the site difficult to find.
+  [block 235] 0 distinct issue(s) | top: (no issues)
+  [block 236] 2 distinct issue(s) | top: Food and drink prices are significantly higher than expected.
+  [block 237] 1 distinct issue(s) | top: The venue becomes chaotic and crowded after 4 PM.
+  [block 238] 0 distinct issue(s) | top: (no issues)
+  [block 239] 3 distinct issue(s) | top: The final price charged to customers is significantly higher than the advertised or expected rate.
+  [block 240] 2 distinct issue(s) | top: Drivers operate vehicles recklessly and pick up unauthorized passengers without warning.
+  [block 241] 1 distinct issue(s) | top: The location is excessively noisy at all hours.
+  [block 242] 2 distinct issue(s) | top: Staff are aggressively pushy and desperate to extract money from visitors.
+  [block 243] 0 distinct issue(s) | top: (no issues)
+  [block 244] 1 distinct issue(s) | top: The experience failed to meet visitor expectations.
+  [block 245] 2 distinct issue(s) | top: Choppy water and large waves made the snorkeling spots unsuitable and visibility poor.
+  [block 246] 2 distinct issue(s) | top: The owner scheduled the pickup for the wrong date, resulting in a 40-minute delay.
+  [block 247] 1 distinct issue(s) | top: The location presents significant safety hazards and dangerous conditions.
+  [block 248] 0 distinct issue(s) | top: (no issues)
+  [block 249] 1 distinct issue(s) | top: The actual price charged is significantly higher than the initial quote or the price listed on the website.
+  [block 250] 3 distinct issue(s) | top: Tourists face constant harassment and pestering from locals, Maasai, and vendors who aggressively solicit tips or sell items.
+  [block 251] 2 distinct issue(s) | top: Snorkeling time was significantly shorter than expected, often limited to 20 minutes.
+  [block 252] 4 distinct issue(s) | top: Murky water conditions prevented visibility of marine life.
+  [block 253] 2 distinct issue(s) | top: The tour duration was significantly shorter than advertised, lasting only 20 minutes instead of 30.
+  [block 254] 1 distinct issue(s) | top: The actual experience or conditions of the service were not accurately described in advance, leading to significant disappointment and regret over the booking.
+  [block 255] 2 distinct issue(s) | top: The tour experience failed to meet the expectations set by the vendor's promises.
+  [block 256] 3 distinct issue(s) | top: The tour guide abruptly terminated the tour and walked away after a dispute.
+  [block 257] 0 distinct issue(s) | top: (no issues)
+  [block 258] 1 distinct issue(s) | top: The location felt unsafe for visitors.
+  [block 259] 0 distinct issue(s) | top: (no issues)
+  [block 260] 1 distinct issue(s) | top: Guests were forced to leave the premises prematurely due to staff hostility or perceived traps.
+  [block 261] 3 distinct issue(s) | top: The facility is not a sanctuary, nature reserve, or rescue center as advertised during booking.
+  [block 262] 0 distinct issue(s) | top: (no issues)
+  [block 263] 0 distinct issue(s) | top: (no issues)
+  [block 264] 2 distinct issue(s) | top: Lessons were conducted or attempted in insufficient wind conditions, compromising safety and effectiveness.
+  [block 265] 0 distinct issue(s) | top: (no issues)
+  [block 266] 3 distinct issue(s) | top: The beach is covered in excessive amounts of seaweed and sea grass.
+  [block 267] 1 distinct issue(s) | top: The venue does not accept cash on site, requiring guests to use a credit card for all payments.
+  [block 268] 2 distinct issue(s) | top: The presence of large numbers of bats creates a frightening experience for visitors.
+  [block 269] 2 distinct issue(s) | top: Flies infest the area around butchered animals, creating an unpleasant environment.
+  [block 270] 2 distinct issue(s) | top: Swimming in the cave is discouraged or considered unsafe.
+  [block 271] 6 distinct issue(s) | top: The beach is overcrowded with people.
+  [block 272] 1 distinct issue(s) | top: Guests are prohibited from entering the premises.
+  [block 273] 0 distinct issue(s) | top: (no issues)
+  [block 274] 2 distinct issue(s) | top: The fort is in a state of severe disrepair and ruin.
+  [block 275] 2 distinct issue(s) | top: The location lacks activities or attractions for visitors.
+  [block 276] 2 distinct issue(s) | top: The location is isolated and difficult to access or exit.
+  [block 277] 2 distinct issue(s) | top: The facility is old and dilapidated.
+  [block 278] 1 distinct issue(s) | top: Insufficient information is provided to visitors.
+  [block 279] 2 distinct issue(s) | top: The entrance fee for tourists is significantly higher than for local residents.
+  [block 280] 2 distinct issue(s) | top: The facility and boats are in a state of severe disrepair and dilapidation.
+  [block 281] 0 distinct issue(s) | top: (no issues)
+  [block 282] 3 distinct issue(s) | top: Visitors are unable to access the interior of the Freddie Mercury house.
+  [block 283] 2 distinct issue(s) | top: The museum is frequently closed to visitors, preventing entry.
+  [block 284] 0 distinct issue(s) | top: (no issues)
+  [block 285] 1 distinct issue(s) | top: Insufficient parking availability causes significant difficulty and frustration for visitors.
+  [block 286] 1 distinct issue(s) | top: The entrance fee is considered excessively high relative to the experience provided.
+  [block 287] 0 distinct issue(s) | top: (no issues)
+  [block 288] 4 distinct issue(s) | top: Visitors are required to hire a guide to enter, despite being told it was optional before payment.
+  [block 289] 2 distinct issue(s) | top: The road leading to the mangrove is in very poor condition and bumpy.
+  [block 290] 3 distinct issue(s) | top: The service provided is of extremely poor quality.
+  [block 291] 1 distinct issue(s) | top: The public restrooms are in a state of severe uncleanliness and poor hygiene.
+  [block 292] 4 distinct issue(s) | top: Guides lacked sufficient knowledge and failed to provide useful information about the surroundings.
+  [block 293] 1 distinct issue(s) | top: The attraction is perceived as an exploitative money grab with poor value for money.
+  [block 294] 4 distinct issue(s) | top: Visitors are charged unexpected or additional entrance fees upon arrival that were not clearly disclosed in advance.
+  [block 295] 2 distinct issue(s) | top: The tour is excessively expensive for the short duration and poor value provided.
+  [block 296] 3 distinct issue(s) | top: Visitors are forced to hire a guide despite having already paid an entry fee.
+  [block 297] 3 distinct issue(s) | top: The experience is not ethical or sustainable regarding marine life conservation.
+  [block 298] 1 distinct issue(s) | top: The location is excessively noisy.
+  [block 299] 4 distinct issue(s) | top: Basic amenities such as water and electricity are unavailable for all visitors.
+  [block 300] 3 distinct issue(s) | top: Animals are kept in artificial environments rather than their natural habitats.
+  [block 301] 3 distinct issue(s) | top: Animals are visibly stressed, harassed, and terrified due to overcrowding and forced interaction.
+  [block 302] 0 distinct issue(s) | top: (no issues)
+  [block 303] 3 distinct issue(s) | top: Staff failed to apologize for the negative experience.
+  [block 304] 3 distinct issue(s) | top: The food is overpriced relative to its quality.
+  [block 305] 4 distinct issue(s) | top: Seafood and fish were served with poor quality, appearing stale or low-grade.
+  [block 306] 1 distinct issue(s) | top: Turtle encounters in Zanzibar are not conducted under genuine conservation programmes.
+  [block 307] 0 distinct issue(s) | top: (no issues)
+  [block 308] 1 distinct issue(s) | top: Visitors handle, pull, or climb on turtles, causing bites and injuries to people.
+  [block 309] 3 distinct issue(s) | top: The location is overcrowded and undergoing construction, which is not reflected in promotional photos.
+  [block 310] 2 distinct issue(s) | top: Customer service is poor and unhelpful.
+  [block 311] 3 distinct issue(s) | top: The area is overcrowded with a high number of boats operating simultaneously.
+  [block 312] 0 distinct issue(s) | top: (no issues)
+  [block 313] 0 distinct issue(s) | top: (no issues)
+  [block 314] 0 distinct issue(s) | top: (no issues)
+  [block 315] 0 distinct issue(s) | top: (no issues)
+  [block 316] 2 distinct issue(s) | top: Swimming time at the second stop was rushed and limited to approximately 10 minutes.
+  [block 317] 1 distinct issue(s) | top: Excursions booked through hotels are significantly more expensive than local options.
+  [block 318] 3 distinct issue(s) | top: Access to the beach is difficult or impossible during high tide.
+  [block 319] 3 distinct issue(s) | top: The overall quality of the stay was so poor that it caused travelers to cut their trip short.
+  [block 320] 0 distinct issue(s) | top: (no issues)
+  [block 321] 0 distinct issue(s) | top: (no issues)
+  [block 322] 0 distinct issue(s) | top: (no issues)
+  [block 323] 0 distinct issue(s) | top: (no issues)
+  [block 324] 1 distinct issue(s) | top: Staff communication is limited to English and Swahili, causing language barriers for non-speakers.
+  [block 325] 3 distinct issue(s) | top: Guests were locked inside and prevented from exiting for over an hour.
+  [block 326] 0 distinct issue(s) | top: (no issues)
+  [block 327] 1 distinct issue(s) | top: The site is in a run-down and dilapidated state.
+  [block 328] 1 distinct issue(s) | top: The location is frequently closed or has unreliable operating hours.
+  [block 329] 2 distinct issue(s) | top: The location is poorly managed and underutilized despite its potential.
+  [block 330] 3 distinct issue(s) | top: Sailing lessons were incomplete due to insufficient wind conditions.
+  [block 331] 4 distinct issue(s) | top: The beach is covered in a large amount of seaweed.
+  [block 332] 2 distinct issue(s) | top: The beach is frequently covered with algae and seaweed brought in by the tides.
+  [block 333] 3 distinct issue(s) | top: Swimming in the ocean is not possible during the visit.
+  [block 334] 4 distinct issue(s) | top: The coral reef is damaged, unhealthy, and offers limited visual interest.
+  [block 335] 1 distinct issue(s) | top: The ocean recedes significantly during the day, limiting swimming and beach access to late afternoon hours.
+  [block 336] 1 distinct issue(s) | top: Sea urchins in shallow pools and water cause foot injuries to visitors.
+  [block 337] 2 distinct issue(s) | top: The location lacks commercial amenities and shopping options, making it unsuitable for tourists seeking a traditional attraction experience.
+  [block 338] 2 distinct issue(s) | top: The cave floor is very rocky.
+  [block 339] 3 distinct issue(s) | top: The road and path leading to the caves are in poor condition.
+  [block 340] 2 distinct issue(s) | top: The beach becomes overcrowded and chaotic in the late afternoon, eliminating tranquility.
+  [block 341] 2 distinct issue(s) | top: Visitors are warned against aggressive or disruptive behaviors such as throwing objects, making noises, or killing the animals.
+  [block 342] 1 distinct issue(s) | top: The location is currently inaccessible due to ongoing construction.
+  [block 343] 3 distinct issue(s) | top: The fort is in a dilapidated and run-down condition with a lack of restoration.
+  [block 344] 1 distinct issue(s) | top: The facility maintains inhumane and oppressive conditions.
+  [block 345] 4 distinct issue(s) | top: The historical site has been converted into a market area, detracting from its value.
+  [block 346] 2 distinct issue(s) | top: The site is a ruin with insufficient informational signage.
+  [block 347] 2 distinct issue(s) | top: Vendors engage in aggressive sales behavior and lack clearly stated prices, forcing visitors to seek food in restaurants instead.
+  [block 348] 1 distinct issue(s) | top: The site suffers from severe structural deterioration and lack of preservation, with most buildings collapsed or in imminent danger of collapse.
+  [block 349] 2 distinct issue(s) | top: The location is misidentified as the Zanzibar Butterfly Centre.
+  [block 350] 1 distinct issue(s) | top: Locals and vendors constantly harass and pester tourists to buy items.
+  [block 351] 4 distinct issue(s) | top: Prices are inflated for foreigners compared to locals.
+  [block 352] 0 distinct issue(s) | top: (no issues)
+  [block 353] 1 distinct issue(s) | top: The entrance fee is considered disproportionately high for the small size and limited content of the exhibit.
+  [block 354] 0 distinct issue(s) | top: (no issues)
+  [block 355] 1 distinct issue(s) | top: Ticket prices are considered too high for the size and quality of the attraction.
+  [block 356] 0 distinct issue(s) | top: (no issues)
+  [block 357] 1 distinct issue(s) | top: The vegetation consists of very small, sparse, or bare plants and trees.
+  [block 358] 4 distinct issue(s) | top: Severe mosquito infestation requires burning substances for protection.
+  [block 359] 0 distinct issue(s) | top: (no issues)
+  [block 360] 0 distinct issue(s) | top: (no issues)
+  [block 361] 2 distinct issue(s) | top: The facility poses safety hazards to both animals and visitors.
+  [block 362] 3 distinct issue(s) | top: Guides repeatedly solicit tips, creating an awkward or pushy atmosphere.
+  [block 363] 0 distinct issue(s) | top: (no issues)
+  [block 364] 2 distinct issue(s) | top: Guides provided tours with low enthusiasm and insufficient explanation.
+  [block 365] 2 distinct issue(s) | top: The location is overly commercialized.
+  [block 366] 0 distinct issue(s) | top: (no issues)
+  [block 367] 3 distinct issue(s) | top: Guides violate the 3-meter safety rule by approaching monkeys too closely or allowing tourists to do so.
+  [block 368] 1 distinct issue(s) | top: The location is excessively crowded with tourists, causing constant physical contact and discomfort.
+  [block 369] 2 distinct issue(s) | top: The Jozani Forest tour is considered overpriced and not worth the cost.
+  [block 370] 2 distinct issue(s) | top: Visitors are required to be accompanied by a local guide at all times.
+  [block 371] 1 distinct issue(s) | top: The tour experience is disrupted by a chaotic and crowded taxi transfer process at the start point.
+  [block 372] 2 distinct issue(s) | top: There is a significant amount of garbage present.
+  [block 373] 4 distinct issue(s) | top: Drivers or staff dropped off visitors at the wrong location.
+  [block 374] 2 distinct issue(s) | top: The zoo is considered overpriced and expensive compared to alternatives.
+  [block 375] 1 distinct issue(s) | top: Visitors are prohibited from feeding or touching the animals.
+  [block 376] 3 distinct issue(s) | top: Staff displayed aggressive and shouting behavior towards guests.
+  [block 377] 3 distinct issue(s) | top: No transport is provided between the red colobus forest and the mangrove forest, forcing tourists to arrange their own vehicle or pay for a guide.
+  [block 378] 0 distinct issue(s) | top: (no issues)
+  [block 379] 1 distinct issue(s) | top: Poor weather conditions made the journey grim.
+  [block 380] 2 distinct issue(s) | top: The forest lacks visible wildlife and points of interest.
+  [block 381] 2 distinct issue(s) | top: The area is small in size.
+  [block 382] 1 distinct issue(s) | top: The location is too small to justify a visit of more than one hour.
+  [block 383] 0 distinct issue(s) | top: (no issues)
+  [block 384] 0 distinct issue(s) | top: (no issues)
+  [block 385] 3 distinct issue(s) | top: Animals are kept in cages that are too small for their size.
+  [block 386] 0 distinct issue(s) | top: (no issues)
+  [block 387] 3 distinct issue(s) | top: Animals are kept in filthy and poor conditions.
+  [block 388] 0 distinct issue(s) | top: (no issues)
+  [block 389] 1 distinct issue(s) | top: Visitors disrespect the animals by petting, pushing, or touching them to take photos.
+  [block 390] 0 distinct issue(s) | top: (no issues)
+  [block 391] 0 distinct issue(s) | top: (no issues)
+  [block 392] 0 distinct issue(s) | top: (no issues)
+  [block 393] 2 distinct issue(s) | top: Vendors display exorbitant prices on small signs that are applied at checkout, constituting a scam.
+  [block 394] 0 distinct issue(s) | top: (no issues)
+  [block 395] 0 distinct issue(s) | top: (no issues)
+  [block 396] 4 distinct issue(s) | top: The snorkeling duration was extremely short, lasting only 10 to 20 minutes.
+  [block 397] 0 distinct issue(s) | top: (no issues)
+  [block 398] 0 distinct issue(s) | top: (no issues)
+  [block 399] 5 distinct issue(s) | top: Excessive crowd density in the water causes stress to the turtles.
+  [block 400] 1 distinct issue(s) | top: The site is difficult to locate or find upon arrival.
+  [block 401] 5 distinct issue(s) | top: Safety concerns regarding emergency response within the cave.
+  [block 402] 3 distinct issue(s) | top: The site is overcrowded with inconsiderate and rude visitors.
+  [block 403] 0 distinct issue(s) | top: (no issues)
+  [block 404] 6 distinct issue(s) | top: Turtles are subjected to physical abuse, including being grabbed, pulled, and handled roughly by visitors.
+  [block 405] 2 distinct issue(s) | top: The venue is overcrowded, making it difficult to assess the quality of the spices.
+  [block 406] 0 distinct issue(s) | top: (no issues)
+  [block 407] 0 distinct issue(s) | top: (no issues)
+  [block 408] 2 distinct issue(s) | top: Meat and fish are displayed unhygienically on dirty or grime-covered counters.
+  [block 409] 1 distinct issue(s) | top: The price is considered too high for the value provided.
+  [block 410] 0 distinct issue(s) | top: (no issues)
+  [block 411] 1 distinct issue(s) | top: Marine animals are removed from the water and die due to improper handling.
+  [block 412] 0 distinct issue(s) | top: (no issues)
+  [block 413] 0 distinct issue(s) | top: (no issues)
+  [block 414] 3 distinct issue(s) | top: Biting insects and water fleas are present in the water, causing stings and bites to swimmers.
+  [block 415] 3 distinct issue(s) | top: No dolphins were observed during the trip.
+  [block 416] 0 distinct issue(s) | top: (no issues)
+  [block 417] 0 distinct issue(s) | top: (no issues)
+  [block 418] 2 distinct issue(s) | top: Guests were robbed on the morning of the scheduled excursion.
+  [block 419] 1 distinct issue(s) | top: The water is consistently cloudy with low visibility.
+  [block 420] 0 distinct issue(s) | top: (no issues)
+  [block 421] 1 distinct issue(s) | top: Uncollected trash is scattered throughout the area.
+  [block 422] 5 distinct issue(s) | top: Tourists are physically damaging coral reefs by touching, trampling, and removing pieces.
+  [block 423] 2 distinct issue(s) | top: Staff provide no supervision or control over the animals.
+  [block 424] 1 distinct issue(s) | top: The service price is considered high and not worth the cost relative to the value provided.
+  [block 425] 1 distinct issue(s) | top: Low tides and shallow water caused the boat to travel at a very slow speed.
+  [block 426] 0 distinct issue(s) | top: (no issues)
+  [block 427] 2 distinct issue(s) | top: Boats are severely overcrowded with excessive passenger capacity.
+  [block 428] 0 distinct issue(s) | top: (no issues)
+  [block 429] 0 distinct issue(s) | top: (no issues)
+  [block 430] 1 distinct issue(s) | top: Visitors are required to pay an entrance fee to view the exterior of the religious building.
+  [block 431] 2 distinct issue(s) | top: Waiters repeatedly forgot to take orders or call for customers, causing significant delays.
+  [block 432] 3 distinct issue(s) | top: Guests were left waiting indefinitely for the rest of the day due to operational delays.
+  [block 433] 0 distinct issue(s) | top: (no issues)
+  [block 434] 2 distinct issue(s) | top: Staff behavior is unprofessional, rude, and incompetent.
+  [block 435] 0 distinct issue(s) | top: (no issues)
+  [block 436] 2 distinct issue(s) | top: Aggressive and persistent vendors continuously approach visitors to sell goods, preventing relaxation.
+  [block 437] 1 distinct issue(s) | top: Visitors are persistently approached by strangers who continue to engage in conversation despite clear indications of disinterest.
+  [block 438] 2 distinct issue(s) | top: Children are involved in soliciting money or attention from tourists, creating an uncomfortable atmosphere.
+  [block 439] 0 distinct issue(s) | top: (no issues)
+  [block 440] 0 distinct issue(s) | top: (no issues)
+  [block 441] 1 distinct issue(s) | top: Aggressive street vendors persistently approach and pressure tourists to buy goods or services.
+  [block 442] 2 distinct issue(s) | top: The coral reefs are located too far offshore to be accessed without a boat.
+  [block 443] 2 distinct issue(s) | top: Vendors and individuals dispose of solid waste and dishwashing water directly into the ocean.
+  [block 444] 1 distinct issue(s) | top: Staff verbally insulted guests who objected to inappropriate behavior.
+  [block 445] 2 distinct issue(s) | top: The location lacks visual appeal and is not worth photographing.
+  [block 446] 3 distinct issue(s) | top: The water is unavailable or inaccessible for swimming.
+  [block 447] 1 distinct issue(s) | top: The caves are excessively hot and stuffy.
+  [block 448] 0 distinct issue(s) | top: (no issues)
+  [block 449] 1 distinct issue(s) | top: Aggressive and persistent solicitation by beach vendors and touts invades personal privacy.
+  [block 450] 1 distinct issue(s) | top: The environment is overly pressuring and restrictive, preventing visitors from relaxing or engaging in leisure activities.
+  [block 451] 4 distinct issue(s) | top: A vendor collected payment for a horseback riding activity and disappeared without providing the service.
+  [block 452] 2 distinct issue(s) | top: Maasai performers engage in theft and rude confrontations with vendors.
+  [block 453] 3 distinct issue(s) | top: Tourists experience racial discrimination and hostile staring from locals.
+  [block 454] 2 distinct issue(s) | top: The entrance gate is locked or closed upon arrival.
+  [block 455] 2 distinct issue(s) | top: The ticket price is considered excessively high.
+  [block 456] 1 distinct issue(s) | top: The location is difficult to find.
+  [block 457] 0 distinct issue(s) | top: (no issues)
+  [block 458] 2 distinct issue(s) | top: Lack of waste management causes snack wrappers to be littered on the ground and blown into the ocean.
+  [block 459] 2 distinct issue(s) | top: The site is occupied by street traders and functions as a market rather than a dedicated tourist attraction.
+  [block 460] 1 distinct issue(s) | top: Photography is prohibited or restricted, preventing visitors from taking pictures.
+  [block 461] 0 distinct issue(s) | top: (no issues)
+  [block 462] 2 distinct issue(s) | top: The site was overcrowded, causing a chaotic and unpleasant experience.
+  [block 463] 2 distinct issue(s) | top: The attraction is no longer operational or has been removed.
+  [block 464] 2 distinct issue(s) | top: The facility failed to open at the scheduled time.
+  [block 465] 0 distinct issue(s) | top: (no issues)
+  [block 466] 1 distinct issue(s) | top: The fort is overcrowded with an excessive number of commercial shops and businesses.
+  [block 467] 2 distinct issue(s) | top: The site is not open to the public or visitors.
+  [block 468] 2 distinct issue(s) | top: The entrance fee does not include the mandatory guide fee, which is charged separately by agreement.
+  [block 469] 4 distinct issue(s) | top: Foreign ownership of surrounding restaurants and resorts diminishes local authenticity and displaces locals.
+  [block 470] 1 distinct issue(s) | top: Historical monuments and buildings within the UNESCO World Heritage site are in poor or ruined condition.
+  [block 471] 3 distinct issue(s) | top: Equipment has not been repaired for a long time.
+  [block 472] 5 distinct issue(s) | top: The display contains very few items, consisting mainly of photos, a piano, and documents.
+  [block 473] 2 distinct issue(s) | top: The presentation inaccurately portrays Freddie Mercury as straight, which is considered misleading and disappointing.
+  [block 474] 3 distinct issue(s) | top: The museum failed to meet visitor expectations and was considered a disappointment.
+  [block 475] 1 distinct issue(s) | top: The experience is not worth the cost for non-fans or casual visitors.
+  [block 476] 1 distinct issue(s) | top: The admission price is disproportionately high for the small size of the exhibition.
+  [block 477] 2 distinct issue(s) | top: The museum entry fee is disproportionately high relative to the small size and limited content of the exhibits.
+  [block 478] 2 distinct issue(s) | top: The cost of the visit is considered prohibitively expensive.
+  [block 479] 1 distinct issue(s) | top: The experience did not match the advertised description or online reviews, leading to significant disappointment.
+  [block 480] 3 distinct issue(s) | top: The guide was unengaged and provided no useful information.
+  [block 481] 0 distinct issue(s) | top: (no issues)
+  [block 482] 0 distinct issue(s) | top: (no issues)
+  [block 483] 0 distinct issue(s) | top: (no issues)
+  [block 484] 2 distinct issue(s) | top: The area is heavily littered with plastic waste.
+  [block 485] 2 distinct issue(s) | top: Visitors are required to hire a guide to enter the national park or explore the forest.
+  [block 486] 3 distinct issue(s) | top: The tour group size was excessively large, causing participants to lose track of the guide.
+  [block 487] 1 distinct issue(s) | top: Staff performance and organizational management were inadequate, leading to a poor overall experience.
+  [block 488] 3 distinct issue(s) | top: Severe traffic congestion occurs, particularly in the evenings.
+  [block 489] 2 distinct issue(s) | top: Staff are rude, unfriendly, and arrogant.
+  [block 490] 0 distinct issue(s) | top: (no issues)
+  [block 491] 2 distinct issue(s) | top: The experience is perceived as a scam.
+  [block 492] 2 distinct issue(s) | top: Guides provide poor service by rushing visitors and failing to explain details.
+  [block 493] 0 distinct issue(s) | top: (no issues)
+  [block 494] 4 distinct issue(s) | top: The tour experience was deemed worthless due to the combination of transport issues and lack of service delivery.
+  [block 495] 2 distinct issue(s) | top: Guides fail to enforce safety guidelines, allowing tourists to crowd and approach animals too closely.
+  [block 496] 2 distinct issue(s) | top: Large groups of tourists crowd around and elbow each other to view the monkeys.
+  [block 497] 0 distinct issue(s) | top: (no issues)
+  [block 498] 1 distinct issue(s) | top: The tour and jump experience were rushed with insufficient explanation.
+  [block 499] 3 distinct issue(s) | top: Guides and local operators engage in deceptive pricing practices, including misquoting fees and demanding higher amounts than initially agreed.
+  [block 500] 3 distinct issue(s) | top: Independent exploration of the forest is discouraged due to potential risks or lack of guidance.
+  [block 501] 0 distinct issue(s) | top: (no issues)
+  [block 502] 4 distinct issue(s) | top: The area suffers from poor infrastructure and facilities.
+  [block 503] 3 distinct issue(s) | top: Tour guides demanded additional payment from customers after the initial fee had already been paid.
+  [block 504] 2 distinct issue(s) | top: Relentless bugs made the experience unpleasant and forced guests to leave.
+  [block 505] 2 distinct issue(s) | top: Entrance fees are charged separately for the island and the park despite claims that the initial fee covers both.
+  [block 506] 0 distinct issue(s) | top: (no issues)
+  [block 507] 0 distinct issue(s) | top: (no issues)
+  [block 508] 3 distinct issue(s) | top: The site lacks adequate signage and visible infrastructure, making it difficult to locate or navigate.
+  [block 509] 1 distinct issue(s) | top: Aggressive touts harass visitors on the approach to the site.
+  [block 510] 2 distinct issue(s) | top: Unmanaged rubbish piles accumulate outside the hotel walls for days.
+  [block 511] 1 distinct issue(s) | top: The environment is excessively humid and hot.
+  [block 512] 3 distinct issue(s) | top: Broken coral fragments pose a severe safety hazard by causing deep lacerations to the legs.
+  [block 513] 2 distinct issue(s) | top: Monkeys are kept tied up for tourist entertainment.
+  [block 514] 1 distinct issue(s) | top: Wild animals are hand-fed by visitors, which is detrimental to their health and natural behavior.
+  [block 515] 1 distinct issue(s) | top: The site experiences extremely low visitor traffic, often leaving guests as the sole attendees.
+  [block 516] 0 distinct issue(s) | top: (no issues)
+  [block 517] 0 distinct issue(s) | top: (no issues)
+  [block 518] 4 distinct issue(s) | top: There is a lack of dining options, with no restaurants or food service available.
+  [block 519] 1 distinct issue(s) | top: Non-alcoholic guests are offered only water instead of other beverage options like soda.
+  [block 520] 1 distinct issue(s) | top: The wildlife tourism experience was perceived as disrespectful and irresponsible.
+  [block 521] 1 distinct issue(s) | top: The facility is perceived as a commercial zoo rather than a genuine animal rescue operation.
+  [block 522] 1 distinct issue(s) | top: Animals appeared stressed and management showed no concern for their welfare.
+  [block 523] 3 distinct issue(s) | top: Sea turtles are kept in conditions that contradict their natural solitary behavior and are subjected to inappropriate hand-feeding.
+  [block 524] 3 distinct issue(s) | top: The facility is perceived as a profit-driven zoo rather than a conservation sanctuary or rescue center.
+  [block 525] 3 distinct issue(s) | top: Customers are charged inconsistent and unexpectedly high fees for services or items.
+  [block 526] 2 distinct issue(s) | top: Staff fail to enforce time limits at photo spots, causing long queues.
+  [block 527] 1 distinct issue(s) | top: The venue does not allow the booking of solo VIP tickets.
+  [block 528] 2 distinct issue(s) | top: Sellers attempt to increase the price at the point of payment beyond the initially quoted amount.
+  [block 529] 1 distinct issue(s) | top: The animal interaction activities are perceived as childish and unengaging.
+  [block 530] 2 distinct issue(s) | top: Visitors prioritize taking social media photos over animal welfare and the educational context of the facility.
+  [block 531] 3 distinct issue(s) | top: The island is run-down and unappealing.
+  [block 532] 0 distinct issue(s) | top: (no issues)
+  [block 533] 1 distinct issue(s) | top: The facility is not genuinely focused on animal rescue, wildlife care, or animal welfare.
+  [block 534] 0 distinct issue(s) | top: (no issues)
+  [block 535] 1 distinct issue(s) | top: The entrance fee is considered excessively high relative to the duration and value of the visit.
+  [block 536] 4 distinct issue(s) | top: The beach is difficult to locate or does not exist as expected.
+  [block 537] 0 distinct issue(s) | top: (no issues)
+  [block 538] 0 distinct issue(s) | top: (no issues)
+  [block 539] 0 distinct issue(s) | top: (no issues)
+  [block 540] 1 distinct issue(s) | top: The equipment was in poor condition and non-functional.
+  [block 541] 1 distinct issue(s) | top: The environment is too noisy to allow for relaxation or peace.
+  [block 542] 1 distinct issue(s) | top: Guests were subjected to extortion by individuals described as pirates during the tour, with the captain and company complicit in the demand for payment.
+  [block 543] 2 distinct issue(s) | top: The experience is overcrowded with large groups of tourists on standard tours and boats.
+  [block 544] 2 distinct issue(s) | top: The route is physically difficult and challenging to navigate.
+  [block 545] 1 distinct issue(s) | top: Boat tour prices are inconsistent and significantly higher than expected or advertised.
+  [block 546] 4 distinct issue(s) | top: The tour guide abandoned the group while they were in the water.
+  [block 547] 0 distinct issue(s) | top: (no issues)
+  [block 548] 1 distinct issue(s) | top: The payment process is confusing and inconsistent regarding when payment is required.
+  [block 549] 2 distinct issue(s) | top: Post-swim shower facilities are inadequate, requiring visitors to use bottles or drums of water.
+  [block 550] 1 distinct issue(s) | top: Lack of enforcement and monitoring for the rule requiring visitors to rinse off sunscreen and chemicals before entering the water, which harms the turtles.
+  [block 551] 2 distinct issue(s) | top: Showers are frequently non-functional or lack water.
+  [block 552] 0 distinct issue(s) | top: (no issues)
+  [block 553] 1 distinct issue(s) | top: Turtles may mistake green swimwear or clothing for food or algae and bite visitors.
+  [block 554] 1 distinct issue(s) | top: The slide causes significant physical pain and injury to users.
+  [block 555] 0 distinct issue(s) | top: (no issues)
+  [block 556] 2 distinct issue(s) | top: The cave experience is not natural or ethical.
+  [block 557] 2 distinct issue(s) | top: Lack of staff presence caused delays in managing visitor flow and exiting the site.
+  [block 558] 0 distinct issue(s) | top: (no issues)
+  [block 559] 3 distinct issue(s) | top: The facility is overcrowded with tourists and screaming children.
+  [block 560] 1 distinct issue(s) | top: The turtle cave experience is a paid attraction with no natural turtle entry.
+  [block 561] 3 distinct issue(s) | top: Tourists were bitten by marine life while in the water.
+  [block 562] 1 distinct issue(s) | top: The stairs leading down to the cave are steep and slippery.
+  [block 563] 0 distinct issue(s) | top: (no issues)
+  [block 564] 0 distinct issue(s) | top: (no issues)
+  [block 565] 0 distinct issue(s) | top: (no issues)
+  [block 566] 0 distinct issue(s) | top: (no issues)
+  [block 567] 1 distinct issue(s) | top: The chameleon viewing area is too small.
+  [block 568] 2 distinct issue(s) | top: The tandem jump operation involves dangerous and unsafe practices that pose a risk to participant safety.
+  [block 569] 2 distinct issue(s) | top: A mandatory $5 per person fee is charged at the end of the visit.
+  [block 570] 2 distinct issue(s) | top: Tourist agencies charge significantly higher prices than the official rates.
+  [block 571] 3 distinct issue(s) | top: Staff refuse to provide a price quote before service and charge based on appearance upon exit.
+  [block 572] 3 distinct issue(s) | top: Aggressive touts follow visitors and inflate prices, leading to unjustified duplicate charges.
+  [block 573] 0 distinct issue(s) | top: (no issues)
+  [block 574] 1 distinct issue(s) | top: Guests were provided with incorrect information regarding the trip.
+  [block 575] 0 distinct issue(s) | top: (no issues)
+  [block 576] 2 distinct issue(s) | top: Service and system performance are consistently slow.
+  [block 577] 0 distinct issue(s) | top: (no issues)
+  [block 578] 1 distinct issue(s) | top: The House of Wonders is closed for restoration.
+  [block 579] 0 distinct issue(s) | top: (no issues)
+  [block 580] 2 distinct issue(s) | top: Visitors are persistently and aggressively approached by people while walking, making it difficult to move freely.
+  [block 581] 0 distinct issue(s) | top: (no issues)
+  [block 582] 1 distinct issue(s) | top: The terrain is hazardous or uncomfortable without water shoes.
+  [block 583] 5 distinct issue(s) | top: The coral reef is dead.
+  [block 584] 0 distinct issue(s) | top: (no issues)
+  [block 585] 1 distinct issue(s) | top: Visitors are required to pay a separate tip to the guide in addition to the entrance fee.
+  [block 586] 1 distinct issue(s) | top: The admission fee is considered disproportionately high for the limited experience provided.
+  [block 587] 1 distinct issue(s) | top: The final cost charged to visitors was higher than the initially quoted price.
+  [block 588] 0 distinct issue(s) | top: (no issues)
+  [block 589] 0 distinct issue(s) | top: (no issues)
+  [block 590] 2 distinct issue(s) | top: The sandbank fruit tasting area is severely overcrowded with hundreds of tourists.
+  [block 591] 2 distinct issue(s) | top: The official location is mislabeled on Google Maps and road signs, directing visitors to an imitation company instead of the authentic operator.
+  [block 592] 0 distinct issue(s) | top: (no issues)
+  [block 593] 1 distinct issue(s) | top: The food, particularly seafood, is unsafe to consume and causes stomach issues.
+  [block 594] 3 distinct issue(s) | top: The tour failed to include the promised mangrove visit.
+  [block 595] 3 distinct issue(s) | top: Extreme overcrowding of snorkelers makes the experience chaotic and prevents relaxation.
+  [block 596] 0 distinct issue(s) | top: (no issues)
+  [block 597] 2 distinct issue(s) | top: The cave is overcrowded with tourists.
+  [block 598] 0 distinct issue(s) | top: (no issues)
+  [block 599] 0 distinct issue(s) | top: (no issues)
+  [block 600] 0 distinct issue(s) | top: (no issues)
+  [block 601] 2 distinct issue(s) | top: Personal belongings, including phones, were lost or stolen.
+  [block 602] 0 distinct issue(s) | top: (no issues)
+  [block 603] 1 distinct issue(s) | top: An animal was observed with a visible injury and lacked clear information regarding its treatment or outcome.
+  [block 604] 3 distinct issue(s) | top: The actual duration of the visit is significantly shorter than the booked time slot implies.
+  [block 605] 2 distinct issue(s) | top: The facility lacks basic hygiene standards.
+  [block 606] 0 distinct issue(s) | top: (no issues)
+  [block 607] 2 distinct issue(s) | top: Staff were unavailable or unwilling to provide assistance or explanations.
+  [block 608] 2 distinct issue(s) | top: Drivers and staff have insufficient English proficiency to communicate effectively with tourists.
+  [block 609] 0 distinct issue(s) | top: (no issues)
+  [block 610] 0 distinct issue(s) | top: (no issues)
+  [block 611] 3 distinct issue(s) | top: Aggressive street vendors and 'Beach Boys' constantly pressure tourists to purchase services and trinkets.
+  [block 612] 1 distinct issue(s) | top: Tour guides lack proficiency in English and other languages, causing communication barriers and misunderstandings for international visitors.
+  [block 613] 0 distinct issue(s) | top: (no issues)
+  [block 614] 0 distinct issue(s) | top: (no issues)
+  [block 615] 1 distinct issue(s) | top: An exhibit contains visible garbage.
+  [block 616] 1 distinct issue(s) | top: The $5 entrance fee is considered poor value for the experience provided.
+  [block 617] 2 distinct issue(s) | top: The entrance fee for Cheetah's Rock is considered excessively high.
+  [block 618] 0 distinct issue(s) | top: (no issues)
+  [block 619] 2 distinct issue(s) | top: Guests are unable to access the cafe due to operational or capacity constraints.
+  [block 620] 2 distinct issue(s) | top: Hiring a private guide is mandatory for entry.
+  [block 621] 1 distinct issue(s) | top: The overall condition and quality of the activity are poor.
+  [block 622] 2 distinct issue(s) | top: Animals are treated in a disgusting manner.
+  [block 623] 1 distinct issue(s) | top: The location is in a state of severe disrepair and filth.
+  [block 624] 1 distinct issue(s) | top: The equipment and facilities are old, worn out, and poorly maintained.
+  [block 625] 3 distinct issue(s) | top: Management responded aggressively to complaints without acknowledging errors.
+  [block 626] 1 distinct issue(s) | top: Staff member engaged in aggressive verbal abuse and physical threats toward guests.
+  [block 627] 1 distinct issue(s) | top: Beach vendors and salespeople aggressively harass tourists, including verbal abuse and hostility when declined.
+  [block 628] 0 distinct issue(s) | top: (no issues)
+  [block 629] 0 distinct issue(s) | top: (no issues)
+  [block 630] 1 distinct issue(s) | top: The food market is disorganized and chaotic, creating a stressful experience for visitors.
+  [block 631] 1 distinct issue(s) | top: The location experiences strong winds and high tides, particularly in October.
+  [block 632] 1 distinct issue(s) | top: Constant touts and scamming activities are prevalent.
+  [block 633] 3 distinct issue(s) | top: The location lacks basic infrastructure.
+  [block 634] 2 distinct issue(s) | top: Swimming is not permitted or accessible.
+  [block 635] 2 distinct issue(s) | top: The sea water is dirty and filled with seaweed.
+  [block 636] 0 distinct issue(s) | top: (no issues)
+  [block 637] 0 distinct issue(s) | top: (no issues)
+  [block 638] 0 distinct issue(s) | top: (no issues)
+  [block 639] 1 distinct issue(s) | top: Litter is prevalent throughout the area, including along the beach.
+  [block 640] 1 distinct issue(s) | top: The area behind the waterfront hotels and restaurants is characterized by visible poverty and accumulated trash.
+  [block 641] 3 distinct issue(s) | top: The overall experience is unpleasant and stressful, discouraging beach visits.
+  [block 642] 1 distinct issue(s) | top: The site lacks informational signage or details regarding its geological, historical, and structural features.
+  [block 643] 0 distinct issue(s) | top: (no issues)
+  [block 644] 0 distinct issue(s) | top: (no issues)
+  [block 645] 1 distinct issue(s) | top: The caves are hot and humid inside.
+  [block 646] 1 distinct issue(s) | top: Prices are not displayed or communicated to customers.
+  [block 647] 1 distinct issue(s) | top: The cave entrance and interior features steep, narrow, and low passages that pose significant mobility challenges for elderly visitors and people with disabilities.
+  [block 648] 1 distinct issue(s) | top: The presence of spiders, bats, and other large insects or arachnids in the area is a source of discomfort or fear for visitors.
+  [block 649] 2 distinct issue(s) | top: The beach is heavily covered in seaweed, leaving only a small section usable and preventing swimming.
+  [block 650] 3 distinct issue(s) | top: Aggressive and persistent harassment by street sellers, beach boys, and fake guides causes significant discomfort.
+  [block 651] 1 distinct issue(s) | top: The guide is incompetent, rendering the experience worthless.
+  [block 652] 3 distinct issue(s) | top: Boats pass and stop dangerously close to swimmers, creating a safety hazard.
+  [block 653] 0 distinct issue(s) | top: (no issues)
+  [block 654] 2 distinct issue(s) | top: The beach is overcrowded with numerous merchants and stalls.
+  [block 655] 1 distinct issue(s) | top: The experience is described as confusing.
+  [block 656] 1 distinct issue(s) | top: The establishment is fraudulent or deceptive in its nature.
+  [block 657] 0 distinct issue(s) | top: (no issues)
+  [block 658] 2 distinct issue(s) | top: Maasai individuals on the beach are excessively pushy.
+  [block 659] 1 distinct issue(s) | top: The location is inaccessible and unusable due to the absence of a road.
+  [block 660] 1 distinct issue(s) | top: The facility is currently under repair or restoration.
+  [block 661] 0 distinct issue(s) | top: (no issues)
+  [block 662] 2 distinct issue(s) | top: Aggressive and persistent touts refuse to accept refusal of tour sales, creating an unsafe environment for visitors.
+  [block 663] 1 distinct issue(s) | top: The grounds and garden are littered with garbage and waste.
+  [block 664] 2 distinct issue(s) | top: Unlicensed locals aggressively pose as tour guides to scam tourists.
+  [block 665] 3 distinct issue(s) | top: The site is in a state of long-term abandonment and disrepair.
+  [block 666] 2 distinct issue(s) | top: Vendors are unhelpful and refuse to search for specific items upon request.
+  [block 667] 1 distinct issue(s) | top: Meat and fish products contain excessive blood and blood clots.
+  [block 668] 2 distinct issue(s) | top: The attraction is overpriced relative to its minimal content and value.
+  [block 669] 0 distinct issue(s) | top: (no issues)
+  [block 670] 0 distinct issue(s) | top: (no issues)
+  [block 671] 1 distinct issue(s) | top: Staff members are unhelpful and unresponsive to visitors.
+  [block 672] 1 distinct issue(s) | top: The facility is in a state of severe disrepair and neglect.
+  [block 673] 1 distinct issue(s) | top: The site or attraction is neglected and receives insufficient attention.
+  [block 674] 1 distinct issue(s) | top: The interior is closed to the public.
+  [block 675] 2 distinct issue(s) | top: There are no other attractions or activities available besides the amphitheater.
+  [block 676] 1 distinct issue(s) | top: The attraction is considered weak and not worth visiting.
+  [block 677] 1 distinct issue(s) | top: The museum tour is too short and provides insufficient information.
+  [block 678] 1 distinct issue(s) | top: The area is overcrowded with street vendors who aggressively sell items and disrupt the visitor experience.
+  [block 679] 1 distinct issue(s) | top: The location is not prepared or equipped to accommodate tourists.
+  [block 680] 2 distinct issue(s) | top: The entire right wing of the facility collapsed shortly before arrival.
+  [block 681] 2 distinct issue(s) | top: The experience is overcrowded and poorly managed, preventing relaxation.
+  [block 682] 0 distinct issue(s) | top: (no issues)
+  [block 683] 1 distinct issue(s) | top: Rainfall prevented visitors from accessing tanks and lagoons and completing their visit.
+  [block 684] 1 distinct issue(s) | top: Souvenir prices are significantly higher than in other locations.
+  [block 685] 4 distinct issue(s) | top: The location is excessively hot.
+  [block 686] 1 distinct issue(s) | top: On-site shops and restaurants have high prices relative to the quality of service and products.
+  [block 687] 1 distinct issue(s) | top: The amphitheater is poorly maintained.
+  [block 688] 0 distinct issue(s) | top: (no issues)
+  [block 689] 0 distinct issue(s) | top: (no issues)
+  [block 690] 2 distinct issue(s) | top: The general state of the location is deplorable.
+  [block 691] 1 distinct issue(s) | top: Heavy rain negatively impacts the visitor experience and atmosphere.
+  [block 692] 0 distinct issue(s) | top: (no issues)
+  [block 693] 1 distinct issue(s) | top: The advertised free Wi-Fi is unavailable and staff do not provide access credentials.
+  [block 694] 1 distinct issue(s) | top: The site lacks maintenance and has no visible attractions.
+  [block 695] 0 distinct issue(s) | top: (no issues)
+  [block 696] 4 distinct issue(s) | top: Artifacts are displayed at inaccessible heights, requiring visitors to squat or use stools to view them.
+  [block 697] 1 distinct issue(s) | top: The location is considered not worth visiting.
+  [block 698] 1 distinct issue(s) | top: The admission fee is disproportionately high for the small size of the collection.
+  [block 699] 3 distinct issue(s) | top: The content omits information regarding the subject's personal life, including relationships and sexual orientation.
+  [block 700] 0 distinct issue(s) | top: (no issues)
+  [block 701] 1 distinct issue(s) | top: The tour duration is extremely short, lasting only a few minutes.
+  [block 702] 1 distinct issue(s) | top: The exhibition space is considered inadequate for the legacy of Freddie Mercury.
+  [block 703] 1 distinct issue(s) | top: The exhibit offers limited content with few photos and lacks memorabilia or detailed information.
+  [block 704] 1 distinct issue(s) | top: The exhibit lacks tangible evidence of the subject's home and birthplace.
+  [block 705] 0 distinct issue(s) | top: (no issues)
+  [block 706] 1 distinct issue(s) | top: The establishment charges excessive prices for products and services.
+  [block 707] 1 distinct issue(s) | top: The cost to view or print photos is considered excessive.
+  [block 708] 2 distinct issue(s) | top: The attraction offers poor value for money.
+  [block 709] 0 distinct issue(s) | top: (no issues)
+  [block 710] 1 distinct issue(s) | top: The exhibit contains very few artifacts and offers little to see.
+  [block 711] 0 distinct issue(s) | top: (no issues)
+  [block 712] 2 distinct issue(s) | top: The location lacks toilets or restrooms.
+  [block 713] 2 distinct issue(s) | top: The entrance fee is considered expensive for the short duration and limited experience provided.
+  [block 714] 1 distinct issue(s) | top: The attraction is overpriced for the short duration required to visit.
+  [block 715] 2 distinct issue(s) | top: Prices are excessively high and considered a rip-off.
+  [block 716] 3 distinct issue(s) | top: The facility is under construction and not ready to host guests.
+  [block 717] 2 distinct issue(s) | top: The one-hour tour is considered overpriced at 25,000 TZS per person.
+  [block 718] 0 distinct issue(s) | top: (no issues)
+  [block 719] 2 distinct issue(s) | top: Restrooms are extremely dirty and unsanitary.
+  [block 720] 0 distinct issue(s) | top: (no issues)
+  [block 721] 1 distinct issue(s) | top: The cost of the excursion is disproportionately high relative to the short duration of the visit.
+  [block 722] 0 distinct issue(s) | top: (no issues)
+  [block 723] 0 distinct issue(s) | top: (no issues)
+  [block 724] 0 distinct issue(s) | top: (no issues)
+  [block 725] 2 distinct issue(s) | top: The guide failed to keep the large group together, resulting in participants getting lost in the forest.
+  [block 726] 1 distinct issue(s) | top: The scenery and environment were unimpressive and did not match the expected rainforest experience.
+  [block 727] 1 distinct issue(s) | top: A monkey was kept on a leash tied to a fence near the aquarium.
+  [block 728] 1 distinct issue(s) | top: Staff threatened tourists with police intervention to force them to stay or stop their activities.
+  [block 729] 3 distinct issue(s) | top: The actual duration of the guided tour was significantly shorter than the time implied by the high price, with no prior disclosure of this limitation.
+  [block 730] 2 distinct issue(s) | top: The site is inaccessible due to surrounding hoarding.
+  [block 731] 0 distinct issue(s) | top: (no issues)
+  [block 732] 2 distinct issue(s) | top: The visit was rushed and cut short due to the arrival of other large groups.
+  [block 733] 2 distinct issue(s) | top: Guests experienced excessive sun exposure and heat due to a lack of adequate shade.
+  [block 734] 3 distinct issue(s) | top: The paths are unmarked.
+  [block 735] 4 distinct issue(s) | top: The tour group was split up, leaving some participants behind on a path while others continued.
+  [block 736] 2 distinct issue(s) | top: Guides aggressively solicit tips from tourists.
+  [block 737] 1 distinct issue(s) | top: Lack of explanatory information or context is provided.
+  [block 738] 2 distinct issue(s) | top: The tour failed to provide a proper forest walk or the expected animal sightings.
+  [block 739] 0 distinct issue(s) | top: (no issues)
+  [block 740] 1 distinct issue(s) | top: Tour groups are excessively large, often exceeding 40 people, causing overcrowding in enclosures and making it difficult to follow the guide.
+  [block 741] 3 distinct issue(s) | top: The tour lacks effective guidance and organization, causing participants to fall behind and miss information.
+  [block 742] 3 distinct issue(s) | top: The attraction is overpriced relative to the minimal content provided.
+  [block 743] 1 distinct issue(s) | top: Guests are charged an unexpected fee for a service that should be included in the price.
+  [block 744] 2 distinct issue(s) | top: Long wait times for rides and ticket entry.
+  [block 745] 2 distinct issue(s) | top: The park lacks staff and is associated with scams.
+  [block 746] 2 distinct issue(s) | top: The location is inaccessible or unsuitable for disabled adults.
+  [block 747] 2 distinct issue(s) | top: Staff are rude and unhelpful.
+  [block 748] 3 distinct issue(s) | top: The zoo has very few animals visible during the middle of the afternoon.
+  [block 749] 1 distinct issue(s) | top: Visitors are subjected to mandatory tips and unofficial entrance fees demanded by guides and staff.
+  [block 750] 0 distinct issue(s) | top: (no issues)
+  [block 751] 3 distinct issue(s) | top: The tour guide was unengaging, spoke minimally, and failed to provide information.
+  [block 752] 2 distinct issue(s) | top: The advertised entrance fee did not include the promised hotel transfers.
+  [block 753] 1 distinct issue(s) | top: Tourists leave trash in nature.
+  [block 754] 1 distinct issue(s) | top: The uneven terrain requires sturdy footwear such as sneakers, making flip-flops and sandals unsuitable.
+  [block 755] 4 distinct issue(s) | top: The service completely ruined the vessel's antifouling coating, causing significant financial damage.
+  [block 756] 2 distinct issue(s) | top: Staff engaged in racist verbal abuse and threats toward guests.
+  [block 757] 1 distinct issue(s) | top: The area is damp, wet, and muddy.
+  [block 758] 0 distinct issue(s) | top: (no issues)
+  [block 759] 0 distinct issue(s) | top: (no issues)
+  [block 760] 1 distinct issue(s) | top: Visitors reported seeing very few animals during their visit.
+  [block 761] 2 distinct issue(s) | top: The terrain or conditions are physically demanding and unsuitable for individuals with back problems.
+  [block 762] 0 distinct issue(s) | top: (no issues)
+  [block 763] 1 distinct issue(s) | top: Tour guides are untrustworthy and should be avoided.
+  [block 764] 0 distinct issue(s) | top: (no issues)
+  [block 765] 1 distinct issue(s) | top: Tourists are subjected to aggressive and pervasive tipping demands from guides and staff.
+  [block 766] 1 distinct issue(s) | top: The tour provided insufficient information about the forest and animals.
+  [block 767] 1 distinct issue(s) | top: The website lacks necessary information.
+  [block 768] 2 distinct issue(s) | top: Excessive tourist and guide activity causes animals to flee the area.
+  [block 769] 1 distinct issue(s) | top: There is a severe shortage of toilets for the number of tourists.
+  [block 770] 1 distinct issue(s) | top: The quality of the tour guide was unsatisfactory.
+  [block 771] 0 distinct issue(s) | top: (no issues)
+  [block 772] 0 distinct issue(s) | top: (no issues)
+  [block 773] 0 distinct issue(s) | top: (no issues)
+  [block 774] 1 distinct issue(s) | top: The experience is too long and becomes boring after a while.
+  [block 775] 1 distinct issue(s) | top: Staff demanded ticket payment based on a false claim that visitors had entered the park.
+  [block 776] 3 distinct issue(s) | top: Travelers were charged an unexpected $750 difference at the ferry despite having a remaining balance of only $150.
+  [block 777] 0 distinct issue(s) | top: (no issues)
+  [block 778] 1 distinct issue(s) | top: The tour is considered overpriced relative to its short duration.
+  [block 779] 1 distinct issue(s) | top: Visitors are subjected to aggressive and excessive monetary demands by people in the forest.
+  [block 780] 0 distinct issue(s) | top: (no issues)
+  [block 781] 1 distinct issue(s) | top: Parking is unorganized and requires vehicles to be left in undefined or unpaved areas.
+  [block 782] 2 distinct issue(s) | top: Guests are denied entry and not provided with tickets despite payment.
+  [block 783] 2 distinct issue(s) | top: The road is bumpy, rocky, and prone to causing flat tires.
+  [block 784] 2 distinct issue(s) | top: Vendors collect payment without providing the promised goods or services.
+  [block 785] 3 distinct issue(s) | top: The guide failed to notify the group of his absence or the change in plans until the last minute.
+  [block 786] 0 distinct issue(s) | top: (no issues)
+  [block 787] 1 distinct issue(s) | top: Snacks are sold at significantly inflated prices compared to standard rates.
+  [block 788] 2 distinct issue(s) | top: The park is closed or has extremely limited operating hours, opening only on public holidays.
+  [block 789] 2 distinct issue(s) | top: The park is neglected and poorly maintained.
+  [block 790] 1 distinct issue(s) | top: Attractions, shops, and play areas were closed or empty.
+  [block 791] 1 distinct issue(s) | top: The quality of the place has declined compared to the past.
+  [block 792] 4 distinct issue(s) | top: Wild animals are kept in captivity for entertainment rather than in their natural wilderness.
+  [block 793] 0 distinct issue(s) | top: (no issues)
+  [block 794] 1 distinct issue(s) | top: The trip failed to meet expectations, resulting in a perceived waste of time for the main activity.
+  [block 795] 0 distinct issue(s) | top: (no issues)
+  [block 796] 1 distinct issue(s) | top: The admission fee is considered excessive for the limited number of animals and photo opportunities provided.
+  [block 797] 0 distinct issue(s) | top: (no issues)
+  [block 798] 2 distinct issue(s) | top: The facility is not a zoo or circus and is not designed for entertainment.
+  [block 799] 1 distinct issue(s) | top: Visitors are allowed to physically interact with dangerous wild animals such as cheetahs, tigers, and monkeys.
+  [block 800] 1 distinct issue(s) | top: The quality of the photos taken is extremely poor, resulting in unusable images that must be deleted.
+  [block 801] 1 distinct issue(s) | top: The condition of the place has deteriorated significantly over recent years.
+  [block 802] 1 distinct issue(s) | top: Insect bites caused skin breaks and bleeding.
+  [block 803] 0 distinct issue(s) | top: (no issues)
+  [block 804] 1 distinct issue(s) | top: The cost of the excursion is considered too high relative to the value provided.
+  [block 805] 1 distinct issue(s) | top: The experience lasted significantly longer than scheduled.
+  [block 806] 3 distinct issue(s) | top: The cost of 160 euros per person for a 5-hour experience is considered poor value for money.
+  [block 807] 1 distinct issue(s) | top: The location is perceived as extremely dangerous for visitors.
+  [block 808] 2 distinct issue(s) | top: The listed location does not exist or is incorrect.
+  [block 809] 1 distinct issue(s) | top: The admission fee is $160 per person, which is considered expensive and lacks transparency regarding vehicle exemptions.
+  [block 810] 2 distinct issue(s) | top: The service lacked any organizational structure or coordination.
+  [block 811] 0 distinct issue(s) | top: (no issues)
+  [block 812] 0 distinct issue(s) | top: (no issues)
+  [block 813] 1 distinct issue(s) | top: Visitors were shown significantly fewer animals than expected or advertised.
+  [block 814] 0 distinct issue(s) | top: (no issues)
+  [block 815] 1 distinct issue(s) | top: The admission price of $160 is considered excessively high and unaffordable for local residents.
+  [block 816] 0 distinct issue(s) | top: (no issues)
+  [block 817] 1 distinct issue(s) | top: The tour group size was excessively large (20 people) for the price paid.
+  [block 818] 0 distinct issue(s) | top: (no issues)
+  [block 819] 1 distinct issue(s) | top: The environment disrupts relaxation and negatively impacts the visitor's mood.
+  [block 820] 2 distinct issue(s) | top: The food is of low quality and unhygienic.
+  [block 821] 0 distinct issue(s) | top: (no issues)
+  [block 822] 0 distinct issue(s) | top: (no issues)
+  [block 823] 0 distinct issue(s) | top: (no issues)
+  [block 824] 0 distinct issue(s) | top: (no issues)
+  [block 825] 1 distinct issue(s) | top: The market is excessively crowded and chaotic, causing significant stress for visitors.
+  [block 826] 1 distinct issue(s) | top: Visitors are persistently harassed by vendors attempting to sell food and cheese.
+  [block 827] 1 distinct issue(s) | top: The return trip was chaotic due to a couple repeatedly arriving late and keeping the group waiting.
+  [block 828] 0 distinct issue(s) | top: (no issues)
+  [block 829] 3 distinct issue(s) | top: The vendor attempted to overcharge customers by inflating prices after service was rendered.
+  [block 830] 1 distinct issue(s) | top: Entry fees are inconsistent and subject to negotiation rather than fixed.
+  [block 831] 0 distinct issue(s) | top: (no issues)
+  [block 832] 0 distinct issue(s) | top: (no issues)
+  [block 833] 1 distinct issue(s) | top: The location exposes visitors to intense sun radiation that causes severe sunburns even when standard protective measures like sunscreen and clothing are used.
+  [block 834] 0 distinct issue(s) | top: (no issues)
+  [block 835] 2 distinct issue(s) | top: The location is excessively remote and difficult to access from main roads or town centers.
+  [block 836] 1 distinct issue(s) | top: Artificial structures surrounding the site ruin the natural environment.
+  [block 837] 2 distinct issue(s) | top: The fishing trip failed to catch any fish despite a six-hour duration.
+  [block 838] 0 distinct issue(s) | top: (no issues)
+  [block 839] 1 distinct issue(s) | top: The tour included an unnecessary stop at a sandbar.
+  [block 840] 2 distinct issue(s) | top: Strong currents and high waves made swimming and returning to the boat difficult and exhausting.
+  [block 841] 1 distinct issue(s) | top: Wild animals are kept in captivity and handled directly by humans in an unsuitable environment.
+  [block 842] 0 distinct issue(s) | top: (no issues)
+  [block 843] 2 distinct issue(s) | top: Customers were left without assistance or communication after an incident caused by staff negligence.
+  [block 844] 0 distinct issue(s) | top: (no issues)
+  [block 845] 2 distinct issue(s) | top: The bites are painful and cause lasting discomfort for several days.
+  [block 846] 3 distinct issue(s) | top: Staff exhibit unprofessional and aggressive behavior, including chasing customers for tips.
+  [block 847] 1 distinct issue(s) | top: The cave is overcrowded with too many tourists for its small size.
+  [block 848] 0 distinct issue(s) | top: (no issues)
+  [block 849] 0 distinct issue(s) | top: (no issues)
+  [block 850] 3 distinct issue(s) | top: Return transport is not provided if the tide is low.
+  [block 851] 0 distinct issue(s) | top: (no issues)
+  [block 852] 1 distinct issue(s) | top: Staff are unable to explain the specific rehabilitation procedures for turtles.
+  LLM attempt 1/3 failed: HTTPSConnectionPool(host='gitaa-ai.tail34d33c.ts.net', port=443): Max retries exceeded with url: /v1/chat/completions (Caused by ConnectTimeoutError(<HTTPSConnection(host='gitaa-ai.tail34d33c.ts.net', port=443) at 0x755125b4efd0>, 'Connection to gitaa-ai.tail34d33c.ts.net timed out. (connect timeout=120)'))
+  [block 853] 4 distinct issue(s) | top: The beach adjacent to the site is dirty and unsafe for swimming.
+  [block 854] 2 distinct issue(s) | top: Tortoises exhibit aggressive behavior, including biting, when visitors feed them.
+  [block 855] 1 distinct issue(s) | top: Guests are bitten by marine life while swimming or exiting the water.
+  [block 856] 0 distinct issue(s) | top: (no issues)
+  [block 857] 1 distinct issue(s) | top: Guests are prohibited from swimming in the cave alone.
+  [block 858] 0 distinct issue(s) | top: (no issues)
+  [block 859] 0 distinct issue(s) | top: (no issues)
+  [block 860] 0 distinct issue(s) | top: (no issues)
+  [block 861] 0 distinct issue(s) | top: (no issues)
+  [block 862] 1 distinct issue(s) | top: The food or environment causes stomach discomfort for individuals with sensitive stomachs.
+  [block 863] 2 distinct issue(s) | top: The surrounding area poses safety risks regarding personal security and theft.
+  [block 864] 0 distinct issue(s) | top: (no issues)
+  [block 865] 1 distinct issue(s) | top: Coffee prices are significantly higher than market rates for the quality provided.
+  [block 866] 1 distinct issue(s) | top: The location is described as being in a sick or unhealthy state.
+  [block 867] 0 distinct issue(s) | top: (no issues)
+  [block 868] 1 distinct issue(s) | top: The location is excessively crowded and busy, particularly during peak times like Ramadan.
+  [block 869] 0 distinct issue(s) | top: (no issues)
+  [block 870] 0 distinct issue(s) | top: (no issues)
+  [block 871] 1 distinct issue(s) | top: The market is not comparable to or intended for European standards.
+  [block 872] 1 distinct issue(s) | top: Visitors are advised against traveling alone or in large groups due to safety concerns.
+  [block 873] 0 distinct issue(s) | top: (no issues)
+  [block 874] 1 distinct issue(s) | top: Visitors were charged higher prices than the standard rate or what was initially quoted without prior consent or disclosure.
+  [block 875] 0 distinct issue(s) | top: (no issues)
+  [block 876] 0 distinct issue(s) | top: (no issues)
+  [block 877] 2 distinct issue(s) | top: The ride was excessively rough and violent, causing severe motion sickness and distress among passengers.
+  [block 878] 1 distinct issue(s) | top: The experience is overpriced relative to the short duration and limited number of animals available to see.
+  [block 879] 0 distinct issue(s) | top: (no issues)
+  [block 880] 1 distinct issue(s) | top: The location is currently closed or not fully operational.
+  [block 881] 2 distinct issue(s) | top: There is no shelter or shade available for protection from rain or sun.
+  [block 882] 1 distinct issue(s) | top: The attraction is closed for renovation with no visible construction activity or clear timeline for reopening.
+  [block 883] 1 distinct issue(s) | top: The site remains in ruins with reconstruction work not started.
+  [block 884] 1 distinct issue(s) | top: Historical monuments and sites are in a state of severe disrepair and structural decay.
+  [block 885] 3 distinct issue(s) | top: The building is closed to the public, preventing visitors from entering.
+  [block 886] 1 distinct issue(s) | top: The experience did not meet visitor expectations.
+  [block 887] 3 distinct issue(s) | top: The beach is unsuitable for long swims or those seeking a genuine sea experience.
+  [block 888] 1 distinct issue(s) | top: The island is extremely dirty with plastic and trash scattered everywhere.
+  [block 889] 2 distinct issue(s) | top: Guests are charged for broken or malfunctioning lighting equipment.
+  [block 890] 3 distinct issue(s) | top: The beach is heavily littered with plastic waste due to a lack of cleanliness culture.
+  [block 891] 2 distinct issue(s) | top: Vendors aggressively and persistently harass tourists on the beach.
+  [block 892] 2 distinct issue(s) | top: Coconuts are overpriced compared to local market rates.
+  [block 893] 0 distinct issue(s) | top: (no issues)
+  [block 894] 0 distinct issue(s) | top: (no issues)
+  [block 895] 0 distinct issue(s) | top: (no issues)
+  [block 896] 0 distinct issue(s) | top: (no issues)
+  [block 897] 0 distinct issue(s) | top: (no issues)
+  [block 898] 1 distinct issue(s) | top: Drinks are significantly overpriced compared to other venues.
+  [block 899] 3 distinct issue(s) | top: The tour was conducted in severe weather conditions with rough seas and rain.
+  [block 900] 3 distinct issue(s) | top: Staff forcibly pushed a tourist into the water against their will.
+  [block 901] 1 distinct issue(s) | top: Animals are being harmed or killed.
+  [block 902] 3 distinct issue(s) | top: The tour guide provided almost no information and ended the session after only five minutes despite the high cost.
+  [block 903] 1 distinct issue(s) | top: Staff refused to provide change for a purchase, only offering it when the customer decided not to buy the item.
+  [block 904] 1 distinct issue(s) | top: Promised fresh fruit was not provided.
+  [block 905] 3 distinct issue(s) | top: Passengers must transfer to a small boat from the beach because the main vessel cannot dock close.
+  [block 906] 2 distinct issue(s) | top: Tourists were abandoned on the beach by guides and captains without proper handover or supervision.
+  [block 907] 1 distinct issue(s) | top: A $5 entry fee is charged to access the church and its interior.
+  [block 908] 1 distinct issue(s) | top: Visitors are prohibited from wearing face veils inside the facility, requiring them to remain uncovered after the initial security check.
+  [block 909] 3 distinct issue(s) | top: Advertised facilities including the restaurant, showers, and lockers were closed or out of order.
+  [block 910] 0 distinct issue(s) | top: (no issues)
+  [block 911] 2 distinct issue(s) | top: The entrance was inaccessible due to being closed and lacking necessary equipment like a ladder.
+  [block 912] 0 distinct issue(s) | top: (no issues)
+  [block 913] 1 distinct issue(s) | top: The underwater sites visited during the safari were uninteresting and relied on fish attracted by bait.
+  [block 914] 2 distinct issue(s) | top: The establishment failed to accommodate severe food allergies, resulting in a guest suffering an allergic reaction.
+  [block 915] 1 distinct issue(s) | top: The excursion destination is overcrowded with boats and offers no significant sights or activities.
+  [block 916] 4 distinct issue(s) | top: The boat used for the tour is poorly maintained, overcrowded, and equipped with a weak engine.
+  [block 917] 2 distinct issue(s) | top: Excessive wind conditions made the trip unsafe or unsuitable, yet the manager did not reschedule it.
+  [block 918] 3 distinct issue(s) | top: The boat was too small and cramped for the number of passengers.
+  [block 919] 0 distinct issue(s) | top: (no issues)
+  [block 920] 0 distinct issue(s) | top: (no issues)
+  [block 921] 0 distinct issue(s) | top: (no issues)
+  [block 922] 0 distinct issue(s) | top: (no issues)
+  [block 923] 2 distinct issue(s) | top: The tour guide failed to locate the abundant starfish available near the hotel, finding only one.
+  [block 924] 1 distinct issue(s) | top: Lack of clear communication or explanation regarding the situation.
+  [block 925] 2 distinct issue(s) | top: Sails were lowered and furled in a dangerous manner that struck or endangered passengers.
+  [block 926] 3 distinct issue(s) | top: There are no safety measures in place, and motorized boats roam dangerously close to tourists.
+  [block 927] 1 distinct issue(s) | top: The lagoon is not blue and does not resemble a lagoon as advertised.
+  [block 928] 0 distinct issue(s) | top: (no issues)
+  [block 929] 4 distinct issue(s) | top: Boats lack adequate protection against rain, causing passengers and belongings to get soaked during short downpours.
+  [block 930] 4 distinct issue(s) | top: Guests were stung by crabs in the water, causing significant pain.
+  [block 931] 1 distinct issue(s) | top: A mandatory $10 fee is charged for lunch.
+  [block 932] 0 distinct issue(s) | top: (no issues)
+  [block 933] 1 distinct issue(s) | top: Entrance fees are excessively high and subject to arbitrary negotiation.
+  [block 934] 0 distinct issue(s) | top: (no issues)
+  [block 935] 1 distinct issue(s) | top: The cost to enter the water is considered excessive for the small size and quality of the swimming area.
+  [block 936] 1 distinct issue(s) | top: The actual appearance of the place does not match the promotional photos.
+  [block 937] 1 distinct issue(s) | top: The lighthouse keeper charges an entry fee for access to the lighthouse.
+  [block 938] 1 distinct issue(s) | top: The owner refused to process a refund without the specific employee present, despite valid proof of membership.
+  [block 939] 1 distinct issue(s) | top: Visitors are bitten by insects.
+  [block 940] 1 distinct issue(s) | top: The location is not worth the travel time or effort for visitors.
+  [block 941] 0 distinct issue(s) | top: (no issues)
+  [block 942] 0 distinct issue(s) | top: (no issues)
+  [block 943] 0 distinct issue(s) | top: (no issues)
+  [block 944] 2 distinct issue(s) | top: There is no signage or plaque explaining the significance or purpose of the arch.
+
+Wrote 944 knowledge-base entries -> /home/gitaa/Desktop/jojani_ai/output/knowledge_base.jsonl
