@@ -3,3 +3,5 @@ requests
 sentence-transformers
 scikit-learn
 numpy
+faiss-cpu
+umap-learn

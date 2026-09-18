@@ -48,6 +48,75 @@ rag_clusters/                ⑥ RAG: query → FAISS retrieve top-K clauses →
                               Returns {summary, actions[], source_clauses[]}
 ```
 
+### Block diagram
+
+Shape legend: ▱ parallelogram = raw data input, ⬭ cylinder = file artifact produced,
+▭ rectangle = processing step, ⬡ hexagon = external LLM service.
+
+```mermaid
+flowchart TD
+    subgraph IN["Raw data"]
+        R1[/"data/apify_reviews.csv"/]
+        R2[/"data/apify_places.csv"/]
+    end
+
+    J1[/"output/apify_reviews_joined.csv"/]
+    P1[/"clause_split/review_clauses.jsonl"/]
+    N1[/"sentiment_analysis/negative_clauses.jsonl"/]
+    P1p[/"sentiment_analysis/positive_clauses.jsonl"/]
+    F1[/"clause_flatten/negative_clauses_flat.jsonl"/]
+    E1[/"embed/negative_clauses_embedded.jsonl"/]
+    E2[/"embed/negative_clauses.faiss"/]
+    C1[/"negative_clusters.jsonl"/]
+    KB[/"output/knowledge_base.jsonl"/]
+    HTML[/"output/negative_clusters.html"/]
+
+    A1["① join_csv/join_csvs.py<br/>inner-join on google_place_id"]
+    A2["② join_csv/swap_translated.py<br/>content ← translated_content"]
+    A3["③ clause_split/split.py<br/>language-aware clause split"]
+    A4["④ sentiment_analysis/classify.py<br/>BERT clause sentiment"]
+    A5["⑤ clause_flatten/flatten.py<br/>one clause per line"]
+    A6["⑥ embed/embed.py<br/>MiniLM 384-d + FAISS build"]
+    A7["⑦ kb_agent/cluster.py<br/>agglomerative cosine clustering"]
+    A8["⑧ kb_agent/run.py<br/>LLM distinct-issue extract + dedup"]
+    A9["⑨ rag_clusters/cli.py | web<br/>query → FAISS top-K → LLM"]
+
+    LLM{{"OpenAI-compatible LLM"}}
+
+    R1 --> A1
+    R2 --> A1
+    A1 --> J1
+    J1 --> A2
+    A2 --> J1
+    J1 --> A3
+    A3 --> P1
+    P1 --> A4
+    A4 --> N1
+    A4 --> P1p
+    N1 --> A5
+    A5 --> F1
+    F1 --> A6
+    A6 --> E1
+    A6 --> E2
+
+    E1 --> A7
+    A7 --> C1
+    C1 --> A8
+    A8 --> KB
+    LLM -.-> A8
+    A7 --> HTML
+
+    E1 --> A9
+    E2 --> A9
+    LLM -.-> A9
+```
+
+> The RAG branch (⑨) reads the FAISS index + embedded clauses, retrieves the
+> top-K matching complaints and returns a live `{summary, actions[],
+> source_clauses[]}` dict — it does not write a file. The kb_agent branch
+> (⑦–⑧) is the one that produces the pipeline's final persistent outputs
+> (`knowledge_base.jsonl`, plus the optional UMAP scatter `negative_clusters.html`).
+
 ---
 
 ## Setup
@@ -195,6 +264,40 @@ Each query returns:
 
 ---
 
+## kb_agent — Negative-Cluster Knowledge Base
+
+`kb_agent/` is a standalone KISS component that turns the embedded negative clauses into a deduplicated, scored knowledge base, and can visualize the clustering.
+
+**Pipeline:**
+
+1. **Cluster** — `python -m kb_agent.cluster`
+   Agglomerative cosine clustering (`distance_threshold=0.45`, `min_size=3`) over the 384-d embeddings in `embed/negative_clauses_embedded.jsonl`. Writes `negative_clusters.jsonl` — one block per line, each with `clauses`, `place_names`, `size`.
+
+2. **Build KB** — `python -m kb_agent.run`
+   For each block, an LLM extracts the **distinct** issues raised (no repeats), each with an `importance` score 0–10. Near-duplicate issues are merged (Jaccard on token sets, threshold 0.45). Writes `output/knowledge_base.jsonl`.
+
+**Files:**
+- `config.py` — paths, LLM env, `DEDUP_THRESHOLD`, `MAX_CHUNK_CLAUSES`, `CLAUSE_CHAR_LIMIT`
+- `cluster.py` — embedding → agglomerative clustering → `negative_clusters.jsonl`
+- `llm.py` — minimal OpenAI-compatible client (`summarize_clauses`)
+- `dedup.py` — `merge_near_duplicates()` (Jaccard, order-preserving)
+- `run.py` — CLI: `python -m kb_agent.run [--limit N]`
+- `visualize.py` — validate the clustering + render an HTML scatter (below)
+
+### Visualizing the clusters
+
+```bash
+# Full run: validation report + UMAP scatter -> output/negative_clusters.html
+python -m kb_agent.visualize
+
+# Report only (skip the slower UMAP projection + HTML)
+python -m kb_agent.visualize --report-only
+```
+
+**How it works (short):** loads the same embedded clauses and reuses `cluster.build_clusters`, so the picture matches what the KB sees. It first prints a validation report — block count + size histogram, near-duplicate centroids (cos sim > 0.90), and **cohesion vs separation** (mean intra-cluster sim vs mean nearest-other-centroid sim; a negative gap means blocks aren't well-separated). Then it projects the 384-d vectors to 2-D with **UMAP** (`metric="cosine"`, matching the clustering geometry) and writes a **self-contained** `output/negative_clusters.html` — inline SVG dots colored per cluster (deterministic hue per block), with a vanilla-JS hover tooltip showing the place + clause text. No plotly, no CDN, no extra deps beyond `umap-learn`.
+
+---
+
 ## Directory Structure
 
 ```
@@ -246,6 +349,14 @@ jojani_ai/
 │       ├── app.py           # Flask app (port 5002) + /api/query endpoint
 │       └── templates/
 │           └── index.html   # Single-page search UI
+│
+├── kb_agent/                # Negative-cluster knowledge base (standalone)
+│   ├── config.py            # Paths, LLM env, dedup thresholds
+│   ├── cluster.py           # Embedding → agglomerative clustering
+│   ├── llm.py               # OpenAI-compatible LLM client
+│   ├── dedup.py             # Jaccard near-duplicate merge
+│   ├── run.py               # Build knowledge_base.jsonl
+│   └── visualize.py         # Validation report + UMAP HTML scatter
 │
 └── OLD/                     # Archived previous pipeline versions
     ├── keyword_based/       # Old keyword-based 3-step pipeline
