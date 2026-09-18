@@ -165,7 +165,7 @@ document.querySelectorAll('circle').forEach(el => {{
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate + visualize negative-clause clustering")
-    parser.add_argument("--input", default=str(ROOT / "embed" / "negative_clauses_embedded.jsonl"))
+    parser.add_argument("--input", default=str(ROOT / "embed" / "negative_clusters.jsonl"))
     parser.add_argument("--output", default=str(OUTPUT_HTML))
     parser.add_argument("--report-only", action="store_true", help="Skip UMAP projection + HTML")
     args = parser.parse_args()
