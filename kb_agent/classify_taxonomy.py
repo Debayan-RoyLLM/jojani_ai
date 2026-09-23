@@ -42,6 +42,12 @@ except Exception:  # pragma: no cover - rag_clusters import edge case
     import rag_clusters.config as rag_config  # type: ignore
     TAXONOMY = list(rag_config.TAXONOMY)
 
+# Reverse lookup: human-readable label (lowercased, en-dash normalised) ->
+# snake_case key. The LLM is shown the labels but may echo either form.
+_LABEL_TO_KEY = {
+    v.lower().replace("–", "-"): k for k, v in rag_config.TAXONOMY_DISPLAY.items()
+}
+
 # Number of representative clauses sampled per block for the LLM prompt.
 SAMPLE_CLAUSES = 12
 # Truncate each sampled clause to this many chars (mirrors kb_agent style).
@@ -55,8 +61,7 @@ SYSTEM_PROMPT = (
     "{taxonomy}\n"
     "Rules:\n"
     "- Pick ONE category only — the one that captures the block's main theme.\n"
-    "- If the block's clauses are mostly positive, use 'positive_highlight'.\n"
-    "- If nothing fits, use 'other'.\n"
+    "- If nothing fits any category, use 'Other'.\n"
     "- 'block_name' must be a short 3-6 word English label naming the block's "
     "core issue (no reviewer quotes, no fluff).\n"
     "Respond with ONLY a JSON object, no prose, in this exact shape:\n"
@@ -86,25 +91,27 @@ def _block_label(block: dict) -> tuple[int, int, list[str]]:
 
 def classify_block(texts: list[str]) -> tuple[str, str]:
     """Ask the LLM for (category, block_name) for one block. Falls back to
-    ('other', '') on parse errors so a single bad block never kills the run."""
+    ('other', '') on parse errors so a single bad block never kills the run.
+    Returns the snake_case key, not the display label."""
     sample = texts[:SAMPLE_CLAUSES]
     body = "\n".join(f"- {t[:CLAUSE_CHAR_LIMIT]}" for t in sample)
     user = f"Complaint clauses from this block:\n{body}"
+    # Show the LLM the human-readable labels (more natural than raw keys).
+    labels = "\n".join(f"- {rag_config.display_title(t)}" for t in TAXONOMY)
     raw = llm._call(
         [
-            {"role": "system", "content": SYSTEM_PROMPT.format(taxonomy="\n".join(f"- {t}" for t in TAXONOMY))},
+            {"role": "system", "content": SYSTEM_PROMPT.format(taxonomy=labels)},
             {"role": "user", "content": user},
         ]
     )
     try:
         data = llm._extract_json(raw)
-        cat = str(data.get("category", "")).strip().lower()
+        raw_cat = str(data.get("category", "")).strip().lower()
         name = str(data.get("block_name", "")).strip()
     except Exception:  # noqa: BLE001
-        cat, name = "", ""
-    # Sanitize: must be one of the canonical labels, else 'other'.
-    if cat not in TAXONOMY:
-        cat = "other"
+        raw_cat, name = "", ""
+    # Accept either the display label or the raw key; normalise to the key.
+    cat = _LABEL_TO_KEY.get(raw_cat) or (raw_cat if raw_cat in TAXONOMY else "other")
     return cat, name
 
 
@@ -140,7 +147,9 @@ def build_report(cache: dict) -> dict:
     for cat in groups:
         groups[cat].sort(key=lambda b: b["cluster_id"])
     # Drop empty categories so the report only shows what's present.
-    return OrderedDict((cat, blocks) for cat, blocks in groups.items() if blocks)
+    return OrderedDict(
+        (cat, blocks) for cat, blocks in groups.items() if blocks
+    )
 
 
 def main() -> None:
@@ -197,14 +206,15 @@ def main() -> None:
     with out_path.open("w", encoding="utf-8") as fh:
         for cat, blks in report.items():
             fh.write(json.dumps(
-                {"category": cat, "block_count": len(blks), "blocks": blks},
+                {"category": cat, "category_label": rag_config.display_title(cat),
+                 "block_count": len(blks), "blocks": blks},
                 ensure_ascii=False,
             ) + "\n")
 
     print(f"\nWrote {out_path}")
     print(f"\n=== Grouping summary ({len(report)} categories) ===")
     for cat, blks in sorted(report.items(), key=lambda kv: -len(kv[1])):
-        print(f"  {cat:<28} {len(blks):>4} blocks")
+        print(f"  {rag_config.display_title(cat):<40} {len(blks):>4} blocks")
 
 
 if __name__ == "__main__":

@@ -134,6 +134,78 @@ flowchart TD
 > (`knowledge_base.jsonl`, `taxonomy_grouping.jsonl`, plus the optional
 > UMAP scatter `negative_clusters.html`).
 
+### Pipeline as files (I/O only)
+
+Every stage is just a file transformation. The two branches fork at stage ⑥'s
+outputs: the **RAG branch (⑩)** reads the FAISS *index* for live retrieval,
+while the **kb_agent branch (⑦→⑧→⑨)** reads the *embedded vectors* to build
+grouped, persisted knowledge-base files.
+
+```
+data/apify_reviews.csv ─┐
+                        ├─①→ output/apify_reviews_joined.csv ─②→ (same, translated)
+data/apify_places.csv ──┘                                            │
+                                                                    ③
+                                                       clause_split/review_clauses.jsonl
+                                                                    │
+                                                                    ④
+                                    ┌───────────────────────────────┴──────────────────┐
+                         sentiment_analysis/negative_clauses.jsonl      sentiment_analysis/positive_clauses.jsonl
+                                                                    │ (unused)
+                                                                    ⑤
+                                     clause_flatten/negative_clauses_flat.jsonl
+                                                                    │
+                                                                    ⑥
+                       ┌────────────────────────────────────────────┴─────────────────────┐
+              embed/negative_clauses_embedded.jsonl                              embed/negative_clauses.faiss
+                       │  (⑦ cluster)                                            │
+              negative_clusters.jsonl                                            │
+                       │                                                        ⑩ RAG → {summary, actions[], source_clauses[]} (no file)
+              ┌────────┴────────┐
+         ⑧ run.py          ⑨ classify_taxonomy.py
+              │                 │
+   output/knowledge_base.jsonl   output/taxonomy_grouping.jsonl
+                                      │
+                            visualize_taxonomy.py → output/taxonomy_grouping.html
+```
+
+| Stage | Input file(s) | Output file(s) | What the output denotes |
+|---|---|---|---|
+| **① join** | `data/apify_reviews.csv` + `data/apify_places.csv` | `output/apify_reviews_joined.csv` | Reviews inner-joined with their place (name/coords attached) |
+| **② swap** | `output/apify_reviews_joined.csv` | `output/apify_reviews_joined.csv` (in place) | Same file; `content` now the English translation |
+| **③ split** | `output/apify_reviews_joined.csv` | `clause_split/review_clauses.jsonl` | One review per line, nested `clauses[]` |
+| **④ sentiment** | `clause_split/review_clauses.jsonl` | `sentiment_analysis/negative_clauses.jsonl` | Reviews with negative clauses (BERT < threshold) |
+| | | `sentiment_analysis/positive_clauses.jsonl` | Reviews with positive clauses (**unused downstream**) |
+| **⑤ flatten** | `sentiment_analysis/negative_clauses.jsonl` | `clause_flatten/negative_clauses_flat.jsonl` | One flat clause per line |
+| **⑥ embed** | `clause_flatten/negative_clauses_flat.jsonl` | `embed/negative_clauses_embedded.jsonl` | Each negative clause + 384-d `embedding` |
+| | | `embed/negative_clauses.faiss` | `IndexFlatIP` search index (top-K retrieval) |
+| **⑦ cluster** | `embed/negative_clauses_embedded.jsonl` | `negative_clusters.jsonl` | ~944 blocks — semantically similar clauses grouped (`clauses`, `place_names`, `size`) |
+| **⑧ build KB** | `negative_clusters.jsonl` | `output/knowledge_base.jsonl` | Per block: LLM distinct `issues[]` (each `importance` 0–10), deduped |
+| **⑨ taxonomy** | `negative_clusters.jsonl` | `output/taxonomy_grouping.jsonl` | One line per category: `category`, `category_label`, `block_count`, `blocks[]` |
+| | (resumable) | `output/.taxonomy_cache.json` | Per-block `(category, block_name)` checkpoint |
+| **visualize** | `embed/negative_clauses_embedded.jsonl` | `output/negative_clusters.html` | UMAP 2-D scatter of blocks |
+| **visualize_taxonomy** | `output/taxonomy_grouping.jsonl` | `output/taxonomy_grouping.html` | Interactive drill-down per category |
+| **⑩ RAG** | `embed/negative_clauses.faiss` + `embed/negative_clauses_embedded.jsonl` | *(none — in-memory dict)* | `{summary, actions[], source_clauses[]}` |
+
+### `negative_clusters.jsonl` vs `knowledge_base.jsonl`
+
+Both are produced by kb_agent from the same blocks, but they hold different
+things — one is the *grouped raw evidence*, the other is the *distilled
+insight*:
+
+| | `negative_clusters.jsonl` (⑦) | `output/knowledge_base.jsonl` (⑧) |
+|---|---|---|
+| **Made by** | `kb_agent/cluster.py` | `kb_agent/run.py` |
+| **Made with** | Embedding similarity only (no LLM) | LLM |
+| **One line =** | One **block**: a set of semantically similar negative clauses | One **block**: the distinct issues LLM extracted from that block |
+| **Contents** | `cluster_id`, `clauses[]` (raw clause texts), `place_names[]`, `size` | `cluster_id`, `clause_count`, `issues[]` (each `issue` + `importance` 0–10), near-dups merged |
+| **Role** | Intermediate evidence — the clustered raw complaints | Final knowledge base — the actionable, scored issues |
+| **Consumed by** | ⑧ (KB build) and ⑨ (taxonomy) | (terminal output — for humans/downstream apps) |
+
+In short: `negative_clusters.jsonl` is *which clauses were grouped together*
+(the raw material); `knowledge_base.jsonl` is *what those groups say* (the
+LLM-distilled, deduplicated, importance-scored issues).
+
 ---
 
 ## Setup
@@ -412,19 +484,44 @@ jojani_ai/
 
 ## Issue Taxonomy
 
-The LLM classifies retrieved clauses into these canonical labels (defined in `rag_clusters/config.py`):
+The LLM classifies content into these canonical categories, defined in
+`rag_clusters/config.py` as `TAXONOMY` (stable snake_case keys) plus
+`TAXONOMY_DISPLAY` (the human-readable titles shown to the LLM and in reports).
+The list is **fixed and human-authored** — it is not learned. To add a
+category, append a key to `TAXONOMY` and its title to `TAXONOMY_DISPLAY`.
 
-| Label | Meaning |
+| Key | Category (display title) |
 |---|---|
-| `venue_conditions_unpleasant` | Dirty, overcrowded, unpleasant physical environment |
-| `poor_customer_service` | Rude, unhelpful, or absent staff |
-| `overpriced` | Bad value for money |
-| `unsafe` | Safety concerns |
-| `accessibility_issues` | Difficulty accessing the venue |
-| `poor_maintenance` | Broken or neglected facilities |
-| `misleading_marketing` | Reality doesn't match what was advertised |
-| `language_barrier` | Communication difficulties |
-| `weather_related` | Weather negatively impacted the experience |
-| `logistics_problems` | Transport, parking, timing issues |
-| `positive_highlight` | Something worth noting positively |
-| `other` | Doesn't fit above categories |
+| `overpriced_poor_value` | Overpriced / Poor Value for Money |
+| `animal_captivity_welfare` | Animal Captivity & Welfare |
+| `tides_weather_water` | Tides, Weather & Water Conditions |
+| `hidden_charges_payments_tipping` | Hidden Charges, Payments & Tipping |
+| `safety_health_hazards` | Safety & Health Hazards |
+| `overcrowding` | Overcrowding |
+| `staff_behaviour_customer_service` | Staff Behaviour & Customer Service |
+| `maintenance_disrepair_heritage_decay` | Maintenance, Disrepair & Heritage Decay |
+| `cleanliness_litter_pollution` | Cleanliness, Litter & Pollution |
+| `access_location_infrastructure` | Access, Location & Infrastructure |
+| `aggressive_vendors_touts_harassment` | Aggressive Vendors, Touts & Harassment |
+| `tour_organisation_duration_logistics` | Tour Organisation, Duration & Logistics |
+| `scams_fraud_misleading_claims` | Scams, Fraud & Misleading Claims |
+| `tourist_wildlife_interaction` | Tourist–Wildlife Interaction |
+| `limited_content_underwhelming` | Limited Content / Underwhelming Experience |
+| `closures_restricted_access` | Closures & Restricted Access |
+| `guide_quality_knowledge` | Guide Quality & Knowledge |
+| `coral_ecosystem_damage_overcommercialisation` | Coral, Ecosystem Damage & Over-commercialisation |
+| `noise_atmosphere` | Noise & Atmosphere |
+| `cultural_sensitivity_authenticity` | Cultural Sensitivity & Authenticity |
+| `other` | Other (fallback — anything that fits none of the above) |
+
+Assignment happens in two places, both driven by this one list:
+
+- **Query-time (RAG, ⑩):** `rag_clusters/rag.py` injects the titles into the
+  prompt and has the LLM classify each retrieved clause.
+- **Offline batch (⑨):** `kb_agent/classify_taxonomy.py` assigns each
+  clustered block its single best category. The LLM may return either the
+  title or the key; both are normalised to the key, and anything outside the
+  list is coerced to `other`.
+
+> Note: unlike the earlier 12-label set, there is no dedicated *positive*
+> category. Clauses that are positive/neutral now land in `other`.

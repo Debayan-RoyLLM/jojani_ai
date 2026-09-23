@@ -22,21 +22,62 @@ CLAUSE_META = paths.EMBEDDED_NEG
 DEFAULT_MODEL = paths.embedding_model()
 MAX_REVIEWS = 15
 
-# Canonical issue taxonomy (LLM classifies clauses into these)
+# Canonical issue taxonomy (LLM classifies clauses into these).
+# The 20 topical categories are snake_case keys; display_title() maps each
+# key to its human-readable label (the form shown to the LLM in prompts and
+# in any UI/report). "other" is the fallback for anything that fits none.
 TAXONOMY = [
-    "venue_conditions_unpleasant",
-    "poor_customer_service",
-    "overpriced",
-    "unsafe",
-    "accessibility_issues",
-    "poor_maintenance",
-    "misleading_marketing",
-    "language_barrier",
-    "weather_related",
-    "logistics_problems",
-    "positive_highlight",
+    "overpriced_poor_value",
+    "animal_captivity_welfare",
+    "tides_weather_water",
+    "hidden_charges_payments_tipping",
+    "safety_health_hazards",
+    "overcrowding",
+    "staff_behaviour_customer_service",
+    "maintenance_disrepair_heritage_decay",
+    "cleanliness_litter_pollution",
+    "access_location_infrastructure",
+    "aggressive_vendors_touts_harassment",
+    "tour_organisation_duration_logistics",
+    "scams_fraud_misleading_claims",
+    "tourist_wildlife_interaction",
+    "limited_content_underwhelming",
+    "closures_restricted_access",
+    "guide_quality_knowledge",
+    "coral_ecosystem_damage_overcommercialisation",
+    "noise_atmosphere",
+    "cultural_sensitivity_authenticity",
     "other",
 ]
+
+TAXONOMY_DISPLAY = {
+    "overpriced_poor_value": "Overpriced / Poor Value for Money",
+    "animal_captivity_welfare": "Animal Captivity & Welfare",
+    "tides_weather_water": "Tides, Weather & Water Conditions",
+    "hidden_charges_payments_tipping": "Hidden Charges, Payments & Tipping",
+    "safety_health_hazards": "Safety & Health Hazards",
+    "overcrowding": "Overcrowding",
+    "staff_behaviour_customer_service": "Staff Behaviour & Customer Service",
+    "maintenance_disrepair_heritage_decay": "Maintenance, Disrepair & Heritage Decay",
+    "cleanliness_litter_pollution": "Cleanliness, Litter & Pollution",
+    "access_location_infrastructure": "Access, Location & Infrastructure",
+    "aggressive_vendors_touts_harassment": "Aggressive Vendors, Touts & Harassment",
+    "tour_organisation_duration_logistics": "Tour Organisation, Duration & Logistics",
+    "scams_fraud_misleading_claims": "Scams, Fraud & Misleading Claims",
+    "tourist_wildlife_interaction": "Tourist–Wildlife Interaction",
+    "limited_content_underwhelming": "Limited Content / Underwhelming Experience",
+    "closures_restricted_access": "Closures & Restricted Access",
+    "guide_quality_knowledge": "Guide Quality & Knowledge",
+    "coral_ecosystem_damage_overcommercialisation": "Coral, Ecosystem Damage & Over-commercialisation",
+    "noise_atmosphere": "Noise & Atmosphere",
+    "cultural_sensitivity_authenticity": "Cultural Sensitivity & Authenticity",
+    "other": "Other",
+}
+
+
+def display_title(key: str) -> str:
+    """Human-readable label for a taxonomy key (falls back to the key itself)."""
+    return TAXONOMY_DISPLAY.get(key, key)
 
 
 def _load_env(path: Path) -> None:

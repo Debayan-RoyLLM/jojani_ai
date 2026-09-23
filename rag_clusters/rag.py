@@ -23,9 +23,14 @@ Rules:
 - Respond ONLY with valid JSON, no markdown fences, no extra text.
 """
 
+# Reverse lookup: human-readable label -> snake_case key. Lets the parser
+# accept either form the LLM may echo back for issue_type.
+_LABEL_TO_KEY = {v.lower().replace("–", "-"): k for k, v in config.TAXONOMY_DISPLAY.items()}
+
 
 def _build_prompt(query: str, clauses: list[dict]) -> str:
-    taxonomy_str = "\n".join(f"- {t}" for t in config.TAXONOMY)
+    # Present the human-readable labels to the LLM (more natural than raw keys).
+    taxonomy_str = "\n".join(f"- {config.display_title(t)}" for t in config.TAXONOMY)
     system = _SYSTEM_PROMPT.format(taxonomy=taxonomy_str)
 
     clauses_str = "\n\n".join(
