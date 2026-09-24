@@ -6,3 +6,4 @@ bert-multilingual-sentiment/
 minilm-l12-v2/
 # graft's local graph cache — regenerable, not committed (run `graft build`).
 /graft/
+embed/negative_clauses_embedded.jsonl
