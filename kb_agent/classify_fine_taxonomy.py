@@ -171,6 +171,9 @@ def main() -> None:
     parser.add_argument("--output", default=str(OUTPUT))
     parser.add_argument("--limit", type=int, default=0, help="Only process the first N blocks")
     parser.add_argument("--report-only", action="store_true", help="Just re-emit the report from the cache")
+    parser.add_argument("--no-cache", action="store_true",
+                        help="Ignore any existing cache and re-call the LLM for every block "
+                             "(use after the taxonomy has changed, so old keys don't fall to 'other')")
     args = parser.parse_args()
 
     in_path = Path(args.input)
@@ -191,7 +194,7 @@ def main() -> None:
     if args.limit > 0:
         blocks = blocks[: args.limit]
 
-    cache = _load_cache()
+    cache = {} if args.no_cache else _load_cache()
     todo = [b for b in blocks if str(b.get("cluster_id", 0)) not in cache]
     print(f"Loaded {len(blocks)} blocks; {len(todo)} to classify "
           f"({len(blocks) - len(todo)} already cached)")
